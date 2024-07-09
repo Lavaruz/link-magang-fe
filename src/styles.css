@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.noise{
+    background-image: url("./assets/images/noise-dark.png");
+}
