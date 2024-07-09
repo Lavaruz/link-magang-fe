@@ -5,3 +5,7 @@
 .noise{
     background-image: url("./assets/images/noise-dark.png");
 }
+
+html {
+    scroll-behavior: smooth;
+}

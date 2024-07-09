@@ -1,5 +1,7 @@
 <main class="noise">
     <div class="min-h-screen w-[1200px] mx-auto py-20 pb-20">
+
+        <!-- HERO -->
         <div class="my-6 grid grid-cols-4 items-center">
             <div class="col-span-3">
                 <p class="font-medium text-second/80 text-lg"><span class="text-thrid text-[55px] font-bold">Temukan Tempat Magang</span><br>dari Semua Penjuru Platform</p>
@@ -14,13 +16,14 @@
             </div>
 
             <div class="col-span-1 mt-8 gap-4">
-                <div class="bg-background/80 px-6 py-6 text-thrid border border-2 shadow-md rounded-md font-medium">
-                    <p class="flex items-center gap-2"><span class="text-2xl font-semibold">{{TOTAL_POST}}</span>pekerjaan di posting</p>
+                <div class="bg-white/80 px-6 py-6 text-thrid border border-2 shadow-md rounded-md font-medium">
+                    <p class="flex items-center gap-3"><i class="uil uil-postcard text-2xl"></i><span class="text-2xl font-semibold">{{TOTAL_POST}}</span>pekerjaan di posting</p>
                 </div>
             </div>
         </div>
 
 
+        <!-- SEARCH BAR -->
         <div class="flex items-center gap-4 mt-12">
             <form class="w-[30%]">   
                 <div class="relative">
@@ -31,15 +34,18 @@
             <button class="text-2xl bg-white rounded-xl w-12 h-12 border-gray-300 border text-thrid"><i class="uil uil-sliders-v"></i></button>
         </div>
 
+
+        <!-- POSTS CARD -->
         <div id="cards" class="grid grid-cols-3 mt-8 gap-4">
             @for(post of POST_DATAS; track post.id){
-                <a href="{{post.link}}" class="hover:scale-[1.005] duration-100 shadow-md border bg-white p-4 rounded-lg self-start">
+                <a target="_blank" href="{{post.link}}" class="hover:scale-[1.005] duration-100 shadow-md border bg-white p-4 rounded-lg self-start">
                     <p class="font-bold text-black">{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
                     <p class="text-sm text-second">PT UOB</p>
                     <p class="text-xs px-2 bg-main w-max mt-2 rounded-sm mb-4 text-background">INTERNSHIP</p>
                     <hr class="my-2">
-                    <p class="text-sm flex items-center gap-2"><i class="uil uil-building"></i> <span class="font-medium">{{post.tags}}</span> • <span>{{post.location}}</span></p>
+                    <p class="text-sm flex items-center gap-2"><i class="uil uil-building"></i> <span class="font-medium">{{post.tags.length > 26 ? post.tags.substring(0,26)+"..." : post.tags}}</span> • <span>{{post.location}}</span></p>
                     <p class="text-sm flex items-center gap-2"><i class="uil uil-bag"></i>in {{post.platform}}</p>
+                    <p class="text-sm flex items-center gap-2 mt-2"><i class="uil uil-upload"></i><span class="text-xs font-medium">{{timeAgo(post.post_date)}}</span></p>
                 </a>
             }
         </div>
@@ -47,18 +53,41 @@
 
         <!-- PAGINATION -->
         <div class="flex flex-col items-center mt-12">
-            <span class="text-sm text-gray-700 dark:text-gray-400">
-                Showing <span class="font-semibold text-gray-900 dark:text-white">1</span> to <span class="font-semibold text-gray-900 dark:text-white">{{POST_LIMIT}}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{TOTAL_POST}}</span> Entries
+            <p *ngIf="IS_VERIFIED == false" class="text-sm text-gray-700">you have to login <span class="font-bold">to view more</span></p>
+            <span *ngIf="IS_VERIFIED" class="text-sm text-gray-700 dark:text-gray-400">
+                Showing <span class="font-semibold text-gray-900 dark:text-white">{{((POST_PAGE-1) * POST_LIMIT)+1}}</span> to <span class="font-semibold text-gray-900 dark:text-white">{{POST_PAGE * POST_LIMIT < TOTAL_POST ? POST_PAGE * POST_LIMIT : TOTAL_POST}}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{TOTAL_POST}}</span> Entries
             </span>
             <div class="inline-flex mt-2 xs:mt-0 gap-4">
-                <button class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-main rounded-lg hover:bg-gray-900">
-                    Prev
+                <button (click)="changePage($event)" value="back" [disabled]="POST_PAGE == 1 || IS_VERIFIED == false" class="disabled:bg-main/60 flex items-center justify-center px-6 py-1.5 text-base font-medium text-white bg-main rounded-lg hover:bg-main/90">
+                    <i class="uil uil-angle-left text-xl"></i>
                 </button>
-                <button class="flex items-center justify-center px-4 h-10 text-base font-medium text-white bg-main border-0 border-s border-gray-700 rounded-lg hover:bg-gray-900">
-                    Next
+                <button (click)="changePage($event)" value="forward" [disabled]="POST_PAGE * POST_LIMIT >= TOTAL_POST || IS_VERIFIED == false" class="disabled:bg-main/60 flex items-center justify-center px-6 py-1.5 text-base font-medium text-white bg-main border-gray-700 rounded-lg hover:bg-main/90">
+                    <i class="uil uil-angle-right text-xl"></i>
                 </button>
             </div>
         </div>
 
     </div>
 </main>
+
+<!-- POPUP LOGIN -->
+<div id="popup" class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/60 z-30 flex items-center justify-center">
+    <div id="popup-login" class="hidden w-[50%] bg-background noise rounded-md py-8 px-12 relative">
+        <div class="text-center ">
+            <p class="text-4xl font-bold text-thrid">Internshits</p>
+            <p class="text-black/60 text-sm mt-2">platform cari magang dari segala tempat</p>
+        </div>
+        <hr class="my-4">
+        <div id="no-authorized" class="">
+            <p class="text-sm text-black/70 text-center">Dengan bergabung kamu dapat melihat lebih banyak post yang telah dipajang setiap harinya</p>
+            <a [href]="requestService.getURL()+'/api/google'" class="hover:bg-gray-200 hover:shadow-sm duration-300 my-4 flex gap-4 items-center py-2.5 w-full rounded-full border-2 justify-center"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="23" height="23" viewBox="0 0 48 48">
+                <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path>
+                </svg> Login dengan Google</a>
+            <p class="text-xs mt-2 text-center">Dengan melanjutkan, anda menyetujui <a target="_blank" href="/terms-of-service" class="text-second">Terms of Service</a> dan <a target="_blank" class="text-second" href="/privacy-policy">Privacy Policy</a> kami</p>
+        </div>
+
+        <button id="close-login" class="rounded-full w-10 h-10 flex items-center justify-center absolute top-0 right-0">
+            <i class="uil uil-times text-xl"></i>
+        </button>
+    </div>
+</div>

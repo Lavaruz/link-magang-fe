@@ -1,0 +1,79 @@
+<main class="noise">
+    <div class="w-[1200px] mx-auto min-h-screen py-12">
+
+        <p class="text-xl font-semibold mb-4">Hi, Assami</p>
+
+        <div class="grid grid-cols-8 gap-6">
+            <div class="col-span-5">
+    
+                <!-- BASIC INFORMATION -->
+                <section class="w-full border-2 rounded-xl bg-white overflow-hidden shadow-sm">
+                    <div class="flex justify-between py-4 px-8 bg-main">
+                        <p class="text-sm font-medium text-background flex items-center gap-2"><i class="uil uil-user"></i>BASIC INFORMATION</p>
+                        <button class="text-sm text-background flex items-center gap-2"><i class="uil uil-pen"></i>Edit</button>
+                    </div>
+                    <div class="flex gap-6 py-6 px-8">
+                        <div class="max-w-20 w-20 min-w-20 max-h-20 h-20 min-h-20 rounded-full bg-main"></div>
+                        <div class="w-full">
+                            <div class="">
+                                <p class="text-2xl font-bold">Assami Muzaki</p>
+                                <p class="text-black/60">Backend Developer at Enviromate Technology International</p>
+                            </div>
+                            <hr class="my-4">
+                            <div class="flex items-center gap-12">
+                                <div class="">
+                                    <p class="text-xs text-black/60 font-medium">EMAIL</p>
+                                    <p class="text-sm">assamim80&#64;gmail.com</p>
+                                </div>
+                                <div class="">
+                                    <p class="text-xs text-black/60 font-medium">GENDER</p>
+                                    <p class="text-sm">Male</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+    
+                <!-- EXPERIENCE -->
+                <section class="w-full border-2 rounded-xl bg-white overflow-hidden shadow-sm mt-4">
+                    <div class="flex justify-between py-4 px-8 bg-main">
+                        <p class="text-sm font-medium text-background flex items-center gap-2"><i class="uil uil-bag"></i>LATEST EXPERIENCE</p>
+                        <button class="text-sm text-background flex items-center gap-2"><i class="uil uil-pen"></i>Edit</button>
+                    </div>
+                    <div class="py-6 px-8">
+                        <div class="flex justify-between mb-4">
+                            <div class="">
+                                <p class="text-xs px-3 py-0.5 bg-main w-max rounded-sm text-white mb-2">Founder</p>
+                                <p class="text-xl font-bold">Chief Technology Officer</p>
+                                <p class="text-black/60 font-medium">Internshits • Full-time • Hybrid (Tangerang)</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-medium">Nov 2023 - Now</p>
+                                <p class="text-xs">8 years</p>
+                            </div>
+                        </div>
+                        <p class="text-black/80">Lorem ipsum, dolor sit amet consectetur adipisicing elit. A perferendis provident dicta nobis earum vero, corporis pariatur mollitia. Dicta, cupiditate.</p>
+                    </div>
+                </section>
+                
+            </div>
+            <div class="col-span-3">
+                <!-- VISIBILITY -->
+                <section class="w-full border-2 rounded-xl bg-main overflow-hidden shadow-sm py-4 px-8">
+                    <p class="text-white font-medium text-sm">ACTIVE SEARCH</p>
+                    <div class="mt-4">
+                        <p class="font-medium text-background/90">If this is turned on, other user are able to view your page!</p>
+                        <label class="inline-flex items-center cursor-pointer mt-4">
+                            <input type="checkbox" value="" class="sr-only peer">
+                            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-second dark:peer-focus:ring-second rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-second"></div>
+                            <span class="ms-3 font-medium text-background">ActiveSearch is off.</span>
+                        </label>
+                    </div>
+                </section>
+
+                <!-- LOGOUT BUTTON -->
+                <button (click)="logoutFunction()" class="w-full py-3 bg-thrid text-white/90 font-medium flex gap-2 justify-center rounded-lg mt-4"><i class="uil uil-signout"></i>Logout from this account</button>
+            </div>
+        </div>
+    </div>
+</main>
