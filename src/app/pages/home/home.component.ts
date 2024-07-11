@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
 
   QUERY:any
 
-  constructor(private authService: SocialAuthService, private postServices: PostsService, private aRoute: ActivatedRoute, private router: Router, public requestService: RequestService, private userService: UserService, private location: Location){
+  constructor(private postServices: PostsService, private aRoute: ActivatedRoute, private router: Router, public requestService: RequestService, private userService: UserService, private location: Location){
     aRoute.queryParams.subscribe(params => {
       this.POST_PAGE = params["page"] || 1
       this.QUERY = {
@@ -41,14 +41,6 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.callGetProduct()
     this.IS_VERIFIED = await this.userService.verifyToken()
-
-    this.authService.authState.subscribe((user) => {
-      this.userService.loginUser(user).then(result => {
-        window.location.href = "/profile"
-      }).catch((e:any) => {
-        console.log(e);
-      })
-    });
   }
 
   ngAfterViewInit(){

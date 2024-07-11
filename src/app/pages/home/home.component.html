@@ -1,10 +1,10 @@
 <main class="noise">
-    <div class="min-h-screen w-[1200px] mx-auto py-20 pb-20">
+    <div class="min-h-screen w-[1100px] mx-auto py-10 pb-20">
 
         <!-- HERO -->
         <div class="my-6 grid grid-cols-4 items-center">
             <div class="col-span-3">
-                <p class="text-thrid text-[55px] font-bold">Kumpulan Tempat Magang</p>
+                <p class="text-thrid text-[55px] font-bold">Wadah Internship</p>
                 <p class="font-medium text-second/80 text-lg">dari semua penjuru platform</p>
                 <div class="flex items-center gap-4 mt-6 py-2 rounded-lg w-max">
                     <a href="https://glints.com/id/en"><img src="assets/images/Glints.png" class="rounded-lg hover:scale-[1.1] duration-300" width="30px" alt=""></a>
@@ -28,28 +28,34 @@
         <div class="flex items-center gap-4 mt-12">
             <form class="w-[30%]">   
                 <div class="relative">
-                    <input type="search" id="default-search" class="block w-full p-4 ps-6 text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-main focus:border-main" placeholder="Search title, company, location..." required />
+                    <input type="search" id="default-search" class="block w-full p-4 ps-6 font-medium text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-main focus:border-main" placeholder="Search title, company, location..." required />
                     <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/90 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-full text-sm px-4 py-2"><i class="uil uil-search"></i></button>
                 </div>
             </form>
             <button class="text-2xl bg-white rounded-xl w-12 h-12 border-gray-300 border text-thrid"><i class="uil uil-sliders-v"></i></button>
         </div>
 
-
-        <!-- POSTS CARD -->
-        <div id="cards" class="grid grid-cols-3 mt-8 gap-4">
-            @for(post of POST_DATAS; track post.id){
-                <a target="_blank" href="{{post.link}}" class="hover:scale-[1.005] duration-100 shadow-md border bg-white p-4 rounded-lg self-start">
-                    <p class="font-bold text-black">{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
-                    <p class="text-sm text-black">PT UOB</p>
-                    <p class="text-xs px-2 bg-main w-max mt-2 rounded-sm mb-4 text-background">INTERNSHIP</p>
-                    <hr class="my-2">
-                    <p class="text-sm flex items-center gap-2"><i class="uil uil-building"></i> <span class="font-medium">{{post.tags.length > 23 ? post.tags.substring(0,23)+"..." : post.tags}}</span> • <span>{{post.location.length > 18 ? post.location.substring(0,18)+"..." : post.location}}</span></p>
-                    <p class="text-sm flex items-center gap-2"><i class="uil uil-bag"></i>in {{post.platform}}</p>
-                    <p class="text-sm flex items-center gap-2 mt-2"><i class="uil uil-upload"></i><span class="text-xs font-medium">{{timeAgo(post.post_date)}}</span></p>
-                </a>
-            }
-        </div>
+        @if(POST_DATAS.length > 0){
+            <!-- POSTS CARD -->
+            <div id="cards" class="grid grid-cols-3 mt-8 gap-4">
+                @for(post of POST_DATAS; track post.id){
+                    <a target="_blank" href="{{post.link}}" class="hover:scale-[1.005] duration-100 shadow-md border bg-white p-4 rounded-lg self-start">
+                        <p class="font-bold text-black">{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
+                        <p class="text-sm text-black">PT UOB</p>
+                        <p class="text-xs px-2 bg-main w-max mt-2 rounded-sm mb-4 text-background">INTERNSHIP</p>
+                        <hr class="my-2">
+                        <p class="text-sm flex items-center gap-2"><i class="uil uil-building"></i> <span class="font-medium">{{post.tags.length > 23 ? post.tags.substring(0,23)+"..." : post.tags}}</span> • <span>{{post.location.length > 18 ? post.location.substring(0,18)+"..." : post.location}}</span></p>
+                        <p class="text-sm flex items-center gap-2"><i class="uil uil-bag"></i>in {{post.platform}}</p>
+                        <p class="text-sm flex items-center gap-2 mt-2"><i class="uil uil-upload"></i><span class="text-xs font-medium">{{timeAgo(post.post_date)}}</span></p>
+                    </a>
+                }
+            </div>
+        }@else if(POST_DATAS.length == 0) {
+            <div id="cards" class="mt-8 h-[40vh] flex items-center justify-center flex-col">
+                <img src="assets/images/magnify.png" width="8%" alt="">
+                <p class="font-medium text-xl text-center mt-8">post tidak ditemukan</p>
+            </div>
+        }
 
 
         <!-- PAGINATION -->
