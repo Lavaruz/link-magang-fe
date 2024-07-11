@@ -4,12 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import $ from "jquery"
 import { RequestService } from '../../services/request.service';
 import { UserService } from '../../services/user.service';
-import { NgIf } from '@angular/common';
+import { Location, NgIf } from '@angular/common';
+import { GoogleSigninButtonModule, SocialAuthService } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, GoogleSigninButtonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -27,7 +28,7 @@ export class HomeComponent implements OnInit {
 
   QUERY:any
 
-  constructor(private postServices: PostsService, private aRoute: ActivatedRoute, private router: Router, public requestService: RequestService, private userService: UserService){
+  constructor(private authService: SocialAuthService, private postServices: PostsService, private aRoute: ActivatedRoute, private router: Router, public requestService: RequestService, private userService: UserService, private location: Location){
     aRoute.queryParams.subscribe(params => {
       this.POST_PAGE = params["page"] || 1
       this.QUERY = {
@@ -40,6 +41,14 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.callGetProduct()
     this.IS_VERIFIED = await this.userService.verifyToken()
+
+    this.authService.authState.subscribe((user) => {
+      this.userService.loginUser(user).then(result => {
+        window.location.href = "/profile"
+      }).catch((e:any) => {
+        console.log(e);
+      })
+    });
   }
 
   ngAfterViewInit(){

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { Location } from '@angular/common';
 
@@ -8,9 +8,15 @@ import { Location } from '@angular/common';
   imports: [],
   templateUrl: './profile.component.html',
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
+
+  USER:any
 
   constructor(private userService: UserService, private location: Location){}
+
+  async ngOnInit() {
+    this.USER = await this.userService.getUserData()
+  }
 
   logoutFunction(){
     this.userService.logoutUser()

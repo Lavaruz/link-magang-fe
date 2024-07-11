@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment.development';
 import CryptoJS from "crypto-js"
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class RequestService {
 
   private rootURL: string = environment.rootURL;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookieService: CookieService) { }
 
   getURL(){
     return this.rootURL
@@ -38,9 +39,7 @@ export class RequestService {
 
   getHeaders({options = null, return_type = 'HttpHeaders'}: any = {}) {
     var list_headers: any = {
-      'key': "Aljshdbas8D70whbnaSjdbaks9",
-      'web_role': 'marketplace',
-      // 'Authorization': this.user.getAuthentication(),
+      'Authorization': this.getAuthentication(),
       // 'responseType': 'json'
     }
       
@@ -65,6 +64,10 @@ export class RequestService {
       return httpOptions;
   }
 
+  getAuthentication(){
+    return this.cookieService.get("access-token")
+  }
+
   decryptData(data:any) {
     if(environment.secure == false || !data.r) return data;
     
@@ -86,9 +89,10 @@ export class RequestService {
     return {d: CryptoJS.AES.encrypt(data, environment.AES_KEY.toString()).toString()};
   }
 
-  getEncryptedRequest(url: string = ""): Promise<any> {
+  getEncryptedRequest(url: string = "", option:any={}): Promise<any> {
     
     const toURL = `${this.rootURL}${url}`;
+    const httpOptions = this.getHeaders(option)
 
     return new Promise((resolve, reject) => {
       this.http.get<any>(toURL)
@@ -104,7 +108,7 @@ export class RequestService {
     });
   }
 
-  postEncryptedRequest(url: string = "", post_data: any  = {}, option:any={}) {
+  postEncryptedRequest(url: string = "", post_data: any, option:any={}) {
     const toURL = `${this.rootURL}${url}`;
     const httpOptions = this.getHeaders(option)
     post_data = this.encryptData(post_data)
