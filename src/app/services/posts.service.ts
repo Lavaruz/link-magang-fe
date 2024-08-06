@@ -10,7 +10,7 @@ export class PostsService {
 
   async GetAllPosts(QUERY: any) {
     try {
-      const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts?limit=${QUERY.limit}&page=${QUERY.page}`);
+      const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts?limit=${QUERY.limit}&page=${QUERY.page}&search=${QUERY.search}&platform=${QUERY.platform}`);
       return postData
     } catch (error) {
       console.error('Error on Get Membership Price:', error);

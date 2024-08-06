@@ -1,0 +1,830 @@
+
+    id: "",
+    email: "",
+    role: 0,
+    profile_picture: "",
+    firstname:"",
+    lastname: "",
+    summary: "",
+    mobile: "",
+    sex: "",
+    current_status: "",
+    profile_viewers: 0,
+    active_search: false,
+    domicile: "",
+    date_of_birth: ""
+
+<div class="hidden popup popup-basic border-2 border-header w-full lg:w-[720px] rounded-t-2xl lg:rounded-2xl overflow-hidden">
+        <form id="form-basic-information" [formGroup]="FORM_BASIC">
+
+            <div class="hidden lg:flex header bg-main justify-between px-5 py-3 items-center">
+                <p class="font-normal text-white text-base tracking-[1.6px] flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <path d="M10.0002 10C9.0835 10 8.29877 9.67362 7.646 9.02084C6.99322 8.36807 6.66683 7.58334 6.66683 6.66668C6.66683 5.75001 6.99322 4.96529 7.646 4.31251C8.29877 3.65973 9.0835 3.33334 10.0002 3.33334C10.9168 3.33334 11.7016 3.65973 12.3543 4.31251C13.0071 4.96529 13.3335 5.75001 13.3335 6.66668C13.3335 7.58334 13.0071 8.36807 12.3543 9.02084C11.7016 9.67362 10.9168 10 10.0002 10ZM5.00016 16.6667C4.54183 16.6667 4.14947 16.5035 3.82308 16.1771C3.49669 15.8507 3.3335 15.4583 3.3335 15V14.3333C3.3335 13.8611 3.45502 13.4271 3.69808 13.0313C3.94113 12.6354 4.26405 12.3333 4.66683 12.125C5.52794 11.6945 6.40294 11.3715 7.29183 11.1563C8.18072 10.941 9.0835 10.8333 10.0002 10.8333C10.9168 10.8333 11.8196 10.941 12.7085 11.1563C13.5974 11.3715 14.4724 11.6945 15.3335 12.125C15.7363 12.3333 16.0592 12.6354 16.3022 13.0313C16.5453 13.4271 16.6668 13.8611 16.6668 14.3333V15C16.6668 15.4583 16.5036 15.8507 16.1772 16.1771C15.8509 16.5035 15.4585 16.6667 15.0002 16.6667H5.00016Z" fill="white"/>
+                </svg> EDITING BASIC INFORMATION</p>
+                <p class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</p>
+            </div>
+
+            <div class="relative body bg-background noise lg:bg-body divide-y divide-main h-[92vh] lg:h-[500px] overflow-y-scroll p-5">
+                <div class="py-5">
+                    <button type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-teal-100 font-second text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <mask id="mask0_50_1377" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                          <rect width="24" height="24" fill="#D9D9D9"/>
+                        </mask>
+                        <g mask="url(#mask0_50_1377)">
+                          <path d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z" fill="#3DD1DB"/>
+                        </g>
+                      </svg> Back to Your Profie
+                    </button>
+
+                    <p class="font-bold text-xl lg:text-lg text-main mb-3">Profile Picture</p>
+                    <div class="flex items-center gap-5">
+                        <div class="min-w-[88px] max-w-[88px] min-h-[88px] max-h-[88px] rounded-full overflow-hidden">
+                            <img id="popup-profile-pic" [src]="USER.profile_picture" onerror="this.src='assets/images/no-profile.jpg'" alt="profile-pic" class="w-full h-full object-cover">
+                        </div>
+                        <div class="">
+                            <div class="hidden lg:block">
+                                <p class="text-white-60 font-second text-sm font-medium mb-2">Make sure your profile picture is professional and shows your face clearly.<br>
+                                <span class="text-main">Maximum file size is 1 MB.</span></p>
+                            </div>
+                            <label for="custom-input-file">
+                                <input type="file" id="custom-input-file" class="hidden" name="profile-picture" accept="image/*"/>
+                                <button id="button-profile-pic" type="button" class="flex items-center gap-1 bg-main text-white py-2 px-4 rounded-lg">Upload Profile Picture</button>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="lg:hidden pt-4">
+                        <p class="text-white-60 font-second text-sm font-medium mb-2">Make sure your profile picture is professional and shows your face clearly.<br>
+                        <span class="text-white">Maximum file size is 1 MB.</span></p>
+                    </div>
+                </div>
+                <div class="py-5">
+                    <p class="font-bold text-xl lg:text-lg text-main mb-3">Basic Information</p>
+                    <div class="lg:flex gap-5 mb-4">
+                        <label class="block">
+                            <span class="text-white-60 tracking-[1.4px] font-normal text-sm">FIRST NAME</span>
+                            <!-- Using form state modifiers, the classes can be identical for every input -->
+                            <input formControlName="firstname" id="popup-firstname" type="text" value="Jarwo" name="first_name" class="block border-0 w-full border-2 border-gray-300 lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/60 text-black/80
+                            focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                            focus:invalid:border-red-500 focus:invalid:ring-red-500
+                            "/>
+                        </label>
+                        <label class="block mt-4 lg:mt-0">
+                            <span class="text-white-60 tracking-[1.4px] font-normal text-sm">LAST NAME</span>
+                            <!-- Using form state modifiers, the classes can be identical for every input -->
+                            <input formControlName="lastname" id="popup-lastname" type="text" value="Slebew" name="last_name" class="block border-0 w-full border-2 border-gray-300 lg:w-[280px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/60 text-black/80
+                            focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                            focus:invalid:border-red-500 focus:invalid:ring-red-500
+                            "/>
+                        </label>
+                    </div>
+                    <div class="lg:flex gap-5">
+                        <label class="block">
+                            <span class="text-white-60 tracking-[1.4px] font-normal text-sm">DOMICILE</span>
+                            <!-- Using form state modifiers, the classes can be identical for every input -->
+                            <input formControlName="domicile" id="popup-domicile" type="text" value="Jakarta" name="domicile" class="block border-0 w-full border-2 border-gray-300 lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/60 text-black/80
+                            focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                            focus:invalid:border-red-500 focus:invalid:ring-red-500
+                            "/>
+                        </label>
+                        <label class="block mt-4 lg:mt-0">
+                            <span class="text-white-60 tracking-[1.4px] font-normal text-sm">DATE OF BIRTH</span>
+                            <!-- Using form state modifiers, the classes can be identical for every input -->
+                            <input formControlName="date_of_birth" id="popup-birthdate" type="date" value="" name="date_of_birth" class="block border-0 w-full border-2 border-gray-300 lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/60 text-black/80
+                            focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                            focus:invalid:border-red-500 focus:invalid:ring-red-500
+                            "/>
+                        </label>
+                    </div>
+                    <label class="block mt-4">
+                        <span class="text-white-60 tracking-[1.4px] font-normal text-sm">SEX</span>
+                        <!-- Using form state modifiers, the classes can be identical for every input -->
+                        <div class="flex gap-4 w-full">
+                            <div class="flex items-center gap-3 lg:justify-between rounded-lg px-4 lg:px-3 py-4 lg:py-2.5 bg-darkest-grey lg:w-max w-full">
+                                <input id="default-radio-2" type="radio" value="Male" name="sex" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label formControlName="sex" for="default-radio-2" class="text-main font-second text-sm font-medium">Male</label>
+                            </div>
+                            <div class="flex items-center gap-3 lg:justify-between rounded-lg px-4 lg:px-3 py-4 lg:py-2.5 bg-darkest-grey lg:w-max w-full">
+                                <input id="default-radio-1" type="radio" value="Female" name="sex" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                <label formControlName="sex" for="default-radio-1" class="text-main font-second text-sm font-medium">Female</label>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <div class="py-5 pb-40 lg:pb-5">
+                    <p class="font-bold text-xl lg:text-lg text-main mb-3">Contact Information</p>
+                    <div class="lg:flex gap-5 mb-4">
+                        <label class="block">
+                            <span class="text-main-60 tracking-[1.4px] font-normal text-sm">EMAIL</span>
+                            <!-- Using form state modifiers, the classes can be identical for every input -->
+                            <input formControlName="email" id="popup-email" type="text" value="" name="email" readonly title="Email address cannot be updated" class="block border-2 border-gray-300 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/60 text-black/80
+                            focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                            focus:invalid:border-red-500 focus:invalid:ring-red-500
+                            "/>
+                        </label>
+                        <label class="block mt-4 lg:mt-0">
+                            <span class="text-white-60 tracking-[1.4px] font-normal text-sm">MOBILE</span>
+                            <!-- Using form state modifiers, the classes can be identical for every input -->
+                            <input formControlName="mobile" id="popup-mobile" type="number" value="" name="mobile" class="block border-2 border-gray-300 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/60 text-black/80
+                            focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                            focus:invalid:border-red-500 focus:invalid:ring-red-500
+                            "/>
+                        </label>
+                    </div>
+                    <div class="fixed lg:static left-0 bottom-0 flex gap-4 w-full lg:w-max lg:ms-auto lg:justify-end mt-8 py-8 lg:pt-10 lg:pb-0 p-5 pe-8 lg:p-0 lg:pe-0 bg-[#2A2A2A] lg:bg-transparent rounded-t-2xl">
+                        <button type="button" class="close-x rounded-lg bg-background text-main py-4 lg:py-2 px-10 font-second text-base">Cancel</button>
+                        <button type="submit" class="rounded-lg w-full lg:w-max bg-main text-white py-4 lg:py-2 px-14 font-second text-base">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- POPUP EXPERIENCES -->
+
+    <div class="hidden popup popup-experience border-2 border-header w-full lg:w-[720px] rounded-t-2xl lg:rounded-2xl overflow-hidden">
+        <div class="hidden header bg-main lg:flex justify-between px-5 py-3 items-center">
+            <p class="font-normal text-white text-base tracking-[1.6px] flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M2.9165 17.5C2.58317 17.5 2.2915 17.375 2.0415 17.125C1.7915 16.875 1.6665 16.5833 1.6665 16.25V5.97916C1.6665 5.64582 1.7915 5.35416 2.0415 5.10416C2.2915 4.85416 2.58317 4.72916 2.9165 4.72916H6.87484V2.91666C6.87484 2.58332 6.99984 2.29166 7.24984 2.04166C7.49984 1.79166 7.7915 1.66666 8.12484 1.66666H11.8748C12.2082 1.66666 12.4998 1.79166 12.7498 2.04166C12.9998 2.29166 13.1248 2.58332 13.1248 2.91666V4.72916H17.0832C17.4165 4.72916 17.7082 4.85416 17.9582 5.10416C18.2082 5.35416 18.3332 5.64582 18.3332 5.97916V16.25C18.3332 16.5833 18.2082 16.875 17.9582 17.125C17.7082 17.375 17.4165 17.5 17.0832 17.5H2.9165ZM8.12484 4.72916H11.8748V2.91666H8.12484V4.72916Z" fill="white"/>
+              </svg> EDITING EXPERIENCES</p>
+            <p class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</p>
+        </div>
+
+        <div class="body bg-background noise lg:bg-body h-[92vh] lg:h-[500px] overflow-y-scroll">
+
+            <!-- ADDING NEW EXPERIENCE -->
+
+            <div id="adding-new-experience" class="hidden additional-popup">
+                <form id="form-add-experience" class="relative">
+                    <div class="pb-40 lg:pb-5 p-5 divide-header divide-y flex flex-col gap-4">
+                        <div class="lg:flex flex-col gap-4 py-4 lg:py-0">
+                            <p class="font-bold text-xl lg:text-lg text-main mb-1">Add Experiences</p>
+                            <label class="block">
+                                <span class="text-main tracking-[1.4px] font-normal text-sm">POSITION/JOB TITLE*</span>
+                                <!-- Using form state modifiers, the classes can be identical for every input -->
+                                <input required id="popup-firstname" type="text" placeholder="Software Engineer" name="exp_position" class="block border-0 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-main text-white
+                                focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                "/>
+                            </label>
+                            <label class="block">
+                                <span class="text-main tracking-[1.4px] font-normal text-sm">COMPANY/ORGANIZATION NAME*</span>
+                                <!-- Using form state modifiers, the classes can be identical for every input -->
+                                <input required id="popup-firstname" type="text" placeholder="Hup! Indonesia" name="exp_orgname" class="block border-0 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-main text-white
+                                focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                "/>
+                            </label>
+                        </div>
+                        <div class="flex flex-col gap-4 py-4">
+                            <div class="lg:flex gap-5">
+                                <label class="block">
+                                    <span class="text-main tracking-[1.4px] font-normal text-sm">EXPERIENCE TYPE*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <select id="countries" name="exp_type" class="block border-0 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-main text-white focus:ring-main">
+                                        <option value="Employee" selected>Employee</option>
+                                        <option value="Volunteer">Volunteer</option>
+                                        <option value="Student Event Committee">Student Event Committee</option>
+                                        <option value="Student Organization">Student Organization</option>
+                                        <option value="Self-Employed">Self-Employed</option>
+                                    </select>
+                                </label>
+                                <label class="block mt-4 lg:mt-0">
+                                    <span class="text-main tracking-[1.4px] font-normal text-sm">FULL-TIME/PART-TIME*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <select id="countries" name="exp_time" class="block border-0 w-full lg:w-[140px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white focus:ring-main">
+                                        <option selected value="Full-time">Full-time</option>
+                                        <option value="Part-time">Part-time</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="lg:flex gap-5 items-center">
+                                <label class="block lg:w-max">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">START DATE*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input required id="popup-firstname" type="month" placeholder="Hup! Indonesia" name="exp_startdate" class="block border-0 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                    focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                    "/>
+                                </label>
+                                <label class="block lg:w-max mt-4 lg:mt-0">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">END DATE*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input id="popup-firstname" type="month" placeholder="Hup! Indonesia" name="exp_enddate" class="block border-0 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                    focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500 disabled:bg-header/50 disabled:text-slate-100/50 disabled:placeholder-text-white-60/50
+                                    "/>
+                                </label>
+                                <div class="flex items-center mt-5">
+                                    <input id="still-work-here" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-header border-0 rounded focus:ring-blue-500 focus:ring-0 focus:outline-none focus:border-0">
+                                    <label for="still-work-here" class="ml-2 font-second text-sm font-medium text-white">I still work here</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:flex gap-5 py-4">
+                            <label class="block">
+                                <span class="text-white-60 tracking-[1.4px] font-normal text-sm">LOCATION TYPE</span>
+                                <!-- Using form state modifiers, the classes can be identical for every input -->
+                                <select id="countries" name="exp_status" class="block border-0 w-full lg:w-[140px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white focus:ring-main">
+                                    <option value="On-Site" selected>On-Site</option>
+                                    <option value="Hybrid">Hybrid</option>
+                                    <option value="Remote">Remote</option>
+                                </select>
+                            </label>
+                            <label class="block mt-4 lg:mt-0">
+                                <span class="text-white-60 tracking-[1.4px] font-normal text-sm">OFFICE LOCATION</span>
+                                <!-- Using form state modifiers, the classes can be identical for every input -->
+                                <input required id="popup-firstname" type="text" placeholder="Jakarta" name="exp_location" class="block border-0 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                "/>
+                            </label>
+                        </div>
+                        <div class="flex gap-4 flex-col py-4 lg:py-0">
+                            <div class="flex items-center bg-[#3B3B3B] rounded-lg p-3 gap-3 mt-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="49" viewBox="0 0 24 25" fill="none">
+                                    <path d="M12 17.5C12.2833 17.5 12.5208 17.4042 12.7125 17.2125C12.9042 17.0208 13 16.7833 13 16.5V12.5C13 12.2167 12.9042 11.9792 12.7125 11.7875C12.5208 11.5958 12.2833 11.5 12 11.5C11.7167 11.5 11.4792 11.5958 11.2875 11.7875C11.0958 11.9792 11 12.2167 11 12.5V16.5C11 16.7833 11.0958 17.0208 11.2875 17.2125C11.4792 17.4042 11.7167 17.5 12 17.5ZM12 9.5C12.2833 9.5 12.5208 9.40417 12.7125 9.2125C12.9042 9.02083 13 8.78333 13 8.5C13 8.21667 12.9042 7.97917 12.7125 7.7875C12.5208 7.59583 12.2833 7.5 12 7.5C11.7167 7.5 11.4792 7.59583 11.2875 7.7875C11.0958 7.97917 11 8.21667 11 8.5C11 8.78333 11.0958 9.02083 11.2875 9.2125C11.4792 9.40417 11.7167 9.5 12 9.5ZM12 22.5C10.6167 22.5 9.31667 22.2375 8.1 21.7125C6.88333 21.1875 5.825 20.475 4.925 19.575C4.025 18.675 3.3125 17.6167 2.7875 16.4C2.2625 15.1833 2 13.8833 2 12.5C2 11.1167 2.2625 9.81667 2.7875 8.6C3.3125 7.38333 4.025 6.325 4.925 5.425C5.825 4.525 6.88333 3.8125 8.1 3.2875C9.31667 2.7625 10.6167 2.5 12 2.5C13.3833 2.5 14.6833 2.7625 15.9 3.2875C17.1167 3.8125 18.175 4.525 19.075 5.425C19.975 6.325 20.6875 7.38333 21.2125 8.6C21.7375 9.81667 22 11.1167 22 12.5C22 13.8833 21.7375 15.1833 21.2125 16.4C20.6875 17.6167 19.975 18.675 19.075 19.575C18.175 20.475 17.1167 21.1875 15.9 21.7125C14.6833 22.2375 13.3833 22.5 12 22.5Z" fill="#3DD1DB"/>
+                                  </svg>
+                                <div class="">
+                                    <p class="tracking-[1.6px] font-normal text-base text-teal-100">TIP</p>
+                                    <p class="font-second text-sm font-medium text-white-60">Remember to always describe and elaborate each and every responsibilities you have during your experience. Here is a helpful article to assist you in writing a good description!</p>
+                                </div>
+                            </div>
+                            <textarea id="" rows="4" name="exp_description" class="block border-0 resize-none px-4 lg:px-3 py-4 lg:py-[10px] w-full h-[240px] font-second text-sm text-white bg-header rounded-lg focus:ring-main" placeholder="Write your desciprtion here..."></textarea>
+                        </div>
+                    </div>
+                    <div class="fixed lg:static left-0 bottom-0 flex gap-3 w-full lg:w-max lg:ms-auto lg:justify-end mt-8 py-8 p-5 pe-8 lg:p-6 bg-[#2A2A2A] lg:bg-transparent rounded-t-2xl shadow-lg">
+                        <button type="button" class="cancle-add rounded-lg bg-teal-8 text-teal-100 py-4 lg:py-2 px-10 font-second text-base">Cancel</button>
+                        <button type="submit" class="rounded-lg w-full bg-teal-100 text-teal-8 py-4 lg:py-2 px-14 font-second text-base">Save</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- EDITING EXPERIENCE -->
+
+            <div id="editing-experience" class="hidden additional-popup-edit">
+                <form id="form-editing-experience" class="relative">
+                    <div class="pb-40 lg:pb-5 p-5 divide-header divide-y flex flex-col gap-4">
+                        <div class="flex flex-col gap-4">
+                            <p class="font-bold text-xl lg:text-lg text-white mb-1">Edit Experiences</p>
+                            <label class="block">
+                                <span class="text-white-60 tracking-[1.4px] font-normal text-sm">POSITION/JOB TITLE*</span>
+                                <!-- Using form state modifiers, the classes can be identical for every input -->
+                                <input required type="text" placeholder="Software Engineer" name="exp_position" class="block border-0 w-full lg:w-[360px] px-3 py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                "/>
+                            </label>
+                            <label class="block">
+                                <span class="text-white-60 tracking-[1.4px] font-normal text-sm">COMPANY/ORGANIZATION NAME*</span>
+                                <!-- Using form state modifiers, the classes can be identical for every input -->
+                                <input required type="text" placeholder="Hup! Indonesia" name="exp_orgname" class="block border-0 w-full lg:w-[360px] px-3 py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                "/>
+                            </label>
+                        </div>
+                        <div class="flex flex-col gap-4 py-4">
+                            <div class="lg:flex gap-5">
+                                <label class="block">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">EXPERIENCE TYPE*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <select name="exp_type" class="block border-0 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white focus:ring-main">
+                                        <option value="Employee" selected>Employee</option>
+                                        <option value="Volunteer">Volunteer</option>
+                                        <option value="Student Event Committee">Student Event Committee</option>
+                                        <option value="Student Organization">Student Organization</option>
+                                        <option value="Self-Employed">Self-Employed</option>
+                                    </select>
+                                </label>
+                                <label class="block mt-4 lg:mt-0">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">FULL-TIME/PART-TIME*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <select name="exp_time" class="block border-0 w-full lg:w-[140px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white focus:ring-main">
+                                        <option selected value="Full-time">Full-time</option>
+                                        <option value="Part-time">Part-time</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="lg:flex gap-5 items-center">
+                                <label class="block">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">START DATE*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input required type="month" placeholder="Hup! Indonesia" name="exp_startdate" class="block border-0 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                    focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                    "/>
+                                </label>
+                                <label class="block mt-4 lg:mt-0">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">END DATE*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input type="month" placeholder="Hup! Indonesia" name="exp_enddate" class="block border-0 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                    focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500 disabled:bg-header/50 disabled:text-slate-100/50 disabled:placeholder-text-white-60/50
+                                    "/>
+                                </label>
+                                <div class="flex items-center mt-5">
+                                    <input id="still-work-here" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-header border-0 rounded focus:ring-blue-500 focus:ring-0 focus:outline-none focus:border-0">
+                                    <label for="still-work-here" class="ml-2 font-second text-sm font-medium text-white">I still work here</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:flex gap-5 py-4">
+                            <label class="block">
+                                <span class="text-white-60 tracking-[1.4px] font-normal text-sm">LOCATION TYPE</span>
+                                <!-- Using form state modifiers, the classes can be identical for every input -->
+                                <select id="countries" name="exp_status" class="block border-0 w-full lg:w-[140px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white focus:ring-main">
+                                    <option value="On-Site" selected>On-Site</option>
+                                    <option value="Hybrid">Hybrid</option>
+                                    <option value="Remote">Remote</option>
+                                </select>
+                            </label>
+                            <label class="block mt-4 lg:mt-0">
+                                <span class="text-white-60 tracking-[1.4px] font-normal text-sm">OFFICE LOCATION</span>
+                                <!-- Using form state modifiers, the classes can be identical for every input -->
+                                <input required type="text" placeholder="Jakarta" name="exp_location" class="block border-0 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                "/>
+                            </label>
+                        </div>
+                        <div class="flex gap-4 flex-col">
+                            <div class="flex items-center bg-[#3B3B3B] rounded-lg p-3 gap-3 mt-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="49" viewBox="0 0 24 25" fill="none">
+                                    <path d="M12 17.5C12.2833 17.5 12.5208 17.4042 12.7125 17.2125C12.9042 17.0208 13 16.7833 13 16.5V12.5C13 12.2167 12.9042 11.9792 12.7125 11.7875C12.5208 11.5958 12.2833 11.5 12 11.5C11.7167 11.5 11.4792 11.5958 11.2875 11.7875C11.0958 11.9792 11 12.2167 11 12.5V16.5C11 16.7833 11.0958 17.0208 11.2875 17.2125C11.4792 17.4042 11.7167 17.5 12 17.5ZM12 9.5C12.2833 9.5 12.5208 9.40417 12.7125 9.2125C12.9042 9.02083 13 8.78333 13 8.5C13 8.21667 12.9042 7.97917 12.7125 7.7875C12.5208 7.59583 12.2833 7.5 12 7.5C11.7167 7.5 11.4792 7.59583 11.2875 7.7875C11.0958 7.97917 11 8.21667 11 8.5C11 8.78333 11.0958 9.02083 11.2875 9.2125C11.4792 9.40417 11.7167 9.5 12 9.5ZM12 22.5C10.6167 22.5 9.31667 22.2375 8.1 21.7125C6.88333 21.1875 5.825 20.475 4.925 19.575C4.025 18.675 3.3125 17.6167 2.7875 16.4C2.2625 15.1833 2 13.8833 2 12.5C2 11.1167 2.2625 9.81667 2.7875 8.6C3.3125 7.38333 4.025 6.325 4.925 5.425C5.825 4.525 6.88333 3.8125 8.1 3.2875C9.31667 2.7625 10.6167 2.5 12 2.5C13.3833 2.5 14.6833 2.7625 15.9 3.2875C17.1167 3.8125 18.175 4.525 19.075 5.425C19.975 6.325 20.6875 7.38333 21.2125 8.6C21.7375 9.81667 22 11.1167 22 12.5C22 13.8833 21.7375 15.1833 21.2125 16.4C20.6875 17.6167 19.975 18.675 19.075 19.575C18.175 20.475 17.1167 21.1875 15.9 21.7125C14.6833 22.2375 13.3833 22.5 12 22.5Z" fill="#3DD1DB"/>
+                                  </svg>
+                                <div class="">
+                                    <p class="tracking-[1.6px] font-normal text-base text-teal-100">TIP</p>
+                                    <p class="font-second text-sm font-medium text-white-60">Remember to always describe and elaborate each and every responsibilities you have during your experience. Here is a helpful article to assist you in writing a good description!</p>
+                                </div>
+                            </div>
+                            <textarea id="" rows="4" name="exp_description" class="block border-0 resize-none px-3 py-[10px] w-full h-[240px] font-second text-sm text-white bg-header rounded-lg focus:ring-main" placeholder="Write your desciprtion here..."></textarea>
+                        </div>
+                    </div>
+                    <div class="fixed lg:static left-0 bottom-0 flex gap-3 w-full lg:w-max lg:ms-auto lg:justify-end mt-8 py-8 p-5 pe-8 lg:p-6 bg-[#2A2A2A] lg:bg-transparent rounded-t-2xl shadow-lg">
+                        <button type="button" class="cancle-edit rounded-lg bg-teal-8 text-teal-100 py-4 lg:py-2 px-10 font-second text-base">Cancel</button>
+                        <button type="submit" class="rounded-lg w-full bg-teal-100 text-teal-8 py-4 lg:py-2 px-14 font-second text-base">Save</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- REGISTERED EXPERIENCES -->
+
+            <div id="registered-experience" class="main-popup">
+                <div class="divide-y divide-header">
+                    <div class="p-5">
+                        <button type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-teal-100 font-second text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <mask id="mask0_50_1377" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                              <rect width="24" height="24" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_50_1377)">
+                              <path d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z" fill="#3DD1DB"/>
+                            </g>
+                          </svg> Back to Your Profie
+                        </button>
+                        <p class="font-bold text-xl lg:text-lg text-main mb-1">Your Experiences</p>
+                        <p class="text-white-60 text-sm font-second font-medium">You can add as much experience as you'd like! You can even add your university's organizational experiences. Always remember to elaborate your responsibilities well in the description.</p>
+                    </div>
+                    <div class="p-5">
+                        <div class="lg:divide-y divide-main">
+                            <!-- <div class="lg:hidden">
+                                <button id="add-experience-mobile" class="font-second text-sm font-medium w-full lg:w-[90%] m-auto rounded-lg bg-main text-white p-4 mb-5 flex items-center gap-2 justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                        <path d="M9.66675 10.8333H4.66675V9.16666H9.66675V4.16666H11.3334V9.16666H16.3334V10.8333H11.3334V15.8333H9.66675V10.8333Z" fill="#3DD1DB"/>
+                                    </svg> Add Experience
+                                </button>
+                            </div> -->
+                            <div id="popup-body-experiences" class="py-5 flex flex-col gap-5 lg:gap-10">
+                                <!-- ADD BY JS -->
+                            </div>
+                            <div class="hidden lg:block">
+                                <button id="add-experience" class="font-second text-sm font-medium w-[90%] m-auto rounded-lg bg-main text-white p-4 my-5 flex items-center gap-2 justify-center">
+                                    Add Experience
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP EDUCATION -->
+
+    <div class="hidden popup popup-education border-2 border-header w-full lg:w-[720px] rounded-2xl overflow-hidden">
+        <div class="hidden header bg-main lg:flex justify-between px-5 py-3 items-center">
+            <p class="font-normal text-white text-base tracking-[1.6px] flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M18.6667 14.2708C18.4167 14.2708 18.2118 14.1875 18.0521 14.0208C17.8924 13.8542 17.8125 13.6597 17.8125 13.4375V8.5L10.8958 12.2292C10.7708 12.2847 10.625 12.3333 10.4583 12.375C10.2917 12.4167 10.1319 12.4375 9.97917 12.4375C9.82639 12.4375 9.67014 12.4167 9.51042 12.375C9.3507 12.3333 9.20833 12.2847 9.08333 12.2292L2.0625 8.375C1.89583 8.30556 1.77083 8.19792 1.6875 8.05208C1.60417 7.90625 1.5625 7.73611 1.5625 7.54167C1.5625 7.36111 1.60417 7.19792 1.6875 7.05208C1.77083 6.90625 1.89583 6.79167 2.0625 6.70833L9.08333 2.875C9.22222 2.81944 9.37153 2.76389 9.53125 2.70833C9.69097 2.65278 9.84028 2.625 9.97917 2.625C10.1181 2.625 10.2674 2.65278 10.4271 2.70833C10.5868 2.76389 10.75 2.81944 10.9167 2.875L18.9792 7.27083C19.1319 7.34028 19.2535 7.45486 19.3438 7.61458C19.434 7.77431 19.4792 7.9375 19.4792 8.10417V13.4375C19.4792 13.6597 19.3993 13.8542 19.2396 14.0208C19.0799 14.1875 18.8889 14.2708 18.6667 14.2708ZM9.97917 17.2917C9.84028 17.2917 9.6875 17.2743 9.52083 17.2396C9.35417 17.2049 9.20833 17.1528 9.08333 17.0833L4.79167 14.7708C4.47222 14.6181 4.22569 14.3889 4.05208 14.0833C3.87847 13.7778 3.79167 13.4444 3.79167 13.0833V10.125L8.66667 12.8125C8.875 12.9236 9.08333 13.0278 9.29167 13.125C9.5 13.2222 9.72917 13.2708 9.97917 13.2708C10.2292 13.2708 10.4653 13.2222 10.6875 13.125C10.9097 13.0278 11.1181 12.9167 11.3125 12.7917L16.1875 10.125V13.0833C16.1875 13.4444 16.0972 13.7778 15.9167 14.0833C15.7361 14.3889 15.4931 14.6181 15.1875 14.7708L10.8958 17.0833C10.7569 17.1528 10.6042 17.2049 10.4375 17.2396C10.2708 17.2743 10.1181 17.2917 9.97917 17.2917Z" fill="white"/>
+              </svg> EDITING EDUCATION</p>
+            <p class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</p>
+        </div>
+        <div class="body bg-background noise lg:bg-body h-[92vh] lg:h-[500px] overflow-y-scroll">
+
+            <!-- ADDING NEW EDUCATION -->
+
+            <div id="adding-new-education" class="additional-popup hidden">
+                <form id="form-add-education" class="relative">
+                    <div class="pb-40 lg:pb-5 p-5 divide-header divide-y flex flex-col gap-4">
+                        <div class="flex flex-col gap-4 py-4 lg:py-0">
+                            <p class="font-bold text-xl lg:text-lg text-white mb-1">Add Education</p>
+                            <label class="block">
+                                <span class="text-white-60 tracking-[1.4px] font-normal text-sm">MAJOR/DEGREE/PROGRAM NAME*</span>
+                                <!-- Using form state modifiers, the classes can be identical for every input -->
+                                <input id="popup-firstname" type="text" placeholder="Software Engineer" name="edu_program" class="block border-0 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                "/>
+                            </label>
+                            <label class="block">
+                                <span class="text-white-60 tracking-[1.4px] font-normal text-sm">INSTITUTION*</span>
+                                <!-- Using form state modifiers, the classes can be identical for every input -->
+                                <input id="popup-firstname" type="text" placeholder="Universitas Hup! Indonesia" name="edu_institution" class="block border-0 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                "/>
+                            </label>
+                        </div>
+                        <div class="flex flex-col gap-4 py-4">
+                            <div class="lg:flex gap-5">
+                                <label class="block">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">EDUCATION TYPE*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <select required id="countries" name="edu_type" class="block border-0 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white focus:ring-white">
+                                        <option selected>Select Type</option>
+                                        <option value="Bachelor's Degree">Bachelor's Degree</option>
+                                        <option value="High-School">High-School</option>
+                                        <option value="Bootcamp">Bootcamp</option>
+                                    </select>
+                                </label>
+                                <label class="block mt-4 lg:mt-0">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">GPA (IF AVAILABLE)</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input id="popup-firstname" type="text" pattern="^[0-9.]+" placeholder="3.42" name="edu_gpa" class="block border-0 w-full lg:w-[80px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                    focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                    "/>
+                                </label>
+                            </div>
+                            <div class="lg:flex gap-5 items-center">
+                                <label class="block">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">START DATE*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input id="popup-firstname" type="month" placeholder="Hup! Indonesia" name="edu_startdate" class="block border-0 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                    focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                    "/>
+                                </label>
+                                <label class="block mt-4 lg:mt-0">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">END DATE*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input id="popup-firstname" type="month" placeholder="Hup! Indonesia" name="edu_enddate" class="block border-0 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                    focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                    "/>
+                                </label>
+                            </div>
+                            <div class="lg:flex gap-5">
+                                <label class="block">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">LOCATION TYPE</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <select id="countries" name="edu_status" class="block border-0 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white focus:ring-white">
+                                        <option value="On-Site" selected>On-Site</option>
+                                        <option value="Hybrid">Hybrid</option>
+                                        <option value="Remote">Remote</option>
+                                    </select>
+                                </label>
+                                <label class="block mt-4 lg:mt-0">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">INSTITUTION LOCATION</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input id="popup-firstname" type="text" placeholder="Hup! Indonesia" name="edu_location" class="block border-0 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                    focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                    "/>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 flex-col py-4">
+                            <div class="flex items-center bg-[#3B3B3B] rounded-lg p-3 gap-3 mt-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="49" viewBox="0 0 24 25" fill="none">
+                                    <path d="M12 17.5C12.2833 17.5 12.5208 17.4042 12.7125 17.2125C12.9042 17.0208 13 16.7833 13 16.5V12.5C13 12.2167 12.9042 11.9792 12.7125 11.7875C12.5208 11.5958 12.2833 11.5 12 11.5C11.7167 11.5 11.4792 11.5958 11.2875 11.7875C11.0958 11.9792 11 12.2167 11 12.5V16.5C11 16.7833 11.0958 17.0208 11.2875 17.2125C11.4792 17.4042 11.7167 17.5 12 17.5ZM12 9.5C12.2833 9.5 12.5208 9.40417 12.7125 9.2125C12.9042 9.02083 13 8.78333 13 8.5C13 8.21667 12.9042 7.97917 12.7125 7.7875C12.5208 7.59583 12.2833 7.5 12 7.5C11.7167 7.5 11.4792 7.59583 11.2875 7.7875C11.0958 7.97917 11 8.21667 11 8.5C11 8.78333 11.0958 9.02083 11.2875 9.2125C11.4792 9.40417 11.7167 9.5 12 9.5ZM12 22.5C10.6167 22.5 9.31667 22.2375 8.1 21.7125C6.88333 21.1875 5.825 20.475 4.925 19.575C4.025 18.675 3.3125 17.6167 2.7875 16.4C2.2625 15.1833 2 13.8833 2 12.5C2 11.1167 2.2625 9.81667 2.7875 8.6C3.3125 7.38333 4.025 6.325 4.925 5.425C5.825 4.525 6.88333 3.8125 8.1 3.2875C9.31667 2.7625 10.6167 2.5 12 2.5C13.3833 2.5 14.6833 2.7625 15.9 3.2875C17.1167 3.8125 18.175 4.525 19.075 5.425C19.975 6.325 20.6875 7.38333 21.2125 8.6C21.7375 9.81667 22 11.1167 22 12.5C22 13.8833 21.7375 15.1833 21.2125 16.4C20.6875 17.6167 19.975 18.675 19.075 19.575C18.175 20.475 17.1167 21.1875 15.9 21.7125C14.6833 22.2375 13.3833 22.5 12 22.5Z" fill="#3DD1DB"/>
+                                </svg>
+                                <div class="">
+                                    <p class="tracking-[1.6px] font-normal text-base text-teal-100">TIP</p>
+                                    <p class="font-second text-sm font-medium text-white-60">Remember to always describe and elaborate each and every responsibilities you have during your experience. Here is a helpful article to assist you in writing a good description!</p>
+                                </div>
+                            </div>
+                            <textarea id="" rows="4" name="edu_description" class="block border-0 resize-none px-3 py-[10px] w-full h-[240px] font-second text-sm text-white bg-header rounded-lg focus:ring-main" placeholder="Write your desciprtion here..."></textarea>
+                        </div>
+                    </div>
+                    <div class="fixed lg:static left-0 bottom-0 flex gap-3 w-full lg:w-max lg:ms-auto lg:justify-end mt-8 py-8 p-5 pe-8 lg:p-6 bg-[#2A2A2A] lg:bg-transparent rounded-t-2xl shadow-lg">
+                        <button type="button" class="cancle-add rounded-lg bg-teal-8 text-teal-100 py-4 lg:py-2 px-10 font-second text-base">Cancel</button>
+                        <button type="submit" class="rounded-lg w-full bg-teal-100 text-teal-8 py-4 lg:py-2 px-14 font-second text-base">Save</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- EDITING EDUCATION -->
+
+            <div id="editing-education" class="additional-popup-edit hidden">
+                <form id="form-editing-education" class="relative">
+                    <div class="pb-40 lg:pb-5 p-5 divide-header divide-y flex flex-col gap-4">
+                        <div class="flex flex-col gap-4 py-4 lg:py-0">
+                            <p class="font-bold text-xl lg:text-lg text-white mb-1">Edit Education</p>
+                            <label class="block">
+                                <span class="text-white-60 tracking-[1.4px] font-normal text-sm">MAJOR/DEGREE/PROGRAM NAME*</span>
+                                <!-- Using form state modifiers, the classes can be identical for every input -->
+                                <input type="text" placeholder="Software Engineer" name="edu_program" class="block border-0 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                "/>
+                            </label>
+                            <label class="block">
+                                <span class="text-white-60 tracking-[1.4px] font-normal text-sm">INSTITUTION*</span>
+                                <!-- Using form state modifiers, the classes can be identical for every input -->
+                                <input type="text" placeholder="Universitas Hup! Indonesia" name="edu_institution" class="block border-0 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                "/>
+                            </label>
+                        </div>
+                        <div class="flex flex-col gap-4 py-4">
+                            <div class="lg:flex gap-5">
+                                <label class="block">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">EDUCATION TYPE*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <select required id="countries" name="edu_type" class="block border-0 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white focus:ring-white">
+                                        <option selected>Select Type</option>
+                                        <option value="Bachelor's Degree">Bachelor's Degree</option>
+                                        <option value="High-School">High-School</option>
+                                        <option value="Bootcamp">Bootcamp</option>
+                                    </select>
+                                </label>
+                                <label class="block mt-4 lg:mt-0">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">GPA (IF AVAILABLE)</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input type="text" pattern="^[0-9.]+" placeholder="3.42" name="edu_gpa" class="block border-0 w-full lg:w-[80px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                    focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                    "/>
+                                </label>
+                            </div>
+                            <div class="lg:flex gap-5 items-center">
+                                <label class="block">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">START DATE*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input type="month" placeholder="Hup! Indonesia" name="edu_startdate" class="block border-0 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                    focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                    "/>
+                                </label>
+                                <label class="block mt-4 lg:mt-0">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">END DATE*</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input type="month" placeholder="Hup! Indonesia" name="edu_enddate" class="block border-0 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                    focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                    "/>
+                                </label>
+                            </div>
+                            <div class="lg:flex gap-5">
+                                <label class="block">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">LOCATION TYPE</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <select id="countries" name="edu_status" class="block border-0 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white focus:ring-white">
+                                        <option value="On-Site" selected>On-Site</option>
+                                        <option value="Hybrid">Hybrid</option>
+                                        <option value="Remote">Remote</option>
+                                    </select>
+                                </label>
+                                <label class="block mt-4 lg:mt-0">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">INSTITUTION LOCATION</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input type="text" placeholder="Hup! Indonesia" name="edu_location" class="block border-0 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-white-60 text-white
+                                    focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                    focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                    "/>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 flex-col py-4">
+                            <div class="flex items-center bg-[#3B3B3B] rounded-lg p-3 gap-3 mt-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="49" viewBox="0 0 24 25" fill="none">
+                                    <path d="M12 17.5C12.2833 17.5 12.5208 17.4042 12.7125 17.2125C12.9042 17.0208 13 16.7833 13 16.5V12.5C13 12.2167 12.9042 11.9792 12.7125 11.7875C12.5208 11.5958 12.2833 11.5 12 11.5C11.7167 11.5 11.4792 11.5958 11.2875 11.7875C11.0958 11.9792 11 12.2167 11 12.5V16.5C11 16.7833 11.0958 17.0208 11.2875 17.2125C11.4792 17.4042 11.7167 17.5 12 17.5ZM12 9.5C12.2833 9.5 12.5208 9.40417 12.7125 9.2125C12.9042 9.02083 13 8.78333 13 8.5C13 8.21667 12.9042 7.97917 12.7125 7.7875C12.5208 7.59583 12.2833 7.5 12 7.5C11.7167 7.5 11.4792 7.59583 11.2875 7.7875C11.0958 7.97917 11 8.21667 11 8.5C11 8.78333 11.0958 9.02083 11.2875 9.2125C11.4792 9.40417 11.7167 9.5 12 9.5ZM12 22.5C10.6167 22.5 9.31667 22.2375 8.1 21.7125C6.88333 21.1875 5.825 20.475 4.925 19.575C4.025 18.675 3.3125 17.6167 2.7875 16.4C2.2625 15.1833 2 13.8833 2 12.5C2 11.1167 2.2625 9.81667 2.7875 8.6C3.3125 7.38333 4.025 6.325 4.925 5.425C5.825 4.525 6.88333 3.8125 8.1 3.2875C9.31667 2.7625 10.6167 2.5 12 2.5C13.3833 2.5 14.6833 2.7625 15.9 3.2875C17.1167 3.8125 18.175 4.525 19.075 5.425C19.975 6.325 20.6875 7.38333 21.2125 8.6C21.7375 9.81667 22 11.1167 22 12.5C22 13.8833 21.7375 15.1833 21.2125 16.4C20.6875 17.6167 19.975 18.675 19.075 19.575C18.175 20.475 17.1167 21.1875 15.9 21.7125C14.6833 22.2375 13.3833 22.5 12 22.5Z" fill="#3DD1DB"/>
+                                </svg>
+                                <div class="">
+                                    <p class="tracking-[1.6px] font-normal text-base text-teal-100">TIP</p>
+                                    <p class="font-second text-sm font-medium text-white-60">Remember to always describe and elaborate each and every responsibilities you have during your experience. Here is a helpful article to assist you in writing a good description!</p>
+                                </div>
+                            </div>
+                            <textarea id="" rows="4" name="edu_description" class="block border-0 resize-none px-3 py-[10px] w-full h-[240px] font-second text-sm text-white bg-header rounded-lg focus:ring-main" placeholder="Write your desciprtion here..."></textarea>
+                        </div>
+                    </div>
+                    <div class="fixed lg:static left-0 bottom-0 flex gap-3 w-full lg:w-max lg:ms-auto lg:justify-end mt-8 py-8 p-5 pe-8 lg:p-6 bg-[#2A2A2A] lg:bg-transparent rounded-t-2xl shadow-lg">
+                        <button type="button" class="cancle-edit rounded-lg bg-teal-8 text-teal-100 py-4 lg:py-2 px-10 font-second text-base">Cancel</button>
+                        <button type="submit" class="rounded-lg w-full bg-teal-100 text-teal-8 py-4 lg:py-2 px-14 font-second text-base">Save</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- REGISTERED EDUCATION -->
+
+            <div id="registered-education" class="main-popup">
+                <div class="divide-y divide-header">
+                    <div class="p-5">
+                        <button type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-teal-100 font-second text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <mask id="mask0_50_1377" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                              <rect width="24" height="24" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_50_1377)">
+                              <path d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z" fill="#3DD1DB"/>
+                            </g>
+                          </svg> Back to Your Profie
+                        </button>
+                        <p class="font-bold text-xl lg:text-lg text-main mb-1">Your Education</p>
+                        <p class="text-white-60 text-sm font-second font-medium">This is where you show off your education to recruiters! You can basically add any education programs you have accomplished or still participating.</p>
+                    </div>
+                    <div class="p-5">
+                        <div class="divide-y divide-main">
+                            <!-- <div class="lg:hidden">
+                                <button type="button" id="add-education-mobile" class="font-second text-sm font-medium w-full lg:w-[90%] m-auto rounded-lg bg-teal-8 text-teal-100 p-4 my-5 flex items-center gap-2 justify-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+                                        <path d="M9.66675 10.8333H4.66675V9.16666H9.66675V4.16666H11.3334V9.16666H16.3334V10.8333H11.3334V15.8333H9.66675V10.8333Z" fill="#3DD1DB"/>
+                                      </svg> Add Education
+                                </button>
+                            </div> -->
+                            <div id="popup-body-educations" class="py-5 flex flex-col gap-5  lg:gap-10">
+                                <!-- ADD BY JS -->
+                            </div>
+                            <div class="hidden lg:block">
+                                <button type="button" id="add-education" class="font-second text-sm font-medium w-[90%] m-auto rounded-lg bg-main text-white p-4 my-5 flex items-center gap-2 justify-center">
+                                    Add Education
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP ATTACHMENT -->
+    <div class="hidden popup popup-attachment border-2 border-header w-full lg:w-[720px] rounded-2xl overflow-hidden">
+        <div class="hidden header bg-main lg:flex justify-between px-5 py-3 items-center">
+            <p class="font-normal text-white text-base tracking-[1.6px] flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M9.58333 18.3333C8.30556 18.3333 7.22222 17.8889 6.33333 17C5.44444 16.1111 5 15.0278 5 13.75V4.99999C5 4.08332 5.32639 3.2986 5.97917 2.64582C6.63194 1.99305 7.41667 1.66666 8.33333 1.66666C9.25 1.66666 10.0347 1.99305 10.6875 2.64582C11.3403 3.2986 11.6667 4.08332 11.6667 4.99999V12.9167C11.6667 13.5 11.4653 13.993 11.0625 14.3958C10.6597 14.7986 10.1667 15 9.58333 15C9 15 8.50694 14.7986 8.10417 14.3958C7.70139 13.993 7.5 13.5 7.5 12.9167V5.62499C7.5 5.44443 7.55903 5.29513 7.67708 5.17707C7.79514 5.05902 7.94444 4.99999 8.125 4.99999C8.30556 4.99999 8.45486 5.05902 8.57292 5.17707C8.69097 5.29513 8.75 5.44443 8.75 5.62499V12.9167C8.75 13.1528 8.82986 13.3507 8.98958 13.5104C9.14931 13.6701 9.34722 13.75 9.58333 13.75C9.81944 13.75 10.0174 13.6701 10.1771 13.5104C10.3368 13.3507 10.4167 13.1528 10.4167 12.9167V4.99999C10.4167 4.41666 10.2153 3.9236 9.8125 3.52082C9.40972 3.11805 8.91667 2.91666 8.33333 2.91666C7.75 2.91666 7.25694 3.11805 6.85417 3.52082C6.45139 3.9236 6.25 4.41666 6.25 4.99999V13.75C6.25 14.6667 6.57639 15.4514 7.22917 16.1042C7.88194 16.7569 8.66667 17.0833 9.58333 17.0833C10.5 17.0833 11.2847 16.7569 11.9375 16.1042C12.5903 15.4514 12.9167 14.6667 12.9167 13.75V5.62499C12.9167 5.44443 12.9757 5.29513 13.0938 5.17707C13.2118 5.05902 13.3611 4.99999 13.5417 4.99999C13.7222 4.99999 13.8715 5.05902 13.9896 5.17707C14.1076 5.29513 14.1667 5.44443 14.1667 5.62499V13.75C14.1667 15.0278 13.7222 16.1111 12.8333 17C11.9444 17.8889 10.8611 18.3333 9.58333 18.3333Z" fill="white"/>
+              </svg> EDITING ATTACHMENTS</p>
+            <p class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</p>
+        </div>
+        <div class="body bg-background noise lg:bg-body h-[92vh] lg:h-[500px] overflow-y-scroll">
+            <form id="form-add-attachment" class="relative">
+                <div class="divide-y divide-header pb-40 lg:pb-0">
+                    <div class="p-5">
+                        <button type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-teal-100 font-second text-base"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <mask id="mask0_50_1377" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+                              <rect width="24" height="24" fill="#D9D9D9"/>
+                            </mask>
+                            <g mask="url(#mask0_50_1377)">
+                              <path d="M7.825 13L13.425 18.6L12 20L4 12L12 4L13.425 5.4L7.825 11H20V13H7.825Z" fill="#3DD1DB"/>
+                            </g>
+                          </svg> Back to Your Profie
+                        </button>
+                        <p class="font-bold text-lg text-main mb-1">Attachments</p>
+                        <p class="text-white-60 text-sm font-second font-medium">Here, you can upload your resume or portfolio to showcase your works from past Experiences!</p>
+                    </div>
+                    <div class="divide-y divide-header px-5">
+
+                        <!-- ATTACHMENT -->
+                        <div class="flex items-center lg:items-start gap-3 py-5">
+                            <i class="uil uil-file-info-alt text-2xl"></i>
+                            <div class="w-full lg:w-max">
+                                <p class="text-main font-bold text-lg">Resume*</p>
+                                <p class="lg:hidden font-second text-sm font-medium text-white-60">Accepted file is only in PDF. Maximum file size 2 MB.</p>
+                                <p class="hidden lg:block font-second text-white-60 text-sm font-medium">Keep in mind that some companies still require you to upload your resume in digital copy. However, they will be seeing your profile first, not your resume!</p>
+                                <div id="unfilled-resume" class="flex items-center gap-2 mt-4 lg:mt-3">
+                                    <label for="custom-input-file">
+                                        <input type="file" id="custom-input-resume" class="hidden" name="atc_resume" accept="application/pdf"/>
+                                        <button type="button" id="button-input-resume" class="flex items-center gap-1 py-4 lg:py-2 px-4 bg-main text-white rounded-lg font-second text-sm font-medium">
+                                            Upload Resume
+                                        </button>
+                                    </label>
+                                    <p class="hidden lg:block font-second text-sm font-medium text-white-60">Accepted file is only in PDF. Maximum file size 2 MB.</p>
+                                </div>
+                                <div id="filled-resume" class="hidden mt-3 flex justify-between w-full lg:w-[320px] bg-[#1E1E1E] rounded-lg p-3 items-center">
+                                    <div class="">
+                                        <a href="#" class="text-teal-100 font-second text-sm font-medium">resumefinalbangetbanget.pdf</a>
+                                        <p class="text-[#A5A5A5] font-second text-xs font-medium">1 mb • <span>12 Aug 2023</span></p>
+                                    </div>
+                                    <svg id="filled-resume-delete" class="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                        <path d="M4.89375 15.75C4.59375 15.75 4.33125 15.6375 4.10625 15.4125C3.88125 15.1875 3.76875 14.925 3.76875 14.625V3.9375H3.5625C3.4 3.9375 3.26563 3.88437 3.15938 3.77812C3.05313 3.67187 3 3.5375 3 3.375C3 3.2125 3.05313 3.07813 3.15938 2.97188C3.26563 2.86563 3.4 2.8125 3.5625 2.8125H6.525C6.525 2.65 6.57813 2.51563 6.68438 2.40938C6.79063 2.30313 6.925 2.25 7.0875 2.25H10.9125C11.075 2.25 11.2094 2.30313 11.3156 2.40938C11.4219 2.51563 11.475 2.65 11.475 2.8125H14.4375C14.6 2.8125 14.7344 2.86563 14.8406 2.97188C14.9469 3.07813 15 3.2125 15 3.375C15 3.5375 14.9469 3.67187 14.8406 3.77812C14.7344 3.88437 14.6 3.9375 14.4375 3.9375H14.2313V14.625C14.2313 14.925 14.1188 15.1875 13.8938 15.4125C13.6688 15.6375 13.4063 15.75 13.1063 15.75H4.89375ZM6.88125 12.45C6.88125 12.6125 6.93438 12.7469 7.04063 12.8531C7.14688 12.9594 7.28125 13.0125 7.44375 13.0125C7.60625 13.0125 7.74062 12.9594 7.84688 12.8531C7.95312 12.7469 8.00625 12.6125 8.00625 12.45V6.09375C8.00625 5.93125 7.95312 5.79688 7.84688 5.69063C7.74062 5.58438 7.60625 5.53125 7.44375 5.53125C7.28125 5.53125 7.14688 5.58438 7.04063 5.69063C6.93438 5.79688 6.88125 5.93125 6.88125 6.09375V12.45ZM9.99375 12.45C9.99375 12.6125 10.0469 12.7469 10.1531 12.8531C10.2594 12.9594 10.3938 13.0125 10.5563 13.0125C10.7188 13.0125 10.8531 12.9594 10.9594 12.8531C11.0656 12.7469 11.1188 12.6125 11.1188 12.45V6.09375C11.1188 5.93125 11.0656 5.79688 10.9594 5.69063C10.8531 5.58438 10.7188 5.53125 10.5563 5.53125C10.3938 5.53125 10.2594 5.58438 10.1531 5.69063C10.0469 5.79688 9.99375 5.93125 9.99375 6.09375V12.45Z" fill="#A5A5A5"/>
+                                      </svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PORTFOLIO -->
+                        <div class="flex items-start gap-3 py-5">
+                            <i class="uil uil-books text-2xl"></i>
+                            <div class="">
+                                <p class="text-main font-bold text-lg">Portfolio</p>
+                                <p class="font-second text-white-60 text-sm font-medium">Might be required if the job post says so. You can add a link to your portfolio from another website (GitHub, Behance, Google Drive, etc.)</p>
+                                <label class="flex items-center gap-3 mt-4 lg:mt-3">
+                                    <span class="text-white-60 tracking-[1.4px] font-normal text-sm">LINK</span>
+                                    <!-- Using form state modifiers, the classes can be identical for every input -->
+                                    <input id="popup-body-portfolio" type="text" name="atc_portfolio" placeholder="www.drive.google.com/file" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/60 text-black/80 font-second
+                                      focus:outline-none focus:border-main focus:ring-0 focus:ring-main
+                                      focus:invalid:border-red-500 focus:invalid:ring-red-500
+                                    "/>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="fixed lg:static left-0 bottom-0 flex gap-3 w-full lg:w-max lg:ms-auto lg:justify-end mt-8 py-8 lg:pt-10 p-5 pe-8 lg:p-5 bg-[#2A2A2A] lg:bg-transparent rounded-t-2xl shadow-lg">
+                    <button type="button" class="close-x rounded-lg bg-background py-4 lg:py-2 px-10 font-second text-main">Cancel</button>
+                    <button type="submit" class="w-full lg:w-max rounded-lg bg-main text-teal-8 py-4 lg:py-2 px-14 font-second text-white">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</section>
+
+
+
+<section class="w-full border-2 rounded-xl bg-white noise overflow-hidden shadow-sm mt-4">
+
+                    <div class="flex justify-between p-4 px-6 bg-main">
+                        <p class="text-sm font-medium text-background flex items-center gap-2"><i class="uil uil-bag"></i>EXPERIENCE</p>
+                        <button (click)="openPopup('experience')" class="text-sm text-background flex items-center gap-2"><i class="uil uil-pen"></i>Edit</button>
+                    </div>
+                    <div class="p-4 px-6 pb-8">
+
+                        <!-- KALAU EXPERIENCE TIDAK KOSONG -->
+                        @if(EXPERIENCES.length > 0){
+                            <div class="">
+                                <div class="flex justify-between mb-4">
+                                    <div class="">
+                                        <p class="text-xs px-3 py-0.5 bg-main w-max rounded-sm text-white mt-2 mb-1">Founder</p>
+                                        <p class="text-xl font-bold">Chief Technology Officer</p>
+                                        <p class="text-black/60 font-medium">Internshits • Full-time • Hybrid (Tangerang)</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium">Nov 2023 - Now</p>
+                                        <p class="text-xs">8 years</p>
+                                    </div>
+                                </div>
+                                <p class="text-black/80 text-sm">Lorem ipsum, dolor sit amet consectetur adipisicing elit. A perferendis provident dicta nobis earum vero, corporis pariatur mollitia. Dicta, cupiditate.</p>
+                            </div>
+                        }@else {
+                            <!-- KALAU EXPERIENCE KOSONG -->
+                            <div class="flex flex-col text-center justify-center py-4">
+                                <p class="font-bold">Tambahkan pengalaman kamu disini!</p>
+                                <p class="text-black/80 w-[85%] mx-auto mt-1">Inti dari profilmu. Kamu dapat menambahkan pengalaman apa pun dari organisasi universitas, panitia acara, magang, dan banyak lagi!</p>
+                                <button (click)="openPopup('experience')" type="button" class="text-white font-thin bg-main/90 w-max mx-auto px-6 py-1.5 rounded-lg mt-4">Add Experiences</button>
+                            </div>
+                        }
+
+                    </div>
+                </section>
+
+                <!-- EDUCATIONS -->
+                <section class="w-full border-2 rounded-xl bg-white noise overflow-hidden shadow-sm mt-4">
+
+                    <div class="flex justify-between py-4 px-6 bg-main">
+                        <p class="text-sm font-medium text-background flex items-center gap-2"><i class="uil uil-bag"></i>EDUCATIONS</p>
+                        <button (click)="openPopup('education')" class="text-sm text-background flex items-center gap-2"><i class="uil uil-pen"></i>Edit</button>
+                    </div>
+
+                    <div class="py-4 pb-8 px-6">
+                        @if(EDUCATIONS.length < 0){
+                            <div *ngIf="EDUCATIONS.length !== 0" class="">
+                                <div class="flex justify-between mb-4">
+                                    <div class="">
+                                        <p class="text-xs px-3 py-0.5 bg-main w-max rounded-sm text-white mt-2 mb-1">Bachelor Degree</p>
+                                        <p class="text-xl font-bold">Computer Science</p>
+                                        <p class="text-black/60 font-medium">Universitas Indonesia • FITK</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-sm font-medium">Nov 2023 - Now</p>
+                                        <p class="text-xs">8 years</p>
+                                    </div>
+                                </div>
+                                <p class="text-black/80 text-sm">Lorem ipsum, dolor sit amet consectetur adipisicing elit. A perferendis provident dicta nobis earum vero, corporis pariatur mollitia. Dicta, cupiditate.</p>
+                            </div>
+                        }@else {
+                            <!-- KALAU EXPERIENCE KOSONG -->
+                            <div class="flex flex-col text-center justify-center py-4">
+                                <p class="font-bold">Tambahkan pendidikan kamu disini!</p>
+                                <p class="text-black/80 w-[85%] mx-auto mt-1">Sama pentingnya dengan pengalaman, pendidikanmu akan menunjukkan kepada orang lain tentang kemampuanmu!</p>
+                                <button (click)="openPopup('education')" type="button" class="text-white font-thin bg-main/90 w-max mx-auto px-6 py-1.5 rounded-lg mt-4">Add Educations</button>
+                            </div>
+                        }
+                    </div>
+                </section>

@@ -5,18 +5,19 @@ import $ from "jquery"
 import { RequestService } from '../../services/request.service';
 import { UserService } from '../../services/user.service';
 import { Location, NgIf } from '@angular/common';
-import { GoogleSigninButtonModule, SocialAuthService } from '@abacritt/angularx-social-login';
+import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgIf, GoogleSigninButtonModule],
+  imports: [NgIf, GoogleSigninButtonModule, ReactiveFormsModule],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-
   dashboard_img = "assets/images/noise-light.png"
+
+  FORM_SEARCH:FormGroup = new FormGroup("")
 
   IS_VERIFIED:boolean = false
 
@@ -33,8 +34,16 @@ export class HomeComponent implements OnInit {
       this.POST_PAGE = params["page"] || 1
       this.QUERY = {
         limit: this.POST_LIMIT,
-        page: this.POST_PAGE
+        page: this.POST_PAGE,
+        search: "",
+        platform: ""
       }
+    })
+
+    this.FORM_SEARCH = new FormGroup({
+      search: new FormControl(""),
+      limit: new FormControl(9),
+      platform: new FormControl("")
     })
   }
 
@@ -74,7 +83,6 @@ export class HomeComponent implements OnInit {
     this.QUERY.page = this.POST_PAGE
     this.router.navigate([], {queryParams: {page: this.POST_PAGE}})
     this.callGetProduct()
-    window.scrollTo(0,0)
   }
 
   async callGetProduct(){
@@ -86,6 +94,29 @@ export class HomeComponent implements OnInit {
     this.POST_LIMIT = POSTS.limit
     this.POST_PAGE = POSTS.page   
   }
+
+  submitFormSearch(){
+    this.QUERY.search = this.FORM_SEARCH.value.search
+    if(this.QUERY.search.length !== 0){
+      this.QUERY.limit = 999
+      this.QUERY.page = 1
+    }else{
+      this.QUERY.limit = 9
+    }
+    this.callGetProduct()
+  }
+
+  changeSelect(){
+    this.QUERY.platform = this.FORM_SEARCH.value.platform
+    this.QUERY.limit = this.FORM_SEARCH.value.limit
+    this.callGetProduct()
+  }
+
+
+
+
+
+
 
   timeAgo(dateString:any) {
     const date:any = new Date(dateString);

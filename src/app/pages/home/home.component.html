@@ -2,8 +2,8 @@
     <div class="min-h-screen w-[1100px] mx-auto py-10 pb-20">
 
         <!-- HERO -->
-        <div class="my-6 grid grid-cols-4 items-center">
-            <div class="col-span-3">
+        <div class="my-6 grid grid-cols-6 items-center">
+            <div class="col-span-4">
                 <p class="text-thrid text-[55px] font-bold">Wadah Internship</p>
                 <p class="font-medium text-second/80 text-lg">dari semua penjuru platform</p>
                 <div class="flex items-center gap-4 mt-6 py-2 rounded-lg w-max">
@@ -16,8 +16,8 @@
                 </div>
             </div>
 
-            <div class="col-span-1 mt-8 gap-4">
-                <div class="bg-white/80 px-6 py-6 text-thrid border border-2 shadow-md rounded-md font-medium">
+            <div class="col-span-2 mt-8 gap-4">
+                <div class="bg-white/80 w-max ms-auto px-6 py-6 text-thrid border border-2 shadow-md rounded-md font-medium">
                     <p class="flex items-center gap-3"><i class="uil uil-postcard text-2xl"></i><span class="text-2xl font-semibold">{{TOTAL_POST}}</span>pekerjaan di posting</p>
                 </div>
             </div>
@@ -25,14 +25,35 @@
 
 
         <!-- SEARCH BAR -->
-        <div class="flex items-center gap-4 mt-12">
-            <form class="w-[30%]">   
-                <div class="relative">
-                    <input type="search" id="default-search" class="block w-full p-4 ps-6 font-medium text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-main focus:border-main" placeholder="Search title, company, location..." required />
-                    <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/90 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-full text-sm px-4 py-2"><i class="uil uil-search"></i></button>
+        <div class="mt-12">
+            <form class="flex items-center gap-4" [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()">   
+                <div class="w-[35%] relative">
+                    <input type="search" formControlName="search" [readOnly]="!IS_VERIFIED" id="input-search" value="you have to login to use search feature" class="block w-full p-4 ps-6 font-medium text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-main focus:border-main" placeholder="Search title, company, location..." required />
+                    <button [disabled]="!IS_VERIFIED" type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/90 focus:outline-none focus:ring-main font-medium rounded-full text-sm px-4 py-2"><i class="uil uil-search"></i></button>
+                </div>
+                <button class="text-2xl bg-white rounded-xl w-12 h-12 border-gray-300 border text-thrid"><i class="uil uil-sliders-v"></i></button>
+                <div class=" flex gap-2 ms-6">
+                    <div class="flex flex-col">
+                        <select (change)="changeSelect()" formControlName="limit" name="" id="" class="text-sm font-medium rounded-full border-2 py-3 border-gray-300 focus:ring-main focus:border-main">
+                            <option value="9" selected>Limit</option>
+                            <option value="12">12 Post per Page</option>
+                            <option value="15">15 Post per Page</option>
+                            <option value="999">Show All Post</option>
+                        </select>
+                    </div>
+                    <div class="flex flex-col">
+                        <select (change)="changeSelect()" formControlName="platform" name="" id="" class="text-sm font-medium rounded-full border-2 py-3 border-gray-300 focus:ring-main focus:border-main">
+                            <option value="" selected>All Platform</option>
+                            <option value="Jobstreet">Jobstreet</option>
+                            <option value="Glints">Glints</option>
+                            <option value="Indeed">Indeed</option>
+                            <option value="Kalibrr">Kalibrr</option>
+                            <option value="Linkedin">Linkedin</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
                 </div>
             </form>
-            <button class="text-2xl bg-white rounded-xl w-12 h-12 border-gray-300 border text-thrid"><i class="uil uil-sliders-v"></i></button>
         </div>
 
         @if(POST_DATAS.length > 0){
@@ -44,7 +65,7 @@
                         <p class="text-sm text-black">PT UOB</p>
                         <p class="text-xs px-2 bg-main w-max mt-2 rounded-sm mb-4 text-background">INTERNSHIP</p>
                         <hr class="my-2">
-                        <p class="text-sm flex items-center gap-2"><i class="uil uil-building"></i> <span class="font-medium">{{post.tags.length > 23 ? post.tags.substring(0,23)+"..." : post.tags}}</span> • <span>{{post.location.length > 18 ? post.location.substring(0,18)+"..." : post.location}}</span></p>
+                        <p class="text-sm flex items-center gap-2"><i class="uil uil-building"></i> <span class="font-medium">{{post.tags.length > 20 ? post.tags.substring(0,20)+"..." : post.tags}}</span> • <span>{{post.location.length > 18 ? post.location.substring(0,18)+"..." : post.location}}</span></p>
                         <p class="text-sm flex items-center gap-2"><i class="uil uil-bag"></i>in {{post.platform}}</p>
                         <p class="text-sm flex items-center gap-2 mt-2"><i class="uil uil-upload"></i><span class="text-xs font-medium">{{timeAgo(post.post_date)}}</span></p>
                     </a>
@@ -66,10 +87,10 @@
             </span>
             <div class="inline-flex mt-2 xs:mt-0 gap-4">
                 <button (click)="changePage($event)" value="back" [disabled]="POST_PAGE == 1 || IS_VERIFIED == false" class="disabled:bg-main/60 flex items-center justify-center px-6 py-1.5 text-base font-medium text-white bg-main rounded-lg hover:bg-main/90">
-                    <i class="uil uil-angle-left text-xl"></i>
+                    back
                 </button>
                 <button (click)="changePage($event)" value="forward" [disabled]="POST_PAGE * POST_LIMIT >= TOTAL_POST || IS_VERIFIED == false" class="disabled:bg-main/60 flex items-center justify-center px-6 py-1.5 text-base font-medium text-white bg-main border-gray-700 rounded-lg hover:bg-main/90">
-                    <i class="uil uil-angle-right text-xl"></i>
+                    next
                 </button>
             </div>
         </div>

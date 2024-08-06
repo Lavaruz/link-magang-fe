@@ -95,10 +95,10 @@ export class RequestService {
     const httpOptions = this.getHeaders(option)
 
     return new Promise((resolve, reject) => {
-      this.http.get<any>(toURL)
+      this.http.get<any>(toURL, httpOptions)
         .subscribe({
-          next: (response) => {
-            let decryptedData = this.decryptData(response);
+          next: (response:any) => {
+            let decryptedData = this.decryptData(response.body);
             resolve(decryptedData);
           },
           error: (err) => {
@@ -115,6 +115,25 @@ export class RequestService {
 
     return new Promise((resolve, reject) => {
       this.http.post<any>(toURL, post_data, httpOptions)
+        .subscribe({
+          next: (response:any) => {
+            let decryptedData = this.decryptData(response.body);
+            resolve(decryptedData);
+          },
+          error: (err) => {
+            reject(err);
+          }
+        });
+    });
+  }
+
+  putEncryptedRequest(url: string = "", post_data: any, option:any={}) {
+    const toURL = `${this.rootURL}${url}`;
+    const httpOptions = this.getHeaders(option)
+    post_data = this.encryptData(post_data)
+
+    return new Promise((resolve, reject) => {
+      this.http.put<any>(toURL, post_data, httpOptions)
         .subscribe({
           next: (response:any) => {
             let decryptedData = this.decryptData(response.body);
