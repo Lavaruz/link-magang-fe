@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { NgIf } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { UserInterface } from '../../interface/user.interface';
+import $ from "jquery"
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgIf, RouterLink],
+  imports: [NgIf, RouterLink, CommonModule],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit {
@@ -34,6 +35,26 @@ export class NavbarComponent implements OnInit {
     }else{
       this.USER = await this.userService.getUserData()
     }
+  }
+
+
+  openLoginPanel(){
+    $("#popup-layer-navbar").fadeIn(function() {
+      $("#popup-login").slideToggle();
+      $("body").css("overflow", "hidden");
+    }).css("display", "flex");
+  }
+
+  closeLoginPanel(){
+    $("#popup-login").slideToggle(function() {
+      $("#popup-layer-navbar").fadeOut(function() {
+          $("body").css("overflow", "auto");
+      });
+    });
+  }
+
+  toggleNavbarMobile(){
+    $("#popup-navbar").slideToggle();
   }
 
 }

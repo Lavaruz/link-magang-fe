@@ -1,123 +1,175 @@
+<app-navbar></app-navbar>
+
 <main class="noise">
-    <div class="min-h-screen w-[1100px] mx-auto py-10 pb-20">
+    <div class="min-h-screen lg:w-[1100px] mx-auto py-6 lg:py-10 pb-20 px-[5%] lg:px-0">
 
         <!-- HERO -->
-        <div class="my-6 grid grid-cols-6 items-center">
-            <div class="col-span-4">
-                <p class="text-thrid text-[55px] font-bold">Wadah Internship</p>
-                <p class="font-medium text-second/80 text-lg">dari semua penjuru platform</p>
-                <div class="flex items-center gap-4 mt-6 py-2 rounded-lg w-max">
-                    <a href="https://glints.com/id/en"><img src="assets/images/Glints.png" class="rounded-lg hover:scale-[1.1] duration-300" width="30px" alt=""></a>
-                    <a href="https://id.indeed.com/"><img src="assets/images/Indeed.png" class="rounded-lg hover:scale-[1.1] duration-300" width="30px" alt=""></a>
-                    <a href="https://www.jobstreet.co.id/"><img src="assets/images/Jobstreet.png" class="rounded-lg hover:scale-[1.1] duration-300" width="30px" alt=""></a>
-                    <a href="https://www.kalibrr.com/home"><img src="assets/images/Kalibrr.png" class="rounded-lg hover:scale-[1.1] duration-300" width="30px" alt=""></a>
-                    <a href="https://www.linkedin.com/jobs/"><img src="assets/images/Linkedin.png" class="rounded-lg hover:scale-[1.1] duration-300" width="30px" alt=""></a>
-                    <p class="text-sm font-medium self-end">,etc..</p>
-                </div>
-            </div>
-
-            <div class="col-span-2 mt-8 gap-4">
-                <div class="bg-white/80 w-max ms-auto px-6 py-6 text-thrid border border-2 shadow-md rounded-md font-medium">
-                    <p class="flex items-center gap-3"><i class="uil uil-postcard text-2xl"></i><span class="text-2xl font-semibold">{{TOTAL_POST}}</span>pekerjaan di posting</p>
+        <div class="my-6 grid items-center justify-center text-center">
+            <div class="">
+                <p class="text-thrid/90 leading-tight text-[28px] text-center lg:text-[55px] font-bold">Temuin <span class="">Intern</span> Kamu</p>
+                <p class="font-medium text-second/80 lg:text-lg text-center pt-2">dari semua penjuru platform</p>
+                <div class="flex items-center mx-auto gap-4 mt-4 py-2 rounded-lg w-max">
+                    <p class="font-medium text-xl"><i class="uil uil-arrow-left"></i></p>
+                    <a href="https://glints.com/id/en"><img src="assets/img/Glints.png" class="rounded-lg hover:scale-[1.1] duration-300" width="30px" alt=""></a>
+                    <a href="https://id.indeed.com/"><img src="assets/img/Indeed.png" class="rounded-lg hover:scale-[1.1] duration-300" width="30px" alt=""></a>
+                    <a href="https://www.jobstreet.co.id/"><img src="assets/img/Jobstreet.png" class="rounded-lg hover:scale-[1.1] duration-300" width="30px" alt=""></a>
+                    <a href="https://www.kalibrr.com/home"><img src="assets/img/Kalibrr.png" class="rounded-lg hover:scale-[1.1] duration-300" width="30px" alt=""></a>
+                    <a href="https://www.linkedin.com/jobs/"><img src="assets/img/Linkedin.png" class="rounded-lg hover:scale-[1.1] duration-300" width="30px" alt=""></a>
+                    <p class="font-medium text-xl"><i class="uil uil-arrow-right"></i></p>
                 </div>
             </div>
         </div>
 
 
         <!-- SEARCH BAR -->
-        <div class="mt-12">
-            <form class="flex items-center gap-4" [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()">   
-                <div class="w-[35%] relative">
-                    <input type="search" formControlName="search" [readOnly]="!IS_VERIFIED" id="input-search" value="you have to login to use search feature" class="block w-full p-4 ps-6 font-medium text-sm text-gray-900 border border-gray-300 rounded-full bg-gray-50 focus:ring-main focus:border-main" placeholder="Search title, company, location..." required />
-                    <button [disabled]="!IS_VERIFIED" type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/90 focus:outline-none focus:ring-main font-medium rounded-full text-sm px-4 py-2"><i class="uil uil-search"></i></button>
-                </div>
-                <button class="text-2xl bg-white rounded-xl w-12 h-12 border-gray-300 border text-thrid"><i class="uil uil-sliders-v"></i></button>
-                <div class=" flex gap-2 ms-6">
-                    <div class="flex flex-col">
-                        <select (change)="changeSelect()" formControlName="limit" name="" id="" class="text-sm font-medium rounded-full border-2 py-3 border-gray-300 focus:ring-main focus:border-main">
-                            <option value="9" selected>Limit</option>
-                            <option value="12">12 Post per Page</option>
-                            <option value="15">15 Post per Page</option>
-                            <option value="999">Show All Post</option>
-                        </select>
-                    </div>
-                    <div class="flex flex-col">
-                        <select (change)="changeSelect()" formControlName="platform" name="" id="" class="text-sm font-medium rounded-full border-2 py-3 border-gray-300 focus:ring-main focus:border-main">
-                            <option value="" selected>All Platform</option>
-                            <option value="Jobstreet">Jobstreet</option>
-                            <option value="Glints">Glints</option>
-                            <option value="Indeed">Indeed</option>
-                            <option value="Kalibrr">Kalibrr</option>
-                            <option value="Linkedin">Linkedin</option>
-                            <option value="Lainnya">Lainnya</option>
-                        </select>
-                    </div>
+        <div id="search-bar" class="mt-12">
+            <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()" class="flex items-center gap-4">   
+                <div class="w-full relative">
+                    <input type="text" formControlName="search" id="input-search" value="" class="hover:shadow-lg focus:shadow-lg block w-full p-4 py-3 ps-6 font-medium text-gray-900 border border-gray-300 rounded-2xl bg-gray-50 focus:ring-main focus:border-main" placeholder="Super search, cari lowongan.." />
+                    <button type="submit" class="text-main absolute end-2.5 bottom-2 focus:outline-none focus:ring-main font-medium rounded-full text-sm px-5 py-2"><i class="uil uil-search"></i></button>
                 </div>
             </form>
         </div>
 
-        @if(POST_DATAS.length > 0){
-            <!-- POSTS CARD -->
-            <div id="cards" class="grid grid-cols-3 mt-8 gap-4">
-                @for(post of POST_DATAS; track post.id){
-                    <a target="_blank" href="{{post.link}}" class="hover:scale-[1.005] duration-100 shadow-md border bg-white p-4 rounded-lg self-start">
-                        <p class="font-bold text-black">{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
-                        <p class="text-sm text-black">PT UOB</p>
-                        <p class="text-xs px-2 bg-main w-max mt-2 rounded-sm mb-4 text-background">INTERNSHIP</p>
-                        <hr class="my-2">
-                        <p class="text-sm flex items-center gap-2"><i class="uil uil-building"></i> <span class="font-medium">{{post.tags.length > 20 ? post.tags.substring(0,20)+"..." : post.tags}}</span> • <span>{{post.location.length > 18 ? post.location.substring(0,18)+"..." : post.location}}</span></p>
-                        <p class="text-sm flex items-center gap-2"><i class="uil uil-bag"></i>in {{post.platform}}</p>
-                        <p class="text-sm flex items-center gap-2 mt-2"><i class="uil uil-upload"></i><span class="text-xs font-medium">{{timeAgo(post.post_date)}}</span></p>
-                    </a>
-                }
-            </div>
-        }@else if(POST_DATAS.length == 0) {
-            <div id="cards" class="mt-8 h-[40vh] flex items-center justify-center flex-col">
-                <img src="assets/images/magnify.png" width="8%" alt="">
-                <p class="font-medium text-xl text-center mt-8">post tidak ditemukan</p>
-            </div>
-        }
+        <div class="" *ngIf="DONE_LOADING == true">
+            <!-- Kalau post lebih dari 0, AKA ada post di list -->
+            @if(POST_DATAS.length > 0){
+                <div id="cards" class="grid lg:grid-cols-3 mt-8 gap-4">
+                    @for (post of POST_DATAS; track post.id) {
+                        <div (click)="openPostDetail(post.id)" class="job-detail cursor-pointer hover:scale-[1.005] duration-100 shadow-md border border-main bg-white p-4 rounded-2xl flex flex-col justify-between">
+                            <div class="">
+                                <!-- TITLE -->
+                                <p class="font-medium text-black mb-2">{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
+                                <!-- SKILLS -->
+                                <div class="flex gap-2 flex-wrap" *ngIf="post.skills && post.skills.length > 0">
+                                    <ng-container *ngFor="let skill of getActiveSkills(post.skills)">
+                                      <button class="text-xs bg-main text-white px-2 py-1 rounded">
+                                        {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
+                                      </button>
+                                    </ng-container>
+                                    <button *ngIf="getRemainingSkills(post.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
+                                      +{{ getRemainingSkills(post.skills).length }}
+                                    </button>
+                                </div>
+                                <!-- ADDITIONAL INFO -->
+                                <p class="text-sm flex items-center gap-2 mt-4"><i class="uil uil-building"></i>{{post.company.length > 38 ? post.company.substring(0,38) + ".." : post.company}}</p>
+                                <p class="text-sm flex items-center gap-2 mt-1"><i class="uil uil-location-point"></i> {{post.type}} • {{post.location}}</p>
+                            </div>
+                            <div class="">
+                                <hr class="my-2">
+                                <div class="flex items-center justify-between gap-3 mt-4">
+                                    <span class="hidden text-white text-xs font-medium bg-orange-500 px-2 py-1">kamu banget</span>
+                                    <div class="flex items-center gap-2 ms-auto">
+                                        <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">muncul di</span></p>
+                                        <div [innerHTML]="getPlatformImage(post.platform)"></div>
+                                        <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgo(post.post_date)}}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }@else {
+                <div class="flex flex-col items-center justify-center min-h-[50vh] text-sm">
+                    <img width="100px" src="assets/img/Logo.png" alt="">
+                    <div class="mt-3 text-center">
+                        <p>waduh, yang kamu cari belum ada</p>
+                        <a routerLink="/" class="text-main">cari lowongan lain</a>
+                    </div>
+                </div>
+            }
+    
+            <!-- Kalau post length == 0 -->
+            <div id="cards-notfound" class="hidden mt-8 h-[60vh] flex items-center justify-center flex-col">
+                <img src="assets/img/magnify.png" width="10%" alt="">
+                <p class="font-medium text-base text-center mt-8">post tidak ditemukan..</p>
+            </div>    
+        </div>
 
+        <div class="flex flex-col gap-2 items-center justify-center min-h-[50vh]" *ngIf="DONE_LOADING == false">
+            <span class="loader"></span>
+            <p class="text-sm">Mencari Lowongan..</p>
+        </div>
 
         <!-- PAGINATION -->
-        <div class="flex flex-col items-center mt-12">
-            <p *ngIf="IS_VERIFIED == false" class="text-sm text-gray-700">you have to login <span class="font-bold">to view more</span></p>
-            <span *ngIf="IS_VERIFIED" class="text-sm text-gray-700 dark:text-gray-400">
-                Showing <span class="font-semibold text-gray-900 dark:text-white">{{((POST_PAGE-1) * POST_LIMIT)+1}}</span> to <span class="font-semibold text-gray-900 dark:text-white">{{POST_PAGE * POST_LIMIT < TOTAL_POST ? POST_PAGE * POST_LIMIT : TOTAL_POST}}</span> of <span class="font-semibold text-gray-900 dark:text-white">{{TOTAL_POST}}</span> Entries
+        <div id="paginations" class="flex flex-col items-center mt-12">
+            <span class="text-sm text-gray-700 dark:text-gray-400">
+                Menampilkan <span class="font-medium">{{POST_PAGE * POST_LIMIT < POST_COUNT ? POST_LIMIT : POST_COUNT}}</span> dari <span class="font-medium">{{POST_COUNT}}</span> Lowongan
             </span>
-            <div class="inline-flex mt-2 xs:mt-0 gap-4">
-                <button (click)="changePage($event)" value="back" [disabled]="POST_PAGE == 1 || IS_VERIFIED == false" class="disabled:bg-main/60 flex items-center justify-center px-6 py-1.5 text-base font-medium text-white bg-main rounded-lg hover:bg-main/90">
-                    back
+            <div class="inline-flex mt-2 xs:mt-0 gap-2">
+                <button [disabled]="POST_PAGE == 1" value="back" (click)="subPage()" class="disabled:bg-main/60 flex items-center justify-center px-3 py-1 text-base font-medium text-white bg-main rounded-lg hover:bg-main/90">
+                    <i class="uil uil-angle-left text-xl"></i>
                 </button>
-                <button (click)="changePage($event)" value="forward" [disabled]="POST_PAGE * POST_LIMIT >= TOTAL_POST || IS_VERIFIED == false" class="disabled:bg-main/60 flex items-center justify-center px-6 py-1.5 text-base font-medium text-white bg-main border-gray-700 rounded-lg hover:bg-main/90">
-                    next
+                <button [disabled]="POST_LIMIT * POST_PAGE >= POST_COUNT" value="forward" (click)="addPage()" class="disabled:bg-main/60 flex items-center justify-center px-3 py-1 text-base font-medium text-white bg-main border-gray-700 rounded-lg hover:bg-main/90">
+                    <i class="uil uil-angle-right text-xl"></i>
                 </button>
             </div>
         </div>
+    </div>
 
+    <!-- TALENT HUNT -->
+    <div class="min-h-[30vh] lg:w-[1100px] mx-auto lg:py-14 pb-14 px-[5%] lg:px-0 flex flex-col items-center lg:items-start">
+        <p class="text-3xl font-bold text-main">Talent Hunt</p>
+        <p class="text-black/80 mt-2 flex items-center gap-2"><i class="uil uil-info-circle"></i> Tempat pamer kebolehan kamu</p>
+
+        <div class="w-full grid lg:grid-cols-3 mt-6 overflow-hidden noise">
+            <div class="lg:col-span-2">
+                <img class="rounded-xl border-2 border-main" src="assets/img/Talent-hunt.png" alt="">
+            </div>
+            <div class="lg:py-12 lg:px-6 lg:p-5 mt-4 lg:mt-0 text-main">
+                <p class="text-xl text-center lg:text-left lg:text-2xl font-semibold">Bergabung di Talent Hunt Internshit!</p>
+                <p class="text-black/70 text-center lg:text-left mt-3">Tempat para recruiter keren bisa nemuin kamu. Daftar sekarang, dan tunjukin semua keahlian kamu!</p>
+                <a routerLink="/talent" class="flex font-medium items-center justify-center py-3 rounded-md w-full bg-main text-white mt-8 lg:mt-6 flex items-center gap-2"><i class="uil uil-arrow-left"></i> Gabung jadi talent</a>
+            </div>
+        </div>
     </div>
 </main>
 
-<!-- POPUP LOGIN -->
-<div id="popup" class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/60 z-30 flex items-center justify-center">
-    <div id="popup-login" class="hidden w-[50%] bg-background noise rounded-md py-8 px-12 relative">
-        <div class="text-center ">
-            <p class="text-4xl font-bold text-thrid">Internshits</p>
-            <p class="text-black/60 text-sm mt-2">platform cari magang dari segala tempat</p>
-        </div>
-        <hr class="my-4">
-        <div id="no-authorized" class="">
-            <p class="text-sm text-black/70 text-center">Dengan bergabung kamu dapat melihat lebih banyak post yang telah dipajang setiap harinya</p>
-            
-            <div class="py-4 flex items-center justify-center">
-                <asl-google-signin-button type='standard' size='large'></asl-google-signin-button>
+<div *ngIf="DONE_LOADING == true" class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/50 flex items-end lg:items-center justify-end lg:justify-center z-30" id="popup-home">
+    <div id="popup-detail-job" class="hidden border-2 border-main popup w-full lg:w-1/2 bg-background noise rounded-t-2xl lg:rounded-3xl overflow-hidden">
+        <div class="h-[85vh] lg:h-[500px] overflow-y-scroll lg:px-8 p-5 pb-20 py-8 relative ">
+            <div *ngIf="DONE_LOADING_DETAIL == true">
+                <button (click)="closePopupDetail()" type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-main font-medium text-base">
+                    <i class="uil uil-arrow-left"></i> Kembali ke Beranda
+                </button>
+    
+                <!-- MAIN INFO -->
+                <div class="w-full">
+                    <div class="grid lg:grid-cols-3 items-start">
+                        <p class="col-span-2 text-2xl font-bold text-main mb-4">{{POST_DATAS_DETAIL.title}}</p>
+                        <button (click)="closePopupDetail()" class="hidden lg:block justify-self-end font-medium text-2xl"><i class="uil uil-multiply"></i></button>
+                    </div>
+                    <p class="flex gap-2 items-center text-black/70"><i class="uil uil-building"></i><span>{{POST_DATAS_DETAIL.company}}</span></p>
+                    <p class="flex gap-2 items-center text-black/70 mt-1"><i class="uil uil-map-marker-alt"></i> <span>{{POST_DATAS_DETAIL.location}}</span></p>
+                    <div class="flex gap-4 items-center mt-4 ">
+                        <a id="popup-link" [href]="POST_DATAS_DETAIL.link" target="_blank" class="w-max px-8 block py-2.5 self-start rounded-lg text-sm font-medium bg-main text-white shadow-md hover:scale-[1.01]"><i class="uil uil-external-link-alt"></i> Buka di <span id="popup-platform">Jobstreet</span></a>
+                    </div>
+                </div>
+    
+                
+                <div *ngIf="POST_DATAS_DETAIL.skills.length > 0" id="skills-need" class="justify-self-start">
+                    <hr class="my-4">
+                    <p class="font-medium text-black/70">Keahlian yang dibutuhkan</p>
+                    <div class="flex gap-3 mt-4 flex-wrap" *ngIf="POST_DATAS_DETAIL.skills && POST_DATAS_DETAIL.skills.length > 0">
+                        <ng-container *ngFor="let skill of POST_DATAS_DETAIL.skills">
+                          <button class="text-sm self-start bg-main text-white px-2.5 py-1.5 rounded-md">
+                            {{ skill.skill }}
+                          </button>
+                        </ng-container>
+                    </div>
+                </div>
+                
+                <hr class="my-4">
+    
+                <div *ngIf="POST_DATAS_DETAIL.overview.length > 8">
+                    <p class="text-black/60 font-bold mt-4 text-xl">Ringkasan Pekerjaan</p>
+                    <p id="popup-overview" class="mt-4 text-black/70 no-tailwind" [innerHTML]="POST_DATAS_DETAIL.overview"></p>
+                </div>
             </div>
-
-            <p class="text-xs mt-2 text-center">Dengan melanjutkan, anda menyetujui <a target="_blank" href="/terms-of-service" class="text-second">Terms of Service</a> dan <a target="_blank" class="text-second" href="/privacy-policy">Privacy Policy</a> kami</p>
+            <div class="flex flex-col gap-2 items-center justify-center h-full" *ngIf="DONE_LOADING_DETAIL == false">
+                <span class="loader"></span>
+                <p class="text-sm">Menyusun Data Lowongan..</p>
+            </div>
         </div>
-
-        <button id="close-login" class="rounded-full w-10 h-10 flex items-center justify-center absolute top-0 right-0">
-            <i class="uil uil-times text-xl"></i>
-        </button>
     </div>
 </div>
