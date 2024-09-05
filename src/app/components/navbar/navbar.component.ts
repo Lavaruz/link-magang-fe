@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { CommonModule, NgIf } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { UserInterface } from '../../interface/user.interface';
 import $ from "jquery"
@@ -9,7 +9,7 @@ import $ from "jquery"
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgIf, RouterLink, CommonModule],
+  imports: [NgIf, RouterLink,RouterLinkActive, CommonModule],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit {
