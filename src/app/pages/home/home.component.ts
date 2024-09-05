@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
 
   POST_DATAS:any
   POST_DATAS_DETAIL:any
-  POST_LIMIT:number = 9
+  POST_LIMIT:number = 3
   POST_PAGE:number = 1
   POST_COUNT:number = 0
   SHOW_PAGINATION = true

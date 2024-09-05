@@ -49,4 +49,25 @@ export class UserService {
     const isVerified = await this.requestService.getEncryptedRequest(`/api/v1/users/verify-token`)
     return isVerified
   }
+
+
+  // -------------- USER RELEATED ----------------
+
+  async GetAllLocations() {
+    try {
+      const locationsData = await this.requestService.getEncryptedRequest(`/api/v1/users/locations`);
+      return locationsData
+    } catch (error) {
+      console.error('Error on Get Membership Price:', error);
+    }
+  }
+
+  async GetAllSkills() {
+    try {
+      const skillsData = await this.requestService.getEncryptedRequest(`/api/v1/users/skills`);
+      return skillsData
+    } catch (error) {
+      console.error('Error on Get Membership Price:', error);
+    }
+  }
 }

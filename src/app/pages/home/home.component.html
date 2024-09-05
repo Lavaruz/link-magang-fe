@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 
 <main class="noise">
-    <div class="min-h-screen lg:w-[1100px] mx-auto py-6 lg:py-10 pb-20 px-[5%] lg:px-0">
+    <div class="min-h-screen lg:w-[1100px] mx-auto py-6 lg:py-10 pb-12 px-[5%] lg:px-0">
 
         <!-- HERO -->
         <div class="my-6 grid items-center justify-center text-center">
@@ -89,22 +89,7 @@
         <div class="flex flex-col gap-2 items-center justify-center min-h-[50vh]" *ngIf="DONE_LOADING == false">
             <span class="loader"></span>
             <p class="text-sm">Mencari Lowongan..</p>
-        </div>
-
-        <!-- PAGINATION -->
-        <div id="paginations" class="flex flex-col items-center mt-12">
-            <span class="text-sm text-gray-700 dark:text-gray-400">
-                Menampilkan <span class="font-medium">{{POST_PAGE * POST_LIMIT < POST_COUNT ? POST_LIMIT : POST_COUNT}}</span> dari <span class="font-medium">{{POST_COUNT}}</span> Lowongan
-            </span>
-            <div class="inline-flex mt-2 xs:mt-0 gap-2">
-                <button [disabled]="POST_PAGE == 1" value="back" (click)="subPage()" class="disabled:bg-main/60 flex items-center justify-center px-3 py-1 text-base font-medium text-white bg-main rounded-lg hover:bg-main/90">
-                    <i class="uil uil-angle-left text-xl"></i>
-                </button>
-                <button [disabled]="POST_LIMIT * POST_PAGE >= POST_COUNT" value="forward" (click)="addPage()" class="disabled:bg-main/60 flex items-center justify-center px-3 py-1 text-base font-medium text-white bg-main border-gray-700 rounded-lg hover:bg-main/90">
-                    <i class="uil uil-angle-right text-xl"></i>
-                </button>
-            </div>
-        </div>
+        </div>        
     </div>
 
     <!-- TALENT HUNT -->

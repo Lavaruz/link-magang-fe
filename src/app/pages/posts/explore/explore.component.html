@@ -4,48 +4,156 @@
         <!-- SUB NAVBAR -->
         <app-post-navbar></app-post-navbar>
 
-        <div class="grid grid-cols-10 gap-4 mt-8">
-            <div class="col-span-2">
-                <input type="search" placeholder="Cari Lowongan" class="block border-2 border-gray-300 w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder:text-black/30 font-medium text-black/70 focus:outline-none focus:ring-0 focus:border-main" name="" id="">
-                <!-- FILTER -->
-                <div class="mt-6">
-                    <div class="flex justify-between mb-3">
-                        <p class="font-medium text-sm">FILTER</p>
-                        <button class="font-medium text-xs text-main">Reset</button>
-                    </div>
-                    <div class="flex flex-col gap-4">
-                        <select class="block border-2 border-gray-300 w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder:text-black/30 font-medium text-black/70 focus:outline-none focus:ring-0 focus:border-main" name="" id="">
-                            <option value="">Lokasi</option>
-                        </select>
+        <div class="grid grid-cols-8 gap-8 mt-8">
 
-                        <select class="block border-2 border-gray-300 w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder:text-black/30 font-medium text-black/70 focus:outline-none focus:ring-0 focus:border-main" name="" id="">
-                            <option value="">Keahlian</option>
-                        </select>
-
-                        <select class="block border-2 border-gray-300 w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder:text-black/30 font-medium text-black/70 focus:outline-none focus:ring-0 focus:border-main" name="" id="">
-                            <option value="">Tipe Pekerjaan</option>
-                        </select>
+            <!-- SEARCH TOOLS -->
+            <div class="col-span-2 bg-white p-5 rounded-xl border border-gray-300 noise self-start pb-8">
+                <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()" class="">
+                    <div class="relative z-0">
+                        <input formControlName="search" type="text" id="post_search" class="font-medium block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-main focus:outline-none focus:ring-0 focus:border-main peer px-3" placeholder=" " />
+                        <label for="post_search" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-main peer-focus:dark:text-main peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"><i class="uil uil-search"></i> Jelajahi lowongan..</label>
                     </div>
-                </div>
+                    <!-- FILTER -->
+                    <div class="mt-6">
+                        <div class="flex justify-between mb-3">
+                            <p class="font-medium text-sm">FILTER</p>
+                            <button class="font-medium text-xs text-main">Reset</button>
+                        </div>
 
-                <!-- SORT -->
-                <div class="mt-6">
-                    <div class="flex justify-between mb-3">
-                        <p class="font-medium text-sm">URUTKAN</p>
-                        <button class="font-medium text-xs text-main">Reset</button>
-                    </div>
-                    <div class="flex flex-col gap-4">
-                        <select class="block border-2 border-gray-300 w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder:text-black/30 font-medium text-black/70 focus:outline-none focus:ring-0 focus:border-main" name="" id="">
-                            <option value="">Relefansi</option>
-                        </select>
+                        <div class="flex flex-col gap-2">
+                            <!-- FILTER BY LOKASI -->
+                            <div class="">
+                                <button (click)="expandSidebar(sidebarLocation)" #sidebarLocation class="w-full flex items-center justify-between py-2">
+                                    <p>Lokasi</p>
+                                    <i class="uil uil-angle-down"></i>
+                                </button>
+                                <div class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                                    @if(LOCATION_DATAS.length > 0){
+                                        @for(data of LOCATION_DATAS; track data.id){
+                                            <div class="flex items-center gap-2 text-sm">
+                                                <input type="checkbox" name="" id="{{'location-'+data.id}}" class="rounded outline-none focus:ring-0">
+                                                <label for="{{'location-'+data.id}}">{{data.location}}</label>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
 
-                        <select class="block border-2 border-gray-300 w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder:text-black/30 font-medium text-black/70 focus:outline-none focus:ring-0 focus:border-main" name="" id="">
-                            <option value="">Tanggal diunggah</option>
-                        </select>
+                            <hr>
+
+                            <!-- FILTER BY KEAHLIAN -->
+                            <div class="">
+                                <button (click)="expandSidebar(sidebarSkills)" #sidebarSkills class="w-full flex items-center justify-between py-2">
+                                    <p>Keahlian</p>
+                                    <i class="uil uil-angle-down"></i>
+                                </button>
+                                <div class="mt-1 hidden flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                                    @if(SKILL_DATAS.length > 0){
+                                        @for(data of SKILL_DATAS; track data.id){
+                                            <div class="flex items-center gap-2 text-sm">
+                                                <input type="checkbox" name="" id="{{'location-'+data.id}}" class="rounded outline-none focus:ring-0">
+                                                <label for="{{'skill-'+data.id}}">{{data.skill}}</label>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <!-- FILTER BY TIPE PEKERJAAN -->
+                            <div class="">
+                                <button (click)="expandSidebar(sidebarJobtype)" #sidebarJobtype class="w-full flex items-center justify-between py-2">
+                                    <p>Tipe Pekerjaan</p>
+                                    <i class="uil uil-angle-down"></i>
+                                </button>
+                                <div class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" name="" id="internshit" class="rounded outline-none focus:ring-0">
+                                        <label for="internshit">Internship</label>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" name="" id="fulltime" class="rounded outline-none focus:ring-0">
+                                        <label for="fulltime">Full-Time</label>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" name="" id="parttime" class="rounded outline-none focus:ring-0">
+                                        <label for="parttime">Part-Time</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
-            <div class="col-span-8 bg-main">s</div>
+
+
+            <!-- JOBS -->
+            <div *ngIf="DONE_LOADING == true" class="col-span-6">
+                <span class="text-sm text-gray-700 dark:text-gray-400">
+                    Menampilkan <span class="font-medium">{{POST_PAGE * POST_LIMIT < POST_COUNT ? POST_LIMIT : POST_COUNT}}</span> dari <span class="font-medium">{{POST_COUNT}}</span> Lowongan
+                </span>
+                @if(POST_DATAS.length > 0){
+                    <div id="cards" class="mt-4 grid lg:grid-cols-2 gap-4">
+                        @for (post of POST_DATAS; track post.id) {
+                            <div (click)="openPostDetail(post.id)" class="job-detail cursor-pointer hover:scale-[1.005] duration-100 shadow-md border border-main bg-white p-4 rounded-2xl flex flex-col justify-between">
+                                <div class="">
+                                    <!-- TITLE -->
+                                    <p class="font-medium text-black mb-2">{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
+                                    <!-- SKILLS -->
+                                    <div class="flex gap-2 flex-wrap" *ngIf="post.skills && post.skills.length > 0">
+                                        <ng-container *ngFor="let skill of getActiveSkills(post.skills)">
+                                            <button class="text-xs bg-main text-white px-2 py-1 rounded">
+                                            {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
+                                            </button>
+                                        </ng-container>
+                                        <button *ngIf="getRemainingSkills(post.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
+                                            +{{ getRemainingSkills(post.skills).length }}
+                                        </button>
+                                    </div>
+                                    <!-- ADDITIONAL INFO -->
+                                    <p class="text-sm flex items-center gap-2 mt-4"><i class="uil uil-building"></i>{{post.company.length > 38 ? post.company.substring(0,38) + ".." : post.company}}</p>
+                                    <p class="text-sm flex items-center gap-2 mt-1"><i class="uil uil-location-point"></i> {{post.type}} • {{post.location}}</p>
+                                </div>
+                                <div class="">
+                                    <hr class="my-2">
+                                    <div class="flex items-center justify-between gap-3 mt-4">
+                                        <span class="hidden text-white text-xs font-medium bg-orange-500 px-2 py-1">kamu banget</span>
+                                        <div class="flex items-center gap-2 ms-auto">
+                                            <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">muncul di</span></p>
+                                            <div [innerHTML]="getPlatformImage(post.platform)"></div>
+                                            <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgo(post.post_date)}}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div *ngIf="SHOW_PAGINATION && POST_LIMIT < POST_COUNT" id="paginations" class="flex flex-col items-center mt-12">
+                        <div class="inline-flex mt-2 xs:mt-0 gap-2">
+                            <button [disabled]="POST_PAGE == 1" value="back" (click)="subPage()" class="disabled:bg-main/60 flex items-center justify-center px-3 py-1 text-base font-medium text-white bg-main rounded-lg hover:bg-main/90">
+                                <i class="uil uil-angle-left text-xl"></i>
+                            </button>
+                            <button [disabled]="POST_LIMIT * POST_PAGE >= POST_COUNT" value="forward" (click)="addPage()" class="disabled:bg-main/60 flex items-center justify-center px-3 py-1 text-base font-medium text-white bg-main border-gray-700 rounded-lg hover:bg-main/90">
+                                <i class="uil uil-angle-right text-xl"></i>
+                            </button>
+                        </div>
+                    </div>
+                }@else {
+                    <div class="flex flex-col items-center justify-center min-h-[50vh] text-sm">
+                        <img width="100px" src="assets/img/Logo.png" alt="">
+                        <div class="mt-3 text-center">
+                            <p>waduh, yang kamu cari belum ada</p>
+                            <a routerLink="/" class="text-main">cari lowongan lain</a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-span-6 flex flex-col gap-2 items-center justify-center min-h-[40vh]" *ngIf="DONE_LOADING == false">
+                <span class="loader"></span>
+                <p class="text-sm">Menjelajahi lowongan..</p>
+            </div>
         </div>
         
         <!-- <div class="flex flex-col items-center justify-center min-h-[50vh] text-sm">
