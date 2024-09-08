@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { CommonModule, NgIf } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { UserInterface } from '../../interface/user.interface';
 import $ from "jquery"
+
+declare var google: any;
 
 @Component({
   selector: 'app-navbar',
@@ -12,29 +14,43 @@ import $ from "jquery"
   imports: [NgIf, RouterLink,RouterLinkActive, CommonModule],
   templateUrl: './navbar.component.html',
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, AfterViewInit {
 
-  IS_VERIFIED:any
+  router = inject(Router)
+
+  IS_LOGIN:any
   USER!: UserInterface
+  DONE_LOADING = false
 
   constructor(private userService: UserService, private authService: SocialAuthService){}
 
-  async ngOnInit(){
-    this.IS_VERIFIED = await this.userService.verifyToken()
-    
-    if(!this.IS_VERIFIED){
-      this.authService.authState.subscribe((user) => {
-        console.log(user);
-        
-        this.userService.loginUser(user).then(result => {
-          window.location.href = "/profile"
-        }).catch((e:any) => {
-          console.log(e);
-        })
+  ngOnInit(){
+    this.IS_LOGIN = this.userService.checkAuth()
+    this.userService.getUserData().then(userData => {
+      this.USER = userData
+      this.DONE_LOADING = true
+    })
+  }
+
+  ngAfterViewInit(): void {
+    window.onload = () => {
+      google.accounts.id.initialize({
+        client_id: "698401836212-gi5ntasmqfae7hiu2q0qu8i2h2gco82h.apps.googleusercontent.com",
+        callback: (response: any) => this.handleGoogleSignIn(response)
       });
-    }else{
-      this.USER = await this.userService.getUserData()
+      google.accounts.id.renderButton(
+        document.getElementById("button-google"),
+        { size: "large", type: "standard", shape: "pill", text:"continue_with" }  // customization attributes
+      );
     }
+  }
+
+  handleGoogleSignIn(response: any) {
+    this.userService.googleLoginHandler(response.credential).then(userAuthenticate => {
+      this.userService.setCookie(userAuthenticate, "userAuthenticate")
+      this.router.navigate(["/profile/me"])
+      $("body").css("overflow", "auto");
+    })
   }
 
 

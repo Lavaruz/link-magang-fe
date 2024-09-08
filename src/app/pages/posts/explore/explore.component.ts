@@ -22,25 +22,26 @@ export class ExploreComponent implements OnInit {
 
   FORM_SEARCH:FormGroup = new FormGroup("")
 
-  SHOW_PAGINATION = true
+  SHOW_MORE_BUTTON = true
   POST_PAGE = 1
   POST_LIMIT = 6
-  POST_DATAS:any
+  POST_DATAS:any = []
   POST_DATAS_DETAIL:any
   POST_COUNT = 0
 
   LOCATION_DATAS:any
   SKILL_DATAS:any
 
+  IS_BUTTON_LOADING = false
+
   DONE_LOADING = false
   DONE_LOADING_DETAIL = false
+  DONE_LOADING_SIDEBAR = false
   QUERY:any
 
   ngOnInit(): void {
     this.aRoute.queryParams.subscribe(params => {
-      this.SHOW_PAGINATION = true
       this.POST_PAGE = parseFloat(params["page"]) || 1
-      this.DONE_LOADING = false
       this.QUERY = {
         limit: this.POST_LIMIT,
         page: this.POST_PAGE,
@@ -53,10 +54,8 @@ export class ExploreComponent implements OnInit {
         this.LOCATION_DATAS = locationData
         this.userService.GetAllSkills().then(skillsData => {
           this.SKILL_DATAS = skillsData
-          this.callGetPost()
-          setTimeout(() => {
-            this.DONE_LOADING = true
-          }, 1000)
+          this.DONE_LOADING_SIDEBAR = true
+          params["search"] ? this.SHOW_MORE_BUTTON = false : this.SHOW_MORE_BUTTON = true
         })
       })
 
@@ -65,10 +64,13 @@ export class ExploreComponent implements OnInit {
       })
     })
     
+    this.callGetPost()
+    
   }
 
 
   callGetPost(){
+    this.QUERY.limit = 6
     this.postService.GetAllPosts(this.QUERY).then(postData => {
       this.POST_DATAS = postData.datas
       this.POST_LIMIT = postData.limit
@@ -76,10 +78,26 @@ export class ExploreComponent implements OnInit {
 
       this.postService.GetCountAllPosts().then(postCount => {
         this.POST_COUNT = postCount
+        this.DONE_LOADING = true
       })
       
     })
+  }
 
+  resetFilter(){
+    this.QUERY.limit = 6
+    this.QUERY.page = 1
+    this.POST_DATAS = []
+    this.SHOW_MORE_BUTTON = true
+    this.router.navigate([], {
+      queryParams: {
+        'search': null,
+        'location': null,
+        'skills': null,
+        'page': null
+      },
+      queryParamsHandling: 'merge'
+    })
   }
 
   submitFormSearch(){
@@ -90,7 +108,7 @@ export class ExploreComponent implements OnInit {
       this.QUERY.limit = 999
       this.QUERY.page = 1
     }else{
-      this.QUERY.limit = 9
+      this.QUERY.limit = 6
     }
 
     this.router.navigate(
@@ -100,37 +118,25 @@ export class ExploreComponent implements OnInit {
       }
     )
 
-    this.callGetPost()
-    this.SHOW_PAGINATION = false
+    this.postService.GetAllPosts(this.QUERY).then(postData => {
+      this.POST_DATAS = postData.datas
+      this.POST_LIMIT = postData.limit
+      this.POST_PAGE = postData.page  
+      this.SHOW_MORE_BUTTON = false
+    })
   }
 
 
   addPage(){
+    this.IS_BUTTON_LOADING = true
     this.POST_PAGE++
     this.QUERY["page"] = this.POST_PAGE
-    this.router.navigate(
-      [],{
-        queryParams: { page: this.POST_PAGE },
-        queryParamsHandling: "merge"
-      }
-    )
-    this.callGetPost()
-    window.scrollTo(0,0)
-  }
-  subPage(){
-    this.POST_PAGE--
-    this.QUERY["page"] = this.POST_PAGE
-    this.router.navigate(
-      [],{
-        queryParams: { page: this.POST_PAGE },
-        queryParamsHandling: "merge"
-      }
-    )
-    this.callGetPost()
-    window.scrollTo(0,0)
-  }
 
-
+    this.postService.GetAllPosts(this.QUERY).then(postData => {
+      this.POST_DATAS.push(...postData.datas)
+      this.IS_BUTTON_LOADING = false
+    })
+  }
 
 
   expandSidebar(evt: any){
@@ -146,9 +152,7 @@ export class ExploreComponent implements OnInit {
       $("body").css("overflow", "hidden")
       this.postService.GetPostById(id).then(postData => {
         this.POST_DATAS_DETAIL = postData
-        setTimeout(() => {
-          this.DONE_LOADING_DETAIL = true
-        }, 1000)
+        this.DONE_LOADING_DETAIL = true
       })
     }).css("display", "flex")
   }
@@ -200,8 +204,12 @@ export class ExploreComponent implements OnInit {
           return '<img class="w-5 h-5 rounded-lg" src="assets/img/Jobstreet.png" alt="JobStreet">';
       case 'Indeed':
           return '<img class="w-5 h-5 rounded-lg" src="assets/img/Indeed.png" alt="Indeed">';
+      case 'Dealls':
+          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Dealls.png" alt="Dealls">';
+      case 'Kitalulus':
+          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Kitalulus.png" alt="Kitalulus">';
       default:
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Default.png" alt="Default">';
+          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Other.png" alt="Default">';
     }
   }
 

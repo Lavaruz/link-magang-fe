@@ -7,23 +7,24 @@ import { UserInterface } from '../../../interface/user.interface';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section class="w-full border border-main rounded-2xl bg-white noise overflow-hidden shadow-lg mt-4">
-      <div class="flex justify-between py-4 px-8 bg-main">
-          <p class="text-sm font-medium text-background flex items-center gap-2"><i class="uil uil-bag"></i>PROFILE SUMMARY</p>
-          <button (click)="openPopup('summary')" class="text-sm text-background flex items-center gap-2"><i class="uil uil-pen"></i>Edit</button>
-      </div>
-      <div class="py-4 pb-8 px-8">
-          <!-- <p class="text-black/80">{{USER.summary}}</p> -->
-          <div *ngIf="userData.summary == null" class="flex flex-col text-center justify-center py-4">
-              <p class="font-bold">Tambahkan tentang kamu disini!</p>
-              <p class="text-black/80 w-[85%] mx-auto mt-1">Ini adalah kesempatanmu untuk menyampaikan tentang dirimu, sehingga orang lain dapat melihat sekilas Anda sebagai kandidat.</p>
-              <button (click)="openPopup('summary')" type="button" class="text-white bg-main/90 w-max mx-auto px-6 py-1.5 rounded mt-4 flex items-center gap-2"><i class="uil uil-plus"></i>Add Profile Summary</button>
-          </div>
-          <div *ngIf="userData.summary" class="">
-              <p class="text-black/80" style="white-space: pre-line;">{{userData.summary}}</p>
-          </div>
-      </div>
-    </section>
+    <div class="profile-summary rounded-2xl overflow-hidden shadow-md border-2 border-main">
+        <div class="w-100 bg-main flex items-center justify-between px-5 py-3">
+            <p class="text-white flex items-center gap-2"><i class="uil uil-user"></i> RINGKASAN PROFIL</p>
+            <p (click)="openPopup('summary')" id="edit-profile-summary" class="cursor-pointer text-white text-sm font-second flex items-center gap-2">Edit</p>
+        </div>
+        <div id="profile-summary" class="w-full p-5 pb-6 noise bg-white border-2 lg:border-0 border-header lg:rounded-b-2xl">
+            @if(userData.summary && userData.summary.length !== 0){
+              <div id="on-summary" class="" [innerHTML]="userData.summary"></div>
+            }@else{
+              <div id="off-summary" class="text-center">
+                  <p class="font-bold text-base text-main mb-3">Tulis ringkasan profil kamu disini!</p>
+                  <p class="font-second text-black/80 text-sm font-medium px-2 lg:px-24 mb-5 lg:mb-2">Ini kesempatan bagus untuk menunjukan siapa diri kamu secara ringkas, sehingga orang lain mendapatkan gambaran tentang dirimu.</p>
+                  <button id="button-profile-summary" class="flex items-center gap-1 bg-main text-white rounded-lg text-sm py-2 px-4 m-auto mt-4">Tambahkan ringkasan profil
+                  </button>
+              </div>
+            }
+        </div>
+    </div>
   `,
 })
 export class ProfileSummaryComponent {

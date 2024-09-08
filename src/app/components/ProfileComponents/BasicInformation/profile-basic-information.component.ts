@@ -1,76 +1,64 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { UserInterface } from '../../../interface/user.interface';
+import { UtilsService } from '../../../services/utils.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-profile-basic-information',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   template: `
-    <section class="w-full border border-main rounded-2xl bg-white noise overflow-hidden shadow-lg">
-      <div class="flex justify-between py-4 px-8 bg-main">
-          <p class="text-sm font-medium text-background flex items-center gap-2"><i class="uil uil-user"></i>BASIC INFORMATION</p>
-          <button (click)="openPopup('basic')" class="text-sm text-background flex items-center gap-2"><i class="uil uil-pen"></i>Edit</button>
-      </div>
-      @if(userData){
-          <div class="flex gap-6 py-6 px-8">
-              <!-- PROFILE PICTURE -->
-              <div class="max-w-20 w-20 overflow-hidden min-w-20 max-h-20 h-20 min-h-20 rounded-full bg-main">
-                  <img [src]="userData.profile_picture" alt="{{userData.firstname}} photo profile">
-              </div>
-
-              <!-- MAIN BASIC INFORMATION -->
-              <div class="w-full">
-                  <!-- USERNAME AND PROFILE BADGE -->
-                  <div class="">
-                      <div class="flex items-center gap-2">
-                          <p class="text-2xl font-bold">{{userData.firstname}} {{userData.lastname ? userData.lastname : ""}}</p>
-                          <span class="bg-gradient-to-tr from-green-400 to-amber-500 text-xs text-white font-medium me-2 px-2.5 py-0.5 rounded">Founder</span>
-                      </div>
-                      <p class="text-black/60">Backend Developer at Enviromate Technology International</p>
-                  </div>
-
-                  <hr class="my-4">
-
-                  <!-- ADDITIONAL INFORMATION -->
-                  <div class="flex flex-col gap-4">
-                      <div class="flex items-center gap-12">
-                          <div class="">
-                              <p class="text-sm text-black/60 font-medium">EMAIL</p>
-                              <p class="text-black/80">{{userData.email}}</p>
-                          </div>
-                      </div>
-
-                      <div class="grid grid-cols-2 gap-y-4">
-                          <div class="">
-                              <p class="text-sm text-black/60 font-medium">MOBILE</p>
-                              <p class="text-black/80">{{userData.mobile ? userData.mobile : "no data"}}</p>
-                          </div>
-                          <div class="">
-                              <p class="text-sm text-black/60 font-medium">BIRTHDAY</p>
-                              <p class="text-black/80">{{userData.date_of_birth ? userData.date_of_birth : "no data"}}</p>
-                          </div>
-
-                          <div class="">
-                              <p class="text-sm text-black/60 font-medium">SEX</p>
-                              <p class="text-black/80">{{userData.sex ? userData.sex : "no data"}}</p>
-                          </div>
-                          <div class="">
-                              <p class="text-sm text-black/60 font-medium">DOMICILE</p>
-                              <p class="text-black/80">{{userData.domicile ? userData.domicile : "no data"}}</p>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      }
-  </section>
+    <div class="basic-info rounded-2xl overflow-hidden shadow-md border-2 border-main">
+        <div class="lg:w-100 bg-main flex items-center justify-between px-5 py-3">
+            <p class="text-white flex items-center gap-2"><i class="uil uil-info-circle"></i> INFORMASI BASIC</p>
+            <button (click)="openPopup('basic')" id="edit-basic-info" class="cursor-pointer text-white text-sm font-second flex items-center gap-2">Edit</button>
+        </div>
+        <div class="lg:w-100 p-5 pb-6 bg-white noise lg:rounded-none border-2 lg:border-0 border-header">
+            <div class="lg:flex lg:items-start lg:gap-5">
+                <div class="w-[88px] h-[88px] min-w-[88px] min-h-[88px] rounded-full overflow-hidden mx-auto lg:mx-0">
+                    <img id="basic-profile-pic" [src]="userData.profile_picture" onerror="src='assets/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
+                </div>
+                <div class="w-full">
+                    <div class="mb-4 text-center lg:text-left">
+                        <p id="basic-fullname" class="font-bold text-xl text-main">
+                            {{userData.firstname}} {{userData.lastname || ""}}
+                            <i *ngIf="userData.sex === 'Male'" class="uil uil-mars text-blue-500"></i>
+                            <i *ngIf="userData.sex === 'Female'" class="uil uil-venus text-pink-500"></i>
+                        </p>
+                        <p id="basic-headline" class="text-sm text-thrid/60 font-medium">{{userData.headline || ""}}</p>
+                    </div>
+                    <hr>
+                    <div class="grid grid-cols-2 w-full gap-3 pt-4 text-white">
+                        <div class="col-span-2">
+                            <span class="text-thrid/60 font-medium text-sm">EMAIL</span>
+                            <p id="basic-email" class="text-second/80 font-second font-medium text-sm">{{userData.email || "-"}}</p>
+                        </div>
+                        <div class="">
+                            <span class="text-thrid/60 font-medium text-sm">NO HP</span>
+                            <p id="basic-mobile" class="text-second/80 font-second font-medium text-sm">{{userData.mobile || "-"}}</p>
+                        </div>
+                        <div class="">
+                            <span class="text-thrid/60 font-medium text-sm">TANGGAL LAHIR</span>
+                            <p id="basic-birthdate" class="text-second/80 font-second font-medium text-sm">{{ utilsService.formatIndonesianDateFull(userData.date_of_birth) || "-"}}</p>
+                        </div>
+                        <div class="">
+                            <span class="text-thrid/60 font-medium text-sm">DOMISILI</span>
+                            <p id="basic-domicile" class="text-second/80 font-second font-medium text-sm">{{userData.domicile || "-"}}</p>
+                        </div>
+                        <div class="">
+                            <span class="text-thrid/60 font-medium text-sm">PREFERENSI PEKERJAAN</span>
+                            <p id="basic-pref-status" class="text-second/80 font-second font-medium text-sm">{{userData.work_pref_status}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
   `
 })
-export class ProfileBasicInformationComponent implements OnInit {
+export class ProfileBasicInformationComponent {
   @Input() userData!:UserInterface
   @Input() openPopup:any  
 
-  ngOnInit() {
-    
-  }
+  utilsService = inject(UtilsService)
 }

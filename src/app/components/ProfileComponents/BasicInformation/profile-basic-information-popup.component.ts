@@ -9,92 +9,140 @@ import $ from "jquery"
   standalone: true,
   imports: [ReactiveFormsModule],
   template: `
-    <div class="hidden popup popup-basic border-2 border-header w-full lg:w-[720px] rounded-t-2xl lg:rounded-2xl overflow-hidden">
-      <div class="hidden lg:flex header bg-main justify-between px-5 py-3 items-center">
-          <p class="font-normal text-white text-base tracking-[1.6px] flex items-center gap-2">EDITING BASIC INFORMATION</p>
-          <p class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</p>
-      </div>
+    <div class="hidden popup popup-basic border-2 border-main w-full lg:w-[720px] rounded-2xl lg:rounded-2xl overflow-hidden">
+      <form id="form-basic-information" [formGroup]="formBasic">
+          <div class="hidden lg:flex header bg-main justify-between px-5 py-3 items-center">
+              <p class="font-normal text-white text-base tracking-[1.6px] flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <path d="M10.0002 10C9.0835 10 8.29877 9.67362 7.646 9.02084C6.99322 8.36807 6.66683 7.58334 6.66683 6.66668C6.66683 5.75001 6.99322 4.96529 7.646 4.31251C8.29877 3.65973 9.0835 3.33334 10.0002 3.33334C10.9168 3.33334 11.7016 3.65973 12.3543 4.31251C13.0071 4.96529 13.3335 5.75001 13.3335 6.66668C13.3335 7.58334 13.0071 8.36807 12.3543 9.02084C11.7016 9.67362 10.9168 10 10.0002 10ZM5.00016 16.6667C4.54183 16.6667 4.14947 16.5035 3.82308 16.1771C3.49669 15.8507 3.3335 15.4583 3.3335 15V14.3333C3.3335 13.8611 3.45502 13.4271 3.69808 13.0313C3.94113 12.6354 4.26405 12.3333 4.66683 12.125C5.52794 11.6945 6.40294 11.3715 7.29183 11.1563C8.18072 10.941 9.0835 10.8333 10.0002 10.8333C10.9168 10.8333 11.8196 10.941 12.7085 11.1563C13.5974 11.3715 14.4724 11.6945 15.3335 12.125C15.7363 12.3333 16.0592 12.6354 16.3022 13.0313C16.5453 13.4271 16.6668 13.8611 16.6668 14.3333V15C16.6668 15.4583 16.5036 15.8507 16.1772 16.1771C15.8509 16.5035 15.4585 16.6667 15.0002 16.6667H5.00016Z" fill="white"/>
+              </svg> MENGEDIT INFORMASI BASIC</p>
+              <button (click)="closePopup('basic')" class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</button>
+          </div>
 
-      <div class="relative body bg-background noise lg:bg-body divide-y divide-main h-[92vh] lg:h-[500px] overflow-y-scroll p-5">
-        <form [formGroup]="formBasic" (submit)="submitBasic()">
-          <!-- UPLOAD PROFILE PICTURE -->
-          <div class="py-5">
-              <p class="font-bold text-xl lg:text-lg text-main mb-3">Profile Picture</p>
-              <div class="flex items-center gap-5">
-                  <div class="min-w-[88px] max-w-[88px] min-h-[88px] max-h-[88px] rounded-full overflow-hidden">
-                      <img id="popup-profile-pic" [src]="userData.profile_picture" onerror="this.src='assets/images/no-profile.jpg'" alt="{{userData.firstname}} profile-picture" class="w-full h-full object-cover">
+          <div class="relative body bg-background noise lg:bg-body h-[85vh] lg:h-[500px] overflow-y-scroll">
+              <!-- BASIC INPUT -->
+              <div id="basic-input" class="divide-y divide-gray-300">
+                  <!-- PROFILE PICTURE HANDLE -->
+                  <div class="p-5">
+                      <p class="font-bold text-xl lg:text-lg text-main mb-3">Foto Profil</p>
+                      <div class="flex items-center gap-5">
+                          <div class="min-w-[88px] max-w-[88px] min-h-[88px] max-h-[88px] rounded-full overflow-hidden border-2 border-main bg-main">
+                              <img id="popup-profile-pic" [src]="userData.profile_picture" onerror="src='assets/img/no-profile.jpg'" alt="profile-pic" class="w-full h-full object-cover">
+                          </div>
+                          <div class="">
+                              <div class="hidden lg:block">
+                                  <p class="text-white-60 font-second text-sm font-medium mb-2">Pilih foto profil yang paling menampilkan personamu.<br>
+                              </div>
+                              <button id="button-choose-profile-pic" type="button" class="flex items-center gap-1 bg-main text-white text-sm py-2 px-4 rounded-lg">Pilih foto profil</button>
+                          </div>
+                      </div>
+                      <div class="lg:hidden pt-4">
+                          <p class="text-white-60 font-second text-sm font-medium mb-2">Pilih foto profil yang paling menampilkan personamu.<br>
+                      </div>
                   </div>
 
-                  <div class="">
-                      <div class="hidden lg:block">
-                          <p class="text-white-60 font-second text-sm font-medium mb-2">Make sure your profile picture is professional and shows your face clearly.<br>
-                          <span class="text-main">Maximum file size is 1 MB.</span></p>
+                  <!-- BASIC INFORMATION, EMAIL, FIRSTNAME, LASTNAME, DLL -->
+                  <div class="p-5">
+                      <p class="font-bold text-xl lg:text-lg text-main mb-3">Informasi Basic</p>
+                      <div class="lg:flex gap-5 mb-4">
+                          <label class="block">
+                              <label class="block mb-1 text-white-60 tracking-[1.4px] font-normal text-sm">NAMA DEPAN</label>
+                              <input formControlName="firstname" id="popup-firstname" type="text" name="firstname" placeholder="Ex. Assami" class="block border-2 border-gray-300 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder:text-black/40 text-black/80"/>
+                          </label>
+                          <label class="block mt-4 lg:mt-0">
+                              <label class="block mb-1 text-white-60 tracking-[1.4px] font-normal text-sm">NAMA BELAKANG</label>
+                              <input formControlName="lastname" id="popup-lastname" type="text" name="lastname" placeholder="Ex. Muzaki" class="block border-2 border-gray-300 w-full lg:w-[280px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder:text-black/40 text-black/80"/>
+                          </label>
                       </div>
-                      <label for="custom-input-file">
-                          <input #fileUplaoder type="file" id="custom-input-file" class="hidden" accept="image/*"/>
-                          <button (click)="fileUplaoder.click()" type="button" class="flex items-center gap-1 bg-main text-white py-2 px-4 rounded-lg">Upload Profile Picture</button>
+
+                      <div class="">
+                          <label class="block mt-4 lg:mt-0">
+                              <label class="block mb-1 text-white-60 tracking-[1.4px] font-normal text-sm">HEADLINE</label>
+                              <input formControlName="headline" id="popup-headline" type="text" name="headline" placeholder="Founder | Backend Developer" class="block border-2 border-gray-300 w-full lg:w-[380px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder:text-black/40 text-black/80"/>
+                          </label>
+                      </div>
+
+                      <div class="lg:flex gap-5  mt-4">
+                          <label class="block">
+                              <label class="block mb-1 text-white-60 tracking-[1.4px] font-normal text-sm">DOMISILI</label>
+                              <input formControlName="domicile" id="popup-domicile" type="text" name="domicile" placeholder="Ex. Jakarta" class="block border-2 border-gray-300 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder:text-black/40 text-black/80"/>
+                          </label>
+                          <label class="block mt-4 lg:mt-0">
+                              <label class="block mb-1 text-white-60 tracking-[1.4px] font-normal text-sm">TANGGAL LAHIR</label>
+                              <input formControlName="date_of_birth" id="popup-birthdate" type="date" name="date_of_birth" class="block border-2 border-gray-300 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder:text-black/40 text-black/80"/>
+                          </label>
+                      </div>
+                      <label class="block mt-4">
+                          <label class="block mb-1 text-white-60 tracking-[1.4px] font-normal text-sm">KELAMIN</label>
+                          <div class="flex gap-4 w-max rounded-xl px-4 bg-main">
+                              <div class="flex items-center gap-3 lg:justify-between rounded-lg px-4 lg:px-3 py-4 lg:py-2.5 bg-darkest-grey lg:w-max w-full">
+                                  <input [checked]="userData.sex == 'Male'" formControlName="sex" id="Male" type="radio" value="Male" name="sex" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                  <label for="Male" class="text-white font-second text-xs font-medium">Laki Laki</label>
+                              </div>
+                              <div class="flex items-center gap-3 lg:justify-between rounded-lg px-4 lg:px-3 py-4 lg:py-2.5 bg-darkest-grey lg:w-max w-full">
+                                  <input [checked]="userData.sex == 'Female'" formControlName="sex" id="Female" type="radio" value="Female" name="sex" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                  <label for="Female" class="text-white font-second text-xs font-medium">Perempuan</label>
+                              </div>
+                          </div>
                       </label>
                   </div>
-              </div>
-          </div>
 
-          <div class="py-5">
-              <p class="font-bold text-xl lg:text-lg text-main mb-3">Basic Information</p>
-              <div class="lg:flex gap-5 mb-4">
-                  <label class="block">
-                      <label class="text-white-60 block tracking-[1.4px] font-normal text-sm">FIRST NAME</label>
-                      <input formControlName="firstname" type="text" class="block border-0 w-full border-2 border-gray-300 lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/60 text-black/80"/>
-                  </label>
-                  <label class="block mt-4 lg:mt-0">
-                      <label class="text-white-60 block tracking-[1.4px] font-normal text-sm">LAST NAME</label>
-                      <input formControlName="lastname" type="text" class="block border-0 w-full border-2 border-gray-300 lg:w-[280px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/60 text-black/80"/>
-                  </label>
-              </div>
-              <div class="lg:flex gap-5">
-                  <label class="block">
-                      <label class="text-white-60 block tracking-[1.4px] font-normal text-sm">DOMICILE</label>
-                      <input formControlName="domicile" type="text" class="block border-0 w-full border-2 border-gray-300 lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/60 text-black/80"/>
-                  </label>
-                  <label class="block mt-4 lg:mt-0">
-                      <label class="text-white-60 block tracking-[1.4px] font-normal text-sm">DATE OF BIRTH</label>
-                      <input formControlName="date_of_birth" type="date"class="block border-0 w-full border-2 border-gray-300 lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/60 text-black/80"/>
-                  </label>
-              </div>
-              <label class="block mt-4">
-                  <label class="text-white-60 block tracking-[1.4px] font-normal text-sm">SEX</label>
-                  <div class="flex gap-4 w-full">
-                      <div class="flex items-center gap-3 lg:justify-between rounded-lg px-4 lg:px-3 py-4 lg:py-2.5 bg-darkest-grey lg:w-max w-full">
-                          <input formControlName="sex" value="Male" type="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                          <label for="male" class="text-main font-second text-sm font-medium">Male</label>
-                      </div>
-                      <div class="flex items-center gap-3 lg:justify-between rounded-lg px-4 lg:px-3 py-4 lg:py-2.5 bg-darkest-grey lg:w-max w-full">
-                          <input formControlName="sex" value="Female" type="radio" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                          <label for="female" class="text-main font-second text-sm font-medium">Female</label>
+                  <div class="p-5">
+                      <p class="font-bold text-xl lg:text-lg text-main mb-3">Kontak Informasi</p>
+                      <div class="lg:flex gap-5">
+                          <label class="block">
+                              <label class="block mb-1 text-white-60 tracking-[1.4px] font-normal text-sm">EMAIL</label>
+                              <input [value]="userData.email" id="popup-email" type="text" name="email" disabled title="Email address cannot be updated" class="block border-2 border-gray-300 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder:text-black/40 text-black/80"/>
+                          </label>
+                          <label class="block mt-4 lg:mt-0">
+                              <label class="block mb-1 text-white-60 tracking-[1.4px] font-normal text-sm">NO HANDPHONE</label>
+                              <input formControlName="mobile" id="popup-mobile" type="text" name="mobile" class="block border-2 border-gray-300 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder:text-black/40 text-black/80"/>
+                          </label>
                       </div>
                   </div>
-              </label>
-          </div>
-  
-          <div class="py-5 pb-40 lg:pb-5">
-              <p class="font-bold text-xl lg:text-lg text-main mb-3">Contact Information</p>
-              <div class="lg:flex gap-5 mb-4">
-                  <label class="block">
-                      <span class="text-main-60 tracking-[1.4px] font-normal text-sm">EMAIL</span>
-                      <input formControlName="email" type="text" readonly title="Email address cannot be updated" class="block border-2 border-gray-300 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/60 text-black/80"/>
-                  </label>
-                  <label class="block mt-4 lg:mt-0">
-                      <span class="text-white-60 tracking-[1.4px] font-normal text-sm">MOBILE</span>
-                      <input formControlName="mobile" type="text" class="block border-2 border-gray-300 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/60 text-black/80"/>
-                  </label>
+
+                  <div class="p-5 pb-40 lg:pb-6">
+                      <p class="font-bold text-xl lg:text-lg text-main mb-3">Preferensi Pekerjaan</p>
+                      <div class="lg:flex gap-5">
+                          <label class="block">
+                              <span class="text-white-60 tracking-[1.4px] font-normal text-sm">STATUS PEKERJAAN*</span>
+                              <select formControlName="work_pref_status" required id="popup-pref-status" name="work_pref_status" class="block border-2 border-gray-300 w-full lg:w-[300px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/40 text-black/80 focus:ring-white">
+                                  <option selected value="WFO">Work From Office (WFO)</option>
+                                  <option value="WFH">Work From Home (WFH)</option>
+                                  <option value="WFA">Work From Anywhere (WFA)</option>
+                              </select>
+                          </label>
+                      </div>
+                      <div class="lg:flex gap-5 mb-14 pt-4">
+                          <label class="block">
+                              <span class="text-white-60 tracking-[1.4px] font-normal text-sm">EKSPEKTASI GAJI*</span>
+                              <input formControlName="salary" id="popup-salary" type="text" value="0" name="salary" class="block border-2 border-gray-300 w-full lg:w-[280px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder:text-black/40 text-black/80"/>
+                          </label>
+                      </div>
+                      <div class="fixed lg:static left-0 bottom-0 flex gap-3 w-full lg:w-max lg:ms-auto lg:justify-end mt-8 lg:p-0 lg:pe-0 border-t-2 lg:border-none border-main bg-background lg:bg-transparent">
+                          <button type="button" (click)="closePopup('basic')" class="close-x rounded-lg text-main py-4 lg:py-2 px-10 font-second text-base">Tutup</button>
+                          <button type="submit" class="lg:rounded-lg w-full lg:w-max bg-main text-white py-4 lg:py-2 px-14 font-second text-base">Simpan</button>
+                      </div>
+                  </div>
               </div>
-              <div class="fixed lg:static left-0 bottom-0 flex gap-4 w-full lg:w-max lg:ms-auto lg:justify-end mt-8 py-8 lg:pt-10 lg:pb-0 p-5 pe-8 lg:p-0 lg:pe-0 bg-[#2A2A2A] lg:bg-transparent rounded-t-2xl">
-                  <button type="button" class="close-x rounded-lg bg-background text-main py-4 lg:py-2 px-10 font-second text-base">Cancel</button>
-                  <button type="submit" class="rounded-lg w-full lg:w-max bg-main text-white py-4 lg:py-2 px-14 font-second text-base">Save</button>
+
+              <!-- IMAGE INPUT -->
+              <div id="image-input" class="hidden p-6">
+                  <div class="">
+                      <p class="text-main text-2xl font-medium">Pilih personalmu: </p>
+                      <p class="text-black/70">Semua gambar dibawah tersedia pada <a href="https://www.openpeeps.com/" class="text-main">open peeps.</a></p>
+                  </div>
+                  <hr class="my-4">
+                  <div id="images" class="grid grid-cols-3 lg:grid-cols-5 gap-4 h-[500px] pb-28 lg:pb-0 lg:h-[300px] overflow-y-scroll">
+                      <!--  -->
+                  </div>
+                  <div class="fixed lg:static left-0 bottom-0 flex gap-3 w-full lg:w-max lg:ms-auto lg:justify-end mt-8 lg:p-0 lg:pe-0 border-t-2 lg:border-none border-main bg-background lg:bg-transparent">
+                      <button type="button" class="back-basic rounded-lg text-main py-4 lg:py-2 px-10 font-second text-base">Batal</button>
+                      <button type="submit" class="lg:rounded-lg w-full lg:w-max bg-main text-white py-4 lg:py-2 px-14 font-second text-base">Simpan</button>
+                  </div>
               </div>
           </div>
-        </form>
-      </div>
-    </div>
+      </form>
+  </div>
   `
 })
 export class ProfileBasicInformationPopupComponent {
@@ -105,32 +153,25 @@ export class ProfileBasicInformationPopupComponent {
 
   userService = inject(UserService)
 
-  formBasic = new FormGroup({
-    firstname: new FormControl(""),
-    lastname: new FormControl(""),
-    domicile: new FormControl(""),
-    date_of_birth: new FormControl(""),
-    email: new FormControl(""),
-    mobile: new FormControl(""),
-    sex: new FormControl(""),
-  })
+  formBasic!:FormGroup
 
   ngOnInit(): void {
-    this.formBasic.controls['firstname'].setValue(this.userData.firstname)
-    this.formBasic.controls['lastname'].setValue(this.userData.lastname)
-    this.formBasic.controls['domicile'].setValue(this.userData.domicile)
-    this.formBasic.controls['date_of_birth'].setValue(this.userData.date_of_birth)
-    this.formBasic.controls['email'].setValue(this.userData.email)
-    this.formBasic.controls['mobile'].setValue(this.userData.mobile)
-    this.formBasic.controls['sex'].setValue(this.userData.sex)
+    this.formBasic = new FormGroup({
+      firstname: new FormControl(this.userData.firstname),
+      lastname: new FormControl(this.userData.lastname),
+      headline: new FormControl(this.userData.headline),
+      domicile: new FormControl(this.userData.domicile),
+      date_of_birth: new FormControl(this.userData.date_of_birth),
+      sex: new FormControl(this.userData.sex),
+      mobile: new FormControl(this.userData.mobile),
+      work_pref_status: new FormControl(this.userData.work_pref_status),
+      salary: new FormControl(this.userData.salary),
+    })
   }
 
   submitBasic(){
     const summaryData = this.formBasic.value
 
-    console.log(summaryData);
-    
-    
     if(summaryData.firstname && summaryData.email){
       this.userData.firstname = summaryData.firstname
       this.userData.lastname = summaryData.lastname || null

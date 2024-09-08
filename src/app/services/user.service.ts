@@ -7,7 +7,69 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class UserService {
 
+
+  public cookieData: any = {};
+  private authValue: any;
+  private JWT_EXPIRED = 1;
+  private oneDay = 24 * 60 * 60 * 1000;
+  private expired_time = new Date(new Date().getTime() + this.JWT_EXPIRED * this.oneDay);
+  public userData: any = {};
+
+
   constructor(private requestService: RequestService, private cookieService: CookieService) {}
+
+  checkAuth() {
+    return this.cookieService.check('userAuthenticate');
+  }
+
+  setCookie(value: any, key = 'userAuthenticate') {
+    this.cookieService.set(key, (typeof value == 'string') ? value : JSON.stringify(value), this.expired_time, '/');
+    
+    if (key === 'userAuthenticate') {
+      this.authValue = value;
+    } else {
+      this.cookieData[key] = value;
+    }
+  }
+
+  deleteCookie(reload = true) {
+    new Promise((resolve: any) =>{
+      // this.cookieService.set('wbAuthentication', '', 1000);
+      this.cookieService.deleteAll('/');
+      this.authValue = '';
+      this.userData = {};
+      this.cookieData = {};
+      console.log('cookie deleted');
+      resolve();
+    })
+    .then(() =>{
+      if(reload) {
+        location.reload()
+      }
+    }); 
+  }
+
+  getCookieData(key: any) {
+    var retData: any = '';
+
+    if(this.cookieData[key])
+        retData = this.cookieData[key];
+    else 
+        retData = (this.IsJsonString(this.cookieService.get(key))) ? JSON.parse(this.cookieService.get(key)) : this.cookieService.get(key);
+    
+    return retData;
+  }
+
+  IsJsonString(str: any) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+  }
+
+
 
   async getUserData(){
     const userData:any = await this.requestService.getEncryptedRequest(`/api/v1/users/info`)
@@ -33,11 +95,9 @@ export class UserService {
 
   // ----------- AUTHENTICATION --------------
 
-  async loginUser(userData:any){
-    const LOGIN:any = await this.requestService.postEncryptedRequest("/api/v1/users/auth/google", userData)
-    this.cookieService.set("access-token", LOGIN)
-    // const LOGIN = this.cookieService.delete("access-token")
-    return LOGIN
+  async googleLoginHandler(userData:any){
+    const userAuthenticate:any = await this.requestService.postEncryptedRequest("/api/v1/users/auth/google", userData)
+    return userAuthenticate
   }
 
   async logoutUser(){

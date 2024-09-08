@@ -65,7 +65,7 @@ export class RequestService {
   }
 
   getAuthentication(){
-    return this.cookieService.get("access-token")
+    return this.cookieService.get("userAuthenticate")
   }
 
   decryptData(data:any) {

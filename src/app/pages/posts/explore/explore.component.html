@@ -1,66 +1,31 @@
 <app-navbar></app-navbar>
 <main class="noise">
-    <div class="min-h-screen lg:w-[1100px] mx-auto py-6 lg:py-10 pb-20 px-[5%] lg:px-0">
+    <div class="min-h-screen lg:w-[1150px] mx-auto py-6 lg:py-10 pb-20 px-[5%] lg:px-0">
         <!-- SUB NAVBAR -->
         <app-post-navbar></app-post-navbar>
 
-        <div class="grid grid-cols-8 gap-8 mt-8">
+        <div class="py-8">
+            <p class="text-3xl font-bold text-black/80">Jelajahi Lowongan Kamu</p>
+            <p class="mt-1 text-black/80">Looking for job? Browse our latest job opening to view & apply to the best jobs today!</p>
+        </div>
+
+        <div class="grid grid-cols-8 gap-8">
 
             <!-- SEARCH TOOLS -->
-            <div class="col-span-2 bg-white p-5 rounded-xl border border-gray-300 noise self-start pb-8">
+            <div class="col-span-2 bg-white p-5 rounded-xl border border-gray-300 noise self-start pb-8 sticky top-[6rem]">
                 <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()" class="">
-                    <div class="relative z-0">
+                    <!-- <div class="relative z-0">
                         <input formControlName="search" type="text" id="post_search" class="font-medium block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-main focus:outline-none focus:ring-0 focus:border-main peer px-3" placeholder=" " />
                         <label for="post_search" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-main peer-focus:dark:text-main peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"><i class="uil uil-search"></i> Jelajahi lowongan..</label>
-                    </div>
+                    </div> -->
                     <!-- FILTER -->
-                    <div class="mt-6">
+                    <div class="sticky top-0">
                         <div class="flex justify-between mb-3">
                             <p class="font-medium text-sm">FILTER</p>
-                            <button class="font-medium text-xs text-main">Reset</button>
+                            <button (click)="resetFilter()" class="font-medium text-sm text-orange-500">Reset</button>
                         </div>
 
                         <div class="flex flex-col gap-2">
-                            <!-- FILTER BY LOKASI -->
-                            <div class="">
-                                <button (click)="expandSidebar(sidebarLocation)" #sidebarLocation class="w-full flex items-center justify-between py-2">
-                                    <p>Lokasi</p>
-                                    <i class="uil uil-angle-down"></i>
-                                </button>
-                                <div class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
-                                    @if(LOCATION_DATAS.length > 0){
-                                        @for(data of LOCATION_DATAS; track data.id){
-                                            <div class="flex items-center gap-2 text-sm">
-                                                <input type="checkbox" name="" id="{{'location-'+data.id}}" class="rounded outline-none focus:ring-0">
-                                                <label for="{{'location-'+data.id}}">{{data.location}}</label>
-                                            </div>
-                                        }
-                                    }
-                                </div>
-                            </div>
-
-                            <hr>
-
-                            <!-- FILTER BY KEAHLIAN -->
-                            <div class="">
-                                <button (click)="expandSidebar(sidebarSkills)" #sidebarSkills class="w-full flex items-center justify-between py-2">
-                                    <p>Keahlian</p>
-                                    <i class="uil uil-angle-down"></i>
-                                </button>
-                                <div class="mt-1 hidden flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
-                                    @if(SKILL_DATAS.length > 0){
-                                        @for(data of SKILL_DATAS; track data.id){
-                                            <div class="flex items-center gap-2 text-sm">
-                                                <input type="checkbox" name="" id="{{'location-'+data.id}}" class="rounded outline-none focus:ring-0">
-                                                <label for="{{'skill-'+data.id}}">{{data.skill}}</label>
-                                            </div>
-                                        }
-                                    }
-                                </div>
-                            </div>
-
-                            <hr>
-
                             <!-- FILTER BY TIPE PEKERJAAN -->
                             <div class="">
                                 <button (click)="expandSidebar(sidebarJobtype)" #sidebarJobtype class="w-full flex items-center justify-between py-2">
@@ -82,6 +47,46 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <hr>
+
+                            <!-- FILTER BY LOKASI -->
+                            <div class="">
+                                <button (click)="expandSidebar(sidebarLocation)" #sidebarLocation class="w-full flex items-center justify-between py-2">
+                                    <p>Lokasi</p>
+                                    <i class="uil uil-angle-down"></i>
+                                </button>
+                                <div *ngIf="DONE_LOADING_SIDEBAR == true" class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                                    @if(LOCATION_DATAS.length > 0){
+                                        @for(data of LOCATION_DATAS; track data.id){
+                                            <div class="flex items-center gap-2 text-sm">
+                                                <input type="checkbox" name="" id="{{'location-'+data.id}}" class="rounded outline-none focus:ring-0">
+                                                <label for="{{'location-'+data.id}}">{{data.location}}</label>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <!-- FILTER BY KEAHLIAN -->
+                            <div class="">
+                                <button (click)="expandSidebar(sidebarSkills)" #sidebarSkills class="w-full flex items-center justify-between py-2">
+                                    <p>Keahlian</p>
+                                    <i class="uil uil-angle-down"></i>
+                                </button>
+                                <div *ngIf="DONE_LOADING_SIDEBAR == true" class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                                    @if(SKILL_DATAS.length > 0){
+                                        @for(data of SKILL_DATAS; track data.id){
+                                            <div class="flex items-center gap-2 text-sm">
+                                                <input type="checkbox" name="" id="{{'location-'+data.id}}" class="rounded outline-none focus:ring-0">
+                                                <label for="{{'skill-'+data.id}}">{{data.skill}}</label>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -90,13 +95,23 @@
 
             <!-- JOBS -->
             <div *ngIf="DONE_LOADING == true" class="col-span-6">
-                <span class="text-sm text-gray-700 dark:text-gray-400">
-                    Menampilkan <span class="font-medium">{{POST_PAGE * POST_LIMIT < POST_COUNT ? POST_LIMIT : POST_COUNT}}</span> dari <span class="font-medium">{{POST_COUNT}}</span> Lowongan
+                <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()">
+                    <div class="relative mb-6">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <i class="uil uil-search"></i>
+                        </div>
+                        <input type="search" formControlName="search" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari lowongan atau keyword..." required />
+                        <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-orange-500 hover:bg-orange-400 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cari Lowongan</button>
+                    </div>
+                </form>
+
+                <span class="text-gray-700 dark:text-gray-400 font-medium text-black/60">
+                    Menampilkan {{POST_COUNT}} lowongan
                 </span>
                 @if(POST_DATAS.length > 0){
-                    <div id="cards" class="mt-4 grid lg:grid-cols-2 gap-4">
+                    <div id="cards" class="mt-4 grid lg:grid-cols-2 gap-6 mb-14">
                         @for (post of POST_DATAS; track post.id) {
-                            <div (click)="openPostDetail(post.id)" class="job-detail cursor-pointer hover:scale-[1.005] duration-100 shadow-md border border-main bg-white p-4 rounded-2xl flex flex-col justify-between">
+                            <div (click)="openPostDetail(post.id)" class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border hover:border-main bg-white p-4 rounded-xl flex flex-col justify-between">
                                 <div class="">
                                     <!-- TITLE -->
                                     <p class="font-medium text-black mb-2">{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
@@ -118,8 +133,16 @@
                                 <div class="">
                                     <hr class="my-2">
                                     <div class="flex items-center justify-between gap-3 mt-4">
-                                        <span class="hidden text-white text-xs font-medium bg-orange-500 px-2 py-1">kamu banget</span>
-                                        <div class="flex items-center gap-2 ms-auto">
+                                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                                            <path d="M 12.8125 2 C 12.335938 2.089844 11.992188 2.511719 12 3 L 12 47 C 11.996094 47.359375 12.1875 47.691406 12.496094 47.871094 C 12.804688 48.054688 13.1875 48.054688 13.5 47.875 L 25 41.15625 L 36.5 47.875 C 36.8125 48.054688 37.195313 48.054688 37.503906 47.871094 C 37.8125 47.691406 38.003906 47.359375 38 47 L 38 3 C 38 2.449219 37.550781 2 37 2 L 13 2 C 12.96875 2 12.9375 2 12.90625 2 C 12.875 2 12.84375 2 12.8125 2 Z M 14 4 L 36 4 L 36 45.25 L 25.5 39.125 C 25.191406 38.945313 24.808594 38.945313 24.5 39.125 L 14 45.25 Z"></path>
+                                        </svg>
+                                        <!-- <div class="flex items-center gap-2">
+                                            <svg fill="#47A992" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                                                <path d="M 37 48 C 36.824219 48 36.652344 47.953125 36.496094 47.863281 L 25 41.15625 L 13.503906 47.863281 C 13.195313 48.042969 12.8125 48.046875 12.503906 47.867188 C 12.191406 47.6875 12 47.359375 12 47 L 12 3 C 12 2.449219 12.449219 2 13 2 L 37 2 C 37.554688 2 38 2.449219 38 3 L 38 47 C 38 47.359375 37.808594 47.6875 37.496094 47.867188 C 37.34375 47.957031 37.171875 48 37 48 Z"></path>
+                                            </svg>
+                                            <p class="text-sm font-medium">Tersimpan</p>
+                                        </div> -->
+                                        <div class="flex items-center gap-2">
                                             <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">muncul di</span></p>
                                             <div [innerHTML]="getPlatformImage(post.platform)"></div>
                                             <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgo(post.post_date)}}</span></p>
@@ -129,17 +152,10 @@
                             </div>
                         }
                     </div>
-
-                    <div *ngIf="SHOW_PAGINATION && POST_LIMIT < POST_COUNT" id="paginations" class="flex flex-col items-center mt-12">
-                        <div class="inline-flex mt-2 xs:mt-0 gap-2">
-                            <button [disabled]="POST_PAGE == 1" value="back" (click)="subPage()" class="disabled:bg-main/60 flex items-center justify-center px-3 py-1 text-base font-medium text-white bg-main rounded-lg hover:bg-main/90">
-                                <i class="uil uil-angle-left text-xl"></i>
-                            </button>
-                            <button [disabled]="POST_LIMIT * POST_PAGE >= POST_COUNT" value="forward" (click)="addPage()" class="disabled:bg-main/60 flex items-center justify-center px-3 py-1 text-base font-medium text-white bg-main border-gray-700 rounded-lg hover:bg-main/90">
-                                <i class="uil uil-angle-right text-xl"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <button (click)="addPage()" *ngIf="SHOW_MORE_BUTTON == true" [disabled]="IS_BUTTON_LOADING == true" class="disabled:opacity-50 shadow-lg hover:scale-[1.01] duration-200 bg-main px-8 py-3 rounded-full text-white w-max block m-auto font-medium flex items-center gap-2">
+                        <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == false">Lebih Banyak <i class="uil uil-angle-down text-xl"></i></span>
+                        <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == true">Loading..</span>
+                    </button>
                 }@else {
                     <div class="flex flex-col items-center justify-center min-h-[50vh] text-sm">
                         <img width="100px" src="assets/img/Logo.png" alt="">

@@ -1,56 +1,29 @@
-<!-- <nav class="bg-main/90 backdrop-blur-md sticky top-0 z-20 shadow-md">
-    <div class="w-[1100px] mx-auto flex items-center justify-between py-2">
-        <div class="flex gap-20 items-center">
-            <a routerLink="/" class="font-bold text-2xl text-background flex items-center gap-2 tracking-wide">INSHIT</a>
-            <div class="flex items-center gap-10">
-                <a routerLink="community" class="text-sm font-medium text-background">Community</a>
-                <a routerLink="community" class="text-sm font-medium text-background">Market</a>
-                <a target="_blank" href="https://saweria.co/internshits" class="text-sm font-medium text-background">Donate us</a>
-            </div>
-        </div>
-    
-        <div class="flex gap-4">
-            @if(IS_VERIFIED){
-                <a routerLink="profile" class="border-2 border-gray-50/30 flex items-center gap-4 bg-main text-white noise rounded-lg px-4 py-2 shadow-md">
-                    <div class="rounded-full w-9 h-9 bg-background/80 flex items-center justify-center"><i class="uil uil-user-md text-xl text-main"></i></div>
-                    <div class="">
-                        <p class="text-sm font-medium">Assami Muzaki</p>
-                        <p class="text-xs">Visit Profile</p>
-                    </div>
-                </a>
-            }@else {
-                <button id="button-login" class="hover:shadow-md duration-300 bg-background text-main px-10 py-1.5 rounded-lg text-sm font-medium">Login</button>
-            }
-        </div>
-    </div>
-</nav> -->
-
 <nav class="backdrop-blur-md bg-white/70 sticky top-0 z-20 noise py-2 lg:py-1">
-    <div class="lg:w-[1100px] w-full mx-auto flex items-center justify-between px-[5%] lg:px-0">
+    <div class="lg:w-[1150px] w-full mx-auto flex items-center justify-between px-[5%] lg:px-0">
         <div class="flex gap-14 items-center">
             <a routerLink="/" class="font-bold text-2xl text-main flex items-center gap-2 tracking-wide flex items-center"><img src="assets/img/Favicon.png" class="w-[70px]" alt=""></a>
             <div class="hidden lg:flex items-center gap-10">
-                <a routerLink="/posts/foryou" class="text-sm font-medium text-thrid hover:text-main">Lowongan</a>
-                <a routerLink="/community" class="text-sm font-medium text-thrid hover:text-main">Community</a>
-                <a routerLink="/talent" class="text-sm font-medium text-thrid hover:text-main">Talent Hunt</a>
+                <a routerLink="/posts" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: false }" class="text-sm font-medium text-thrid hover:text-main">Lowongan</a>
+                <a routerLink="/talent" routerLinkActive="selected" class="text-sm font-medium text-thrid hover:text-main">Talent Hunt</a>
                 <a target="_blank" href="https://saweria.co/internshits" class="text-sm font-medium text-thrid hover:text-main">Donate us</a>
             </div>
         </div>
     
         <!-- ON DESKTOP -->
-        <div class="hidden lg:flex gap-4">
-            <!-- Kalau sudah login -->
-            <div id="nav-profile" class="hidden flex items-center gap-8">
-                <a routerLink="/profile/me" class="my-4 flex items-center gap-4 bg-white shadow-md py-2 noise rounded-lg px-4">
-                    <div class="rounded-full w-9 h-9 bg-main flex items-center justify-center"><i class="uil uil-user-md text-xl text-white"></i></div>
-                    <div class="">
-                        <p class="navbar-fullname text-sm font-medium">Assami Muzaki</p>
-                        <p class="text-xs">Visit Profile</p>
-                    </div>
-                </a>
-            </div>
-            <!-- Kalau belum login -->
-            <button (click)="openLoginPanel()" id="button-login" class="my-6 lg:my-4 duration-200 py-1 px-6 text-main text-lg rounded-md font-medium hover:text-main/60">Login</button>
+        <div class="lg:flex gap-4">
+            @if(IS_LOGIN){
+                <div id="nav-profile" class="flex items-center gap-8">
+                    <a routerLink="/profile/me" class="my-2.5 flex items-center gap-4 bg-white shadow-md py-2 noise rounded-lg px-4">
+                        <div class="rounded-full w-9 h-9 bg-main flex items-center justify-center"><i class="uil uil-user-md text-xl text-white"></i></div>
+                        <div class="" *ngIf="DONE_LOADING == true">
+                            <p class="navbar-fullname text-sm font-medium">{{USER.firstname}} {{USER.lastname || ""}}</p>
+                            <p class="text-xs">Kunjungi Profil</p>
+                        </div>
+                    </a>
+                </div>
+            }@else {
+                <button (click)="openLoginPanel()" id="button-login" class="my-6 lg:my-4 duration-200 py-1 px-6 text-main text-lg rounded-md font-medium hover:text-main/60">Login</button>
+            }
         </div>
 
         <!-- ON MOBILE -->
@@ -93,11 +66,11 @@
     <div id="popup-login" class="hidden w-full lg:w-1/3 bg-background noise rounded-2xl border-2 border-main py-8 px-[5%] lg:px-12 relative">
         <div class="text-center flex flex-col items-center justify-center gap-4">
             <img width="60px" src="assets/img/Logo.png" alt="">
-            <p class="text-3xl font-medium text-main">Welcome to Internshit</p>
+            <p class="text-3xl font-medium text-main">Selamat datang di <br>Internshit</p>
         </div>
         <hr class="my-4">
         <div id="no-authorized" class="">
-            <p class="text-sm text-black/70 text-center">akses lebih banyak fitur keren, dan buka fitur personalisasi lowongan</p>
+            <p class="text-sm text-black/70 text-center">Akses lebih banyak fitur keren, dan personalisasi lowongan dengan melengkapi profil kamu</p>
             
             <div class="w-full flex justify-center">
                 <button id="button-google" class="mx-auto mt-4"></button>
