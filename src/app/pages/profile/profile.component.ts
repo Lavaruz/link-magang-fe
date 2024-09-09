@@ -58,37 +58,25 @@ export class ProfileComponent implements OnInit {
 
   constructor( private location: Location){}
 
-  async ngOnInit() {
-    try {
-      this.userService.getUserData().then(userData => {
-        this.USER = userData
-        this.EDUCATIONS = userData.educations
-        this.EXPERIENCES = userData.experiences
-        this.DONE_LOADING = true
-      })
-      
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      // Tambahkan penanganan kesalahan sesuai kebutuhan Anda.
-    }
-
+  ngOnInit() {
+    this.callUserData()
   }
 
-
-
-
-
-
-  ngAfterViewInit(){
-    $(".close-x").click(function(){
-      $(this).closest(".popup").slideToggle(function(){
-        $("#popup").fadeOut()
-        $("body").css("overflow", "auto")
-      })
+  callUserData(){
+    this.userService.getUserData().then(userData => {
+      this.USER = userData
+      this.EDUCATIONS = userData.educations
+      this.EXPERIENCES = userData.experiences
+      this.DONE_LOADING = true
     })
   }
+
+
   openPopup(name:any){
     $("#popup").fadeIn(function(){
+      $(this).find(".overflow-y-scroll").animate({
+        scrollTop: 0
+      }, 0)
       $(`.popup-${name}`).slideToggle()
       $("body").css("overflow", "hidden")
     }).css("display","flex");

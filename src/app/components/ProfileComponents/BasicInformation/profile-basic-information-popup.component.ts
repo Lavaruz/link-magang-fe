@@ -1,8 +1,7 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { UserInterface } from '../../../interface/user.interface';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
-import $ from "jquery"
 
 @Component({
   selector: 'app-profile-basic-information-popup',
@@ -10,12 +9,12 @@ import $ from "jquery"
   imports: [ReactiveFormsModule],
   template: `
     <div class="hidden popup popup-basic border-2 border-main w-full lg:w-[720px] rounded-2xl lg:rounded-2xl overflow-hidden">
-      <form id="form-basic-information" [formGroup]="formBasic">
+      <form id="form-basic-information" [formGroup]="formBasic" (submit)="submitBasic()">
           <div class="hidden lg:flex header bg-main justify-between px-5 py-3 items-center">
               <p class="font-normal text-white text-base tracking-[1.6px] flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <path d="M10.0002 10C9.0835 10 8.29877 9.67362 7.646 9.02084C6.99322 8.36807 6.66683 7.58334 6.66683 6.66668C6.66683 5.75001 6.99322 4.96529 7.646 4.31251C8.29877 3.65973 9.0835 3.33334 10.0002 3.33334C10.9168 3.33334 11.7016 3.65973 12.3543 4.31251C13.0071 4.96529 13.3335 5.75001 13.3335 6.66668C13.3335 7.58334 13.0071 8.36807 12.3543 9.02084C11.7016 9.67362 10.9168 10 10.0002 10ZM5.00016 16.6667C4.54183 16.6667 4.14947 16.5035 3.82308 16.1771C3.49669 15.8507 3.3335 15.4583 3.3335 15V14.3333C3.3335 13.8611 3.45502 13.4271 3.69808 13.0313C3.94113 12.6354 4.26405 12.3333 4.66683 12.125C5.52794 11.6945 6.40294 11.3715 7.29183 11.1563C8.18072 10.941 9.0835 10.8333 10.0002 10.8333C10.9168 10.8333 11.8196 10.941 12.7085 11.1563C13.5974 11.3715 14.4724 11.6945 15.3335 12.125C15.7363 12.3333 16.0592 12.6354 16.3022 13.0313C16.5453 13.4271 16.6668 13.8611 16.6668 14.3333V15C16.6668 15.4583 16.5036 15.8507 16.1772 16.1771C15.8509 16.5035 15.4585 16.6667 15.0002 16.6667H5.00016Z" fill="white"/>
               </svg> MENGEDIT INFORMASI BASIC</p>
-              <button (click)="closePopup('basic')" class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</button>
+              <button (click)="closePopup('basic')" type="button" class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</button>
           </div>
 
           <div class="relative body bg-background noise lg:bg-body h-[85vh] lg:h-[500px] overflow-y-scroll">
@@ -148,6 +147,7 @@ import $ from "jquery"
 export class ProfileBasicInformationPopupComponent {
   @Input() userData!:UserInterface
   @Input() closePopup: any
+  @Output() userDataUpdated = new EventEmitter<string>()
   
   imagePreview: string = "";
 
@@ -157,9 +157,11 @@ export class ProfileBasicInformationPopupComponent {
 
   ngOnInit(): void {
     this.formBasic = new FormGroup({
+      profile_picture: new FormControl(this.userData.profile_picture),
       firstname: new FormControl(this.userData.firstname),
       lastname: new FormControl(this.userData.lastname),
       headline: new FormControl(this.userData.headline),
+      email: new FormControl(this.userData.email),
       domicile: new FormControl(this.userData.domicile),
       date_of_birth: new FormControl(this.userData.date_of_birth),
       sex: new FormControl(this.userData.sex),
@@ -169,27 +171,19 @@ export class ProfileBasicInformationPopupComponent {
     })
   }
 
-  submitBasic(){
-    const summaryData = this.formBasic.value
+  submitBasic() {
+    const summaryData = this.formBasic.value;
 
-    if(summaryData.firstname && summaryData.email){
-      this.userData.firstname = summaryData.firstname
-      this.userData.lastname = summaryData.lastname || null
-      this.userData.domicile = summaryData.domicile || null
-      this.userData.date_of_birth = summaryData.date_of_birth || null
-      this.userData.email = summaryData.email
-      this.userData.mobile = summaryData.mobile || null
-      this.userData.sex = summaryData.email
-
-      this.userService.updateUserData(summaryData)
+    this.userService.updateUserData(summaryData)
       .then(() => {
-        this.closePopup("basic")
+        this.userData = summaryData;
+        this.closePopup("basic");
+        this.userDataUpdated.emit()
       })
       .catch((e) => {
-        alert("ERROR")
-        console.log(e)
-      })
-    }
+        alert("ERROR");
+        console.log(e);
+      });
   }
 
 }
