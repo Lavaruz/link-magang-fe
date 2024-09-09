@@ -2,11 +2,14 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { UserInterface } from '../../../interface/user.interface';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
+import { CommonModule } from '@angular/common';
+import { RequestService } from '../../../services/request.service';
+import $ from "jquery"
 
 @Component({
   selector: 'app-profile-basic-information-popup',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   template: `
     <div class="hidden popup popup-basic border-2 border-main w-full lg:w-[720px] rounded-2xl lg:rounded-2xl overflow-hidden">
       <form id="form-basic-information" [formGroup]="formBasic" (submit)="submitBasic()">
@@ -19,7 +22,7 @@ import { UserService } from '../../../services/user.service';
 
           <div class="relative body bg-background noise lg:bg-body h-[85vh] lg:h-[500px] overflow-y-scroll">
               <!-- BASIC INPUT -->
-              <div id="basic-input" class="divide-y divide-gray-300">
+              <div *ngIf="isDisplay" id="basic-input" class="divide-y divide-gray-300">
                   <!-- PROFILE PICTURE HANDLE -->
                   <div class="p-5">
                       <p class="font-bold text-xl lg:text-lg text-main mb-3">Foto Profil</p>
@@ -31,7 +34,7 @@ import { UserService } from '../../../services/user.service';
                               <div class="hidden lg:block">
                                   <p class="text-white-60 font-second text-sm font-medium mb-2">Pilih foto profil yang paling menampilkan personamu.<br>
                               </div>
-                              <button id="button-choose-profile-pic" type="button" class="flex items-center gap-1 bg-main text-white text-sm py-2 px-4 rounded-lg">Pilih foto profil</button>
+                              <button (click)="isDisplay = false; isPicture = true" id="button-choose-profile-pic" type="button" class="flex items-center gap-1 bg-main text-white text-sm py-2 px-4 rounded-lg">Pilih foto profil</button>
                           </div>
                       </div>
                       <div class="lg:hidden pt-4">
@@ -125,17 +128,24 @@ import { UserService } from '../../../services/user.service';
               </div>
 
               <!-- IMAGE INPUT -->
-              <div id="image-input" class="hidden p-6">
+              <div *ngIf="isPicture && DONE_LOADING" id="image-input" class="p-6">
                   <div class="">
-                      <p class="text-main text-2xl font-medium">Pilih personalmu: </p>
+                      <p class="text-main text-2xl font-medium">Pilih personamu: </p>
                       <p class="text-black/70">Semua gambar dibawah tersedia pada <a href="https://www.openpeeps.com/" class="text-main">open peeps.</a></p>
                   </div>
                   <hr class="my-4">
                   <div id="images" class="grid grid-cols-3 lg:grid-cols-5 gap-4 h-[500px] pb-28 lg:pb-0 lg:h-[300px] overflow-y-scroll">
-                      <!--  -->
+                      @for(picture of PICTURES_DATA; track picture){
+                        <div (click)="selectPicture(picture)" class="text-center">
+                            <button #avatar [ngClass]="{'bg-main': selectedPicture === picture}" type="button" class="button-select-avatar aspect-square border-2 shadow-md border-main rounded-full overflow-hidden">
+                                <img [src]="requestService.getURL() + picture" alt="profile-pic" class="w-full h-full object-cover">
+                            </button>
+                            <p class="text-main font-bold">{{picture.split("/img/ProfilePic/").pop().replace(".png", "")}}</p>
+                        </div>
+                      }
                   </div>
                   <div class="fixed lg:static left-0 bottom-0 flex gap-3 w-full lg:w-max lg:ms-auto lg:justify-end mt-8 lg:p-0 lg:pe-0 border-t-2 lg:border-none border-main bg-background lg:bg-transparent">
-                      <button type="button" class="back-basic rounded-lg text-main py-4 lg:py-2 px-10 font-second text-base">Batal</button>
+                      <button (click)="isDisplay = true; isPicture = false" type="button" class="back-basic rounded-lg text-main py-4 lg:py-2 px-10 font-second text-base">Batal</button>
                       <button type="submit" class="lg:rounded-lg w-full lg:w-max bg-main text-white py-4 lg:py-2 px-14 font-second text-base">Simpan</button>
                   </div>
               </div>
@@ -150,10 +160,20 @@ export class ProfileBasicInformationPopupComponent {
   @Output() userDataUpdated = new EventEmitter<string>()
   
   imagePreview: string = "";
+  isDisplay = true
+  isPicture = false
+  PICTURES_DATA:any
+  DONE_LOADING = false
 
   userService = inject(UserService)
+  requestService = inject(RequestService)
 
   formBasic!:FormGroup
+  selectedPicture: string | null = null; // Variable to track the selected picture
+
+  selectPicture(picture: string) {
+    this.selectedPicture = picture;
+  }
 
   ngOnInit(): void {
     this.formBasic = new FormGroup({
@@ -169,21 +189,37 @@ export class ProfileBasicInformationPopupComponent {
       work_pref_status: new FormControl(this.userData.work_pref_status),
       salary: new FormControl(this.userData.salary),
     })
+
+    this.userService.GetAllProfilePictureAvailable().then(picturesData => {
+        this.PICTURES_DATA = picturesData
+        this.DONE_LOADING = true
+    })
   }
 
-  submitBasic() {
-    const summaryData = this.formBasic.value;
-
-    this.userService.updateUserData(summaryData)
-      .then(() => {
-        this.userData = summaryData;
-        this.closePopup("basic");
-        this.userDataUpdated.emit()
-      })
-      .catch((e) => {
-        alert("ERROR");
-        console.log(e);
-      });
+  selectedAvatar(element:any){
+    $(".button-select-avatar").each(function(){
+        $(this).removeClass("bg-main")
+    })
+    $(element).addClass("bg-main")
   }
+
+    submitBasic() {
+        const basicData = this.formBasic.value;
+        if(this.selectedPicture){
+            basicData.profile_picture = `${this.requestService.getURL()}${this.selectedPicture}`
+        }
+
+        this.userService.updateUserData(basicData)
+        .then(() => {
+            this.closePopup("basic");
+            this.isDisplay = true
+            this.isPicture = false
+            this.userDataUpdated.emit()
+        })
+        .catch((e) => {
+            alert("ERROR");
+            console.log(e);
+        });
+    }
 
 }

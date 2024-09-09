@@ -15,6 +15,23 @@
 
             <!-- RIGHT -->
             <div class="col-span-3 flex flex-col gap-6">
+                <!-- PROFILE COMPLETION -->
+                <div *ngIf="completionCalculation() < 100" class="profile-viewers bg-main noise rounded-2xl p-4 pb-5 shadow-md">
+                    <div class="w-100 rounded-t-2xl">
+                        <p class="text-white flex items-center gap-2"><i class="uil uil-percentage"></i> KELENGKAPAN PROFIL</p>
+                    </div>
+                    <div class="">
+                        <p class="text-4xl my-3 font-bold text-white">{{completionCalculation()}}%</p>
+                        <p class="text-white">Complete your profile to differentiate yourself from other candidates!</p>
+                        <ul class="px-6">
+                            <li [ngClass]="{'line-through': USER.profile_picture}" class="font-second font-semibold text-background mt-3 list-disc">Pasang Foto Profil</li>
+                            <li [ngClass]="{'line-through': USER.skills.length > 0}" class="font-second font-semibold text-background mt-3 list-disc">Tambahkan Keahlian</li>
+                            <li [ngClass]="{'line-through': USER.educations.length > 0}" class="font-second font-semibold text-background mt-3 list-disc">Tambahkan Pendidikan</li>
+                            <li [ngClass]="{'line-through': USER.attachments.atc_resume}" class="font-second font-semibold text-background mt-3 list-disc">Tautkan Resume</li>
+                        </ul>
+                    </div>
+                </div>
+
                 <app-profile-attachments [userData]="USER" [openPopup]="openPopup"></app-profile-attachments>
                 <app-profile-socials [userData]="USER" [openPopup]="openPopup"></app-profile-socials>
 
@@ -57,12 +74,12 @@
 <section *ngIf="DONE_LOADING == true" id="popup" class="hidden fixed top-0 bottom-0 left-0 right-0 bg-black/50 z-20 flex items-end lg:items-center justify-center h-100">
 
     <app-profile-basic-information-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-basic-information-popup>
-    <app-profile-summary-popup [userData]="USER" [closePopup]="closePopup"></app-profile-summary-popup>
+    <app-profile-summary-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-summary-popup>
     <app-skills-skills-popup [userData]="USER" [closePopup]="closePopup"></app-skills-skills-popup>
-    <app-profile-experiences-popup [userData]="USER" [closePopup]="closePopup"></app-profile-experiences-popup>
-    <app-profile-educations-popup [userData]="USER" [closePopup]="closePopup"></app-profile-educations-popup>
-    <app-profile-attachments-popup [userData]="USER" [closePopup]="closePopup"></app-profile-attachments-popup>
-    <app-profile-socials-popup [userData]="USER" [closePopup]="closePopup"></app-profile-socials-popup>
+    <app-profile-experiences-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-experiences-popup>
+    <app-profile-educations-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-educations-popup>
+    <app-profile-attachments-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-attachments-popup>
+    <app-profile-socials-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-socials-popup>
     <app-profile-talent-popup [userData]="USER" [closePopup]="closePopup"></app-profile-talent-popup>
 
 </section>

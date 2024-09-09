@@ -145,4 +145,22 @@ export class RequestService {
         });
     });
   } 
+
+  deleteEncryptedRequest(url: string = "", option:any={}) {
+    const toURL = `${this.rootURL}${url}`;
+    const httpOptions = this.getHeaders(option)
+
+    return new Promise((resolve, reject) => {
+      this.http.delete<any>(toURL, httpOptions)
+        .subscribe({
+          next: (response:any) => {
+            let decryptedData = this.decryptData(response.body);
+            resolve(decryptedData);
+          },
+          error: (err) => {
+            reject(err);
+          }
+        });
+    });
+  } 
 }

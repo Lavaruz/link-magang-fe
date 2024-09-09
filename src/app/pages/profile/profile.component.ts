@@ -25,6 +25,7 @@ import { ProfileSocialsComponent } from '../../components/ProfileComponents/Soci
 import { ProfileSocialsPopupComponent } from '../../components/ProfileComponents/Socials/profile-socials-popup.component';
 import { ProfileTalentComponent } from '../../components/ProfileComponents/TalentHunt/profile-talent.component';
 import { ProfileTalentPopupComponent } from '../../components/ProfileComponents/TalentHunt/profile-talent-popup.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -44,8 +45,8 @@ import { ProfileTalentPopupComponent } from '../../components/ProfileComponents/
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent implements OnInit {
-
   userService: UserService = inject(UserService);
+  router = inject(Router)
 
   FORM_BASIC:FormGroup = new FormGroup("")
   FORM_SUMMARY:FormGroup = new FormGroup("")
@@ -59,6 +60,9 @@ export class ProfileComponent implements OnInit {
   constructor( private location: Location){}
 
   ngOnInit() {
+    if(!this.userService.checkAuth()){
+      this.router.navigate(["/"])
+    }
     this.callUserData()
   }
 
@@ -96,7 +100,14 @@ export class ProfileComponent implements OnInit {
 
 
 
-
+  completionCalculation(){
+    let COMPLETION_RATE = 0
+    if(this.USER.profile_picture) COMPLETION_RATE += 25
+    if(this.USER.skills.length > 0) COMPLETION_RATE += 25
+    if(this.USER.educations.length > 0) COMPLETION_RATE += 25
+    if(this.USER.attachments.atc_resume) COMPLETION_RATE += 25
+    return COMPLETION_RATE
+  }
   buttonLogout(){
     this.userService.deleteCookie(false)
     this.location.back()

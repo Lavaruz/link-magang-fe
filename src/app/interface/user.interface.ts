@@ -62,8 +62,8 @@ export interface UserInterface {
   
   export interface Attachments {
     id: string
-    atc_resume: string
-    atc_portfolio: string
+    atc_resume: string | null
+    atc_portfolio: string | null
     createdAt: string
     updatedAt: string
     ownerId: string

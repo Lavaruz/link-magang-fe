@@ -130,4 +130,26 @@ export class UserService {
       console.error('Error on Get Membership Price:', error);
     }
   }
+
+
+  async GetAllProfilePictureAvailable(){
+    const picturesData = await this.requestService.getEncryptedRequest(`/api/v1/users/pictures`)
+    return picturesData
+  }
+  async UpdateUserSpecificData(data:any, route:string){
+    const updatedData = await this.requestService.putEncryptedRequest(`/api/v1/users/info/${route}`, data)
+    return updatedData
+  }
+  async UpdateUserEduExpData(id:any, data:any, route:string){
+    const updatedData = await this.requestService.putEncryptedRequest(`/api/v1/users/info/${route}/${id}`, data)
+    return updatedData
+  }
+  async DeleteUserEduExpData(id:any, route:string){
+    const updatedData = await this.requestService.deleteEncryptedRequest(`/api/v1/users/info/${route}/${id}`)
+    return updatedData
+  }
+  async AddUserSpesificData(data:any, route:string){
+    const addedData = await this.requestService.postEncryptedRequest(`/api/v1/users/info/${route}`, data)
+    return addedData
+  }
 }

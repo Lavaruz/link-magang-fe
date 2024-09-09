@@ -53,13 +53,13 @@ import { UtilsService } from '../../../services/utils.service';
                     <hr *ngIf="idx+1 !== userData.experiences.length">
                 </div>
               }
-              <button *ngIf="userData.experiences.length > absNumber(userData.experiences.length - LIMIT)" (click)="showAllData()" class="my-4 font-bold hover:text-main/80 text-main mx-auto">Tampilkan {{userData.experiences.length - LIMIT}} Pengalaman Lain</button>
+              <button *ngIf="userData.experiences.length > absNumber(userData.experiences.length - LIMIT) && absNumber(userData.experiences.length - LIMIT) > 0" (click)="showAllData()" class="my-4 font-bold hover:text-main/80 text-main mx-auto">Tampilkan {{userData.experiences.length - LIMIT}} Pengalaman Lain</button>
               </div>
             }@else {
               <div id="off-experiences" class="py-5 pb-6 text-center">
                   <p class="font-bold text-base text-main mb-3">Tambahkan pengalaman kamu disini!</p>
                   <p class="font-second text-black/80 text-sm font-medium px-2 lg:px-24 mb-5 lg:mb-2">Pengalaman merupakan jantung dari portfoliomu. Kamu dapat menambahkan pengalaman internship, parttime, fulltime, hingga pengalaman organisasi!</p>
-                  <button id="button-experiences" class="flex items-center gap-1 bg-main text-white rounded-lg text-sm py-2 px-4 m-auto mt-4">Tambahkan Pengalaman</button>
+                  <button (click)="openPopup('experiences')" id="button-experiences" class="flex items-center gap-1 bg-main text-white rounded-lg text-sm py-2 px-4 m-auto mt-4">Tambahkan Pengalaman</button>
               </div>
             }
         </div>

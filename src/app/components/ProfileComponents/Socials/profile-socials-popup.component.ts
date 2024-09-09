@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { UserInterface } from '../../../interface/user.interface';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
@@ -16,7 +16,7 @@ import { UserService } from '../../../services/user.service';
           <p (click)="closePopup('socials')" class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</p>
       </div>
       <div class="body bg-background noise lg:bg-body h-[92vh] lg:h-[500px] overflow-y-scroll">
-          <form id="form-edit-socials" class="relative">
+          <form id="form-edit-socials" class="relative" [formGroup]="formSocials" (submit)="submitSocials()">
               <div class="divide-y divide-header pb-40 lg:pb-0">
                   <div class="p-5">
                       <p class="font-bold text-lg text-main mb-1">Sosial</p>
@@ -25,37 +25,37 @@ import { UserService } from '../../../services/user.service';
                   <div class="px-5">
                       <label class="flex items-center gap-3 mt-4 lg:mt-3">
                           <i class="uil uil-twitter text-2xl text-main"></i>
-                          <input id="popup-social-twitter" type="url" name="twitter" placeholder="https://x.com/internshit_id" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                          <input formControlName="twitter" id="popup-social-twitter" type="url" name="twitter" placeholder="https://x.com/internshit_id" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                             focus:invalid:border-red-500 focus:invalid:ring-red-500
                           "/>
                       </label>
                       <label class="flex items-center gap-3 mt-4 lg:mt-3">
                           <i class="uil uil-instagram text-2xl text-main"></i>
-                          <input id="popup-social-instagram" type="url" name="instagram" placeholder="https://www.instagram.com/internshit.id/" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                          <input formControlName="instagram" id="popup-social-instagram" type="url" name="instagram" placeholder="https://www.instagram.com/internshit.id/" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                             focus:invalid:border-red-500 focus:invalid:ring-red-500
                           "/>
                       </label>
                       <label class="flex items-center gap-3 mt-4 lg:mt-3">
                           <i class="uil uil-linkedin text-2xl text-main"></i>
-                          <input id="popup-social-linkedin" type="url" name="linkedin" placeholder="https://www.linkedin.com/in/internshit_id/" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                          <input formControlName="linkedin" id="popup-social-linkedin" type="url" name="linkedin" placeholder="https://www.linkedin.com/in/internshit_id/" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                             focus:invalid:border-red-500 focus:invalid:ring-red-500
                           "/>
                       </label>
                       <label class="flex items-center gap-3 mt-4 lg:mt-3">
                           <i class="uil uil-behance text-2xl text-main"></i>
-                          <input id="popup-social-behance" type="url" name="behance" placeholder="https://www.behance.net/Internshit.id" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                          <input formControlName="behance" id="popup-social-behance" type="url" name="behance" placeholder="https://www.behance.net/Internshit.id" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                             focus:invalid:border-red-500 focus:invalid:ring-red-500
                           "/>
                       </label>
                       <label class="flex items-center gap-3 mt-4 lg:mt-3">
                           <i class="uil uil-github text-2xl text-main"></i>
-                          <input id="popup-social-github" type="url" name="github" placeholder="https://github.com/Internshit" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                          <input formControlName="github" id="popup-social-github" type="url" name="github" placeholder="https://github.com/Internshit" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                             focus:invalid:border-red-500 focus:invalid:ring-red-500
                           "/>
                       </label>
                       <label class="flex items-center gap-3 mt-4 lg:mt-3">
                           <i class="uil uil-youtube text-2xl text-main"></i>
-                          <input id="popup-social-youtube" type="url" name="youtube" placeholder="https://www.youtube.com/@Internshit" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                          <input formControlName="youtube" id="popup-social-youtube" type="url" name="youtube" placeholder="https://www.youtube.com/@Internshit" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                             focus:invalid:border-red-500 focus:invalid:ring-red-500
                           "/>
                       </label>
@@ -76,27 +76,37 @@ export class ProfileSocialsPopupComponent implements OnInit {
   userService = inject(UserService)
 
   @Input() closePopup: any
-  @Input() userData!: UserInterface
-  formSummary = new FormGroup({
-    summary: new FormControl("")
+  @Input() userData!: any
+  @Output() userDataUpdated = new EventEmitter<string>()
+  formSocials = new FormGroup({
+    twitter: new FormControl(""),
+    instagram: new FormControl(""),
+    linkedin: new FormControl(""),
+    behance: new FormControl(""),
+    github: new FormControl(""),
+    youtube: new FormControl("")
   })
 
   ngOnInit(): void {
-    this.formSummary.controls['summary'].setValue(this.userData.summary)
+    this.formSocials.controls['twitter'].setValue(this.userData.socials.twitter)
+    this.formSocials.controls['instagram'].setValue(this.userData.socials.instagram)
+    this.formSocials.controls['linkedin'].setValue(this.userData.socials.linkedin)
+    this.formSocials.controls['behance'].setValue(this.userData.socials.behance)
+    this.formSocials.controls['github'].setValue(this.userData.socials.github)
+    this.formSocials.controls['youtube'].setValue(this.userData.socials.youtube)
   }
 
-  submitSummary(){
-    const summaryData = this.formSummary.value
-    if(summaryData.summary){
-      this.userData.summary = summaryData.summary
-      this.userService.updateUserData(summaryData)
+  submitSocials(){
+    const socialsData = this.formSocials.value;
+
+    this.userService.UpdateUserSpecificData(socialsData, "socials")
       .then(() => {
-        this.closePopup("summary")
+        this.closePopup("socials");
+        this.userDataUpdated.emit()
       })
       .catch((e) => {
-        alert(e.error.message)
-        console.log(e)
-      })
-    }
+        alert("ERROR");
+        console.log(e);
+      });
   }
 }

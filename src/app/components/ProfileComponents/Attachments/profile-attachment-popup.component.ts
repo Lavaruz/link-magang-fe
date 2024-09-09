@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { UserInterface } from '../../../interface/user.interface';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
@@ -16,7 +16,7 @@ import { UserService } from '../../../services/user.service';
           <p (click)="closePopup('attachments')" class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</p>
       </div>
       <div class="body bg-background noise lg:bg-body h-[85vh] lg:h-[500px] overflow-y-scroll">
-          <form id="form-edit-attachment" class="relative">
+          <form id="form-edit-attachment" class="relative" [formGroup]="formAttachment" (submit)="submitAttachment()">
               <div class="divide-y divide-header pb-40 lg:pb-0">
                   <div class="p-5">
                       <p class="font-bold text-lg text-main mb-1">Lampiran</p>
@@ -31,7 +31,7 @@ import { UserService } from '../../../services/user.service';
                               <label class="flex items-center gap-3 mt-4 lg:mt-3">
                                   <span class="text-black/80 tracking-[1.4px] font-normal text-sm">LINK</span>
                                   <!-- Using form state modifiers, the classes can be identical for every input -->
-                                  <input id="popup-body-resume" type="url" name="atc_resume" placeholder="https://drive.google.com/file" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                                  <input formControlName="atc_resume" id="popup-body-resume" type="url" name="atc_resume" placeholder="https://drive.google.com/file" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                                     focus:invalid:border-red-500 focus:invalid:ring-red-500
                                   "/>
                               </label>
@@ -45,7 +45,7 @@ import { UserService } from '../../../services/user.service';
                               <label class="flex items-center gap-3 mt-4 lg:mt-3">
                                   <span class="text-black/80 tracking-[1.4px] font-normal text-sm">LINK</span>
                                   <!-- Using form state modifiers, the classes can be identical for every input -->
-                                  <input id="popup-body-portfolio" type="url" name="atc_portfolio" placeholder="https://drive.google.com/file" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                                  <input formControlName="atc_portfolio" id="popup-body-portfolio" type="url" name="atc_portfolio" placeholder="https://drive.google.com/file" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                                     focus:invalid:border-red-500 focus:invalid:ring-red-500
                                   "/>
                               </label>
@@ -67,27 +67,29 @@ export class ProfileAttachmentsPopupComponent implements OnInit {
   userService = inject(UserService)
 
   @Input() closePopup: any
-  @Input() userData!: UserInterface
-  formSummary = new FormGroup({
-    summary: new FormControl("")
+  @Input() userData!: any
+  @Output() userDataUpdated = new EventEmitter<string>()
+  formAttachment = new FormGroup({
+    atc_resume: new FormControl(""),
+    atc_portfolio: new FormControl("")
   })
 
   ngOnInit(): void {
-    this.formSummary.controls['summary'].setValue(this.userData.summary)
+    this.formAttachment.controls['atc_resume'].setValue(this.userData.attachments.atc_resume)
+    this.formAttachment.controls['atc_portfolio'].setValue(this.userData.attachments.atc_portfolio)
   }
 
-  submitSummary(){
-    const summaryData = this.formSummary.value
-    if(summaryData.summary){
-      this.userData.summary = summaryData.summary
-      this.userService.updateUserData(summaryData)
+  submitAttachment(){
+    const attachmentData = this.formAttachment.value;
+
+    this.userService.UpdateUserSpecificData(attachmentData, "attachments")
       .then(() => {
-        this.closePopup("summary")
+        this.closePopup("attachments");
+        this.userDataUpdated.emit()
       })
       .catch((e) => {
-        alert(e.error.message)
-        console.log(e)
-      })
+        alert("ERROR");
+        console.log(e);
+      });
     }
-  }
 }

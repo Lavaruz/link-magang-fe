@@ -28,11 +28,16 @@ import { UtilsService } from '../../../services/utils.service';
                                   {{ education.edu_type }}
                               </p>
                               <!-- Program Name (truncated if more than 50 characters) -->
-                              <p class="text-xl font-semibold">
-                                  {{ education.edu_program.length > 50 
-                                      ? (education.edu_program.substring(0, 50) + '..') 
-                                      : education.edu_program }}
-                              </p>
+                              <div class="text-xl font-semibold flex items-center gap-3">
+                                <span>
+                                  {{ 
+                                    education.edu_program.length > 50 
+                                    ? (education.edu_program.substring(0, 50) + '..') 
+                                    : education.edu_program 
+                                  }}
+                                </span>
+                                <span *ngIf="idx == 0" class="text-xs bg-orange-500 px-2 w-max text-white">Aktif</span>
+                              </div>
                               <!-- Institution and GPA -->
                               <div class="flex items-center font-medium lg:font-normal gap-1 text-black/70 text-sm lg:text-base">
                                   <p>
@@ -67,13 +72,13 @@ import { UtilsService } from '../../../services/utils.service';
                       <hr *ngIf="idx+1 !== userData.educations.length">
                   </div>
                   }
-                <button *ngIf="userData.educations.length > absNumber(userData.educations.length - LIMIT)" (click)="showAllData()" class="my-4 font-bold hover:text-main/80 text-main mx-auto">Tampilkan {{userData.educations.length - LIMIT}} Pendidikan Lain</button> 
+                <button *ngIf="userData.educations.length > absNumber(userData.educations.length - LIMIT) && absNumber(userData.educations.length - LIMIT) > 0" (click)="showAllData()" class="my-4 font-bold hover:text-main/80 text-main mx-auto">Tampilkan {{userData.educations.length - LIMIT}} Pendidikan Lain</button> 
               </div>
             }@else {
               <div id="off-educations" class="text-center py-5">
                   <p class="font-bold text-base text-main mb-3">Tambahkan pendidikanmu disini!</p>
                   <p class="font-second text-black/80 text-sm font-medium px-2 lg:px-24 mb-5 lg:mb-2">Pendidikan dapat meningkatkan kapabilitas kamu di mata orang lain, beri tau semua orang apa yang kamu bisa!</p>
-                  <button id="button-education" class="flex items-center gap-1 bg-main text-white rounded-lg text-sm py-2 px-4 m-auto mt-4">Tambahkan pendidikan</button>
+                  <button (click)="openPopup('educations')" id="button-education" class="flex items-center gap-1 bg-main text-white rounded-lg text-sm py-2 px-4 m-auto mt-4">Tambahkan pendidikan</button>
               </div>
             }
         </div>

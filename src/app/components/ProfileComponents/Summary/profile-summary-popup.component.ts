@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { UserInterface } from '../../../interface/user.interface';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
@@ -9,7 +9,7 @@ import { UserService } from '../../../services/user.service';
   imports: [ReactiveFormsModule],
   template: `
     <div class="hidden popup popup-summary border-2 border-main w-full lg:w-[720px] rounded-2xl overflow-hidden lg:rounded-2xl overflow-hidden">
-        <form id="form-profile-summary" [formGroup]="formSummary">
+        <form id="form-profile-summary" [formGroup]="formSummary" (submit)="submitSummary()">
             <div class="hidden header bg-main lg:flex justify-between px-5 py-3 items-center">
                 <p class="font-normal text-white text-base tracking-[1.6px] flex items-center gap-2">MENGEDIT RINGKASAN PROFIL</p>
                 <p (click)="closePopup('summary')" class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</p>
@@ -31,9 +31,10 @@ import { UserService } from '../../../services/user.service';
 export class ProfileSummaryPopupComponent implements OnInit {
   
   userService = inject(UserService)
-
+  
   @Input() closePopup: any
   @Input() userData!: UserInterface
+  @Output() userDataUpdated = new EventEmitter<string>()
   formSummary!:FormGroup
 
   ngOnInit(): void {
@@ -42,18 +43,17 @@ export class ProfileSummaryPopupComponent implements OnInit {
     })
   }
 
-  submitSummary(){
-    const summaryData = this.formSummary.value
-    if(summaryData.summary){
-      this.userData.summary = summaryData.summary
-      this.userService.updateUserData(summaryData)
+  submitSummary() {
+    const summaryData = this.formSummary.value;
+
+    this.userService.updateUserData(summaryData)
       .then(() => {
-        this.closePopup("summary")
+        this.closePopup("summary");
+        this.userDataUpdated.emit()
       })
       .catch((e) => {
-        alert(e.error.message)
-        console.log(e)
-      })
-    }
+        alert("ERROR");
+        console.log(e);
+      });
   }
 }
