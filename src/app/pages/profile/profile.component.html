@@ -75,11 +75,11 @@
 
     <app-profile-basic-information-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-basic-information-popup>
     <app-profile-summary-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-summary-popup>
-    <app-skills-skills-popup [userData]="USER" [closePopup]="closePopup"></app-skills-skills-popup>
+    <app-skills-skills-popup [userData]="USER" [skillsData]="SKILLS" [closePopup]="closePopup"></app-skills-skills-popup>
     <app-profile-experiences-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-experiences-popup>
     <app-profile-educations-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-educations-popup>
     <app-profile-attachments-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-attachments-popup>
     <app-profile-socials-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-socials-popup>
-    <app-profile-talent-popup [userData]="USER" [closePopup]="closePopup"></app-profile-talent-popup>
+    <app-profile-talent-popup [userData]="USER" [closePopup]="closePopup" (userDataUpdated)="callUserData()"></app-profile-talent-popup>
 
 </section>

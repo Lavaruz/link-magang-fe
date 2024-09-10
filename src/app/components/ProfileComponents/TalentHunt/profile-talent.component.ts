@@ -17,7 +17,8 @@ import { UserInterface } from '../../../interface/user.interface';
             <div class="w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
             <span [ngClass]="userData.active_search ? 'text-green-500' : 'text-red-500'" class="active-search-status ml-2 font-second text-sm font-semibold">{{userData.active_search == true ? "Visibilitas Aktif" : "Visibilitas Nonaktif"}}</span>
         </label>
-        <button [disabled]="!checkIsCanActivateTalentHunt()" (click)="openPopup('active-search')" class="disabled:opacity-50 button-active-search flex items-start gap-1 bg-main text-white rounded-lg text-sm py-2 px-4 mt-4">Aktifkan Kartu Talent</button>
+        <button *ngIf="userData.active_search == false" [disabled]="!checkIsCanActivateTalentHunt()" (click)="openPopup('active-search')" class="disabled:opacity-50 button-active-search flex items-start gap-1 bg-main font-medium text-white rounded-lg text-sm py-2 px-4 mt-4">Aktifasi Kartu Talent</button>
+        <button *ngIf="userData.active_search == true" [disabled]="!checkIsCanActivateTalentHunt()" (click)="openPopup('active-search')" class="disabled:opacity-50 button-active-search flex items-start gap-1 bg-red-500 font-medium text-white rounded-lg text-sm py-2 px-4 mt-4">Deaktifasi Kartu</button>
         <span *ngIf="!checkIsCanActivateTalentHunt()" class="text-red-500 font-medium text-xs">*Lengkapi profil untuk mengaktifkan visibilitas</span>
     </div>
   `,

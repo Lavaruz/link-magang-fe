@@ -42,7 +42,14 @@ import { UserService } from '../../../services/user.service';
                                   </div>
                               </div>
                               <ul id="list-skills" class="h-28 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownSearchButton">
-                                  <!-- HERE -->
+                                @for(skill of skillsData; track skill.id){
+                                  <li>
+                                      <div class="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                                          <input (click)="addToSkills(skill.id)" id="checkbox-{{skill.id}}" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                          <label for="checkbox-{{skill.id}}" class="w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">{{skill.skill}}</label>
+                                      </div>
+                                  </li>
+                                }
                               </ul>
                               <div class="flex flex-col items-center p-3 text-sm border border-gray-200 rounded-b-lg bg-gray-50">
                                   <input type="text" name="" id="" placeholder="Tambahkan keahlian baru" class="w-full border border-gray-300 focus:border-main py-2 rounded-lg text-sm">
@@ -70,13 +77,23 @@ export class ProfileSkillsPopupComponent implements OnInit {
   userService = inject(UserService)
 
   @Input() closePopup: any
+  @Input() skillsData: any
   @Input() userData!: UserInterface
+
+  SKILLS:any = []
+
   formSummary = new FormGroup({
     summary: new FormControl("")
   })
 
   ngOnInit(): void {
     this.formSummary.controls['summary'].setValue(this.userData.summary)
+  }
+
+  addToSkills(id:any){
+    this.SKILLS.push(id)
+    console.log(this.SKILLS);
+    
   }
 
   submitSummary(){

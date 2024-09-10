@@ -34,14 +34,16 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     window.onload = () => {
-      google.accounts.id.initialize({
-        client_id: "698401836212-gi5ntasmqfae7hiu2q0qu8i2h2gco82h.apps.googleusercontent.com",
-        callback: (response: any) => this.handleGoogleSignIn(response)
-      });
-      google.accounts.id.renderButton(
-        document.getElementById("button-google"),
-        { size: "large", type: "standard", shape: "pill", text:"continue_with" }  // customization attributes
-      );
+      if(!this.userService.checkAuth()){
+        google.accounts.id.initialize({
+          client_id: "698401836212-gi5ntasmqfae7hiu2q0qu8i2h2gco82h.apps.googleusercontent.com",
+          callback: (response: any) => this.handleGoogleSignIn(response)
+        });
+        google.accounts.id.renderButton(
+          document.getElementById("button-google"),
+          { size: "large", type: "standard", shape: "pill", text:"continue_with" }  // customization attributes
+        );
+      }
     }
   }
 

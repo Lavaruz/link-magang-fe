@@ -52,6 +52,7 @@ export class ProfileComponent implements OnInit {
   FORM_SUMMARY:FormGroup = new FormGroup("")
 
   USER!: UserInterface
+  SKILLS:any
   EXPERIENCES!: ExperienceInterface[]
   EDUCATIONS!: EducationInterface[]
 
@@ -71,7 +72,10 @@ export class ProfileComponent implements OnInit {
       this.USER = userData
       this.EDUCATIONS = userData.educations
       this.EXPERIENCES = userData.experiences
-      this.DONE_LOADING = true
+      this.userService.GetAllSkills().then(skillsData => {
+        this.SKILLS = skillsData
+        this.DONE_LOADING = true
+      })
     })
   }
 

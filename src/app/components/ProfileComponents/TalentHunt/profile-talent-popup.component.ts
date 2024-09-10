@@ -1,8 +1,9 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { UserInterface } from '../../../interface/user.interface';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { CommonModule } from '@angular/common';
+import $ from "jquery"
 
 @Component({
   selector: 'app-profile-talent-popup',
@@ -17,29 +18,34 @@ import { CommonModule } from '@angular/common';
           <p (click)="closePopup('active-search')" class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</p>
       </div>
       <div class="body bg-background noise lg:bg-body h-[92vh] lg:h-[350px] overflow-y-scroll">
-          <form id="form-edit-active-information" class="relative">
-              <div class="divide-y divide-header pb-12 lg:pb-0">
-                  <div class="p-5">
-                      <button type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-main font-medium font-second text-base">
-                          <i class="uil uil-arrow-left"></i> Kembali ke Profil
-                      </button>
-                      <p class="font-bold text-lg text-main mb-1">Visibilitas Talent Hunt</p>
-                      <p class="text-black/80 text-sm font-second font-medium">Mendeklarasikan dirimu aktif di talent hunt artinya profilmu akan dapat dikunjungi, dan dilihat oleh orang lain.</p>
-                      <p class="text-red-500 text-xs font-second font-medium mt-2">*Visbilitas akan menjadi nonaktif, setiap kamu melakukan update profile</p>
+        <div class="divide-y divide-header pb-12 lg:pb-0">
+            <div class="p-5">
+                <button type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-main font-medium font-second text-base">
+                    <i class="uil uil-arrow-left"></i> Kembali ke Profil
+                </button>
+                <p class="font-bold text-lg text-main mb-1">Visibilitas Talent Hunt</p>
+                <p class="text-black/80 text-sm font-second font-medium">Mendeklarasikan dirimu aktif di talent hunt artinya profilmu akan dapat dikunjungi, dan dilihat oleh orang lain.</p>
+                <p class="text-red-500 text-xs font-second font-medium mt-2">*Visbilitas akan menjadi nonaktif, setiap kamu melakukan update profile</p>
+            </div>
+              <div class="my-2 px-5 pb-8">
+                  <img src="assets/img/showphone.png" width="70%" class="mx-auto" alt="">
+                  <div class="flex flex-col mt-4">
+                      <label class="relative block inline-flex cursor-pointer">
+                          <input (change)="updateShowPhone(switchPhone)" #switchPhone [checked]="userData.config.show_phone" id="show-phone" name="show_phone" type="checkbox" value="" class="sr-only peer">
+                          <div class="w-11 h-6 bg-red-500 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
+                          <span id="active-search-status" class="ml-2 text-green-500 font-second text-sm font-semibold"> 
+                            Nomor Handphone 
+                            <span *ngIf="userData.config.show_phone == false" class="text-red-500 font-bold">disembunyikan.</span>
+                            <span *ngIf="userData.config.show_phone == true" class="text-main font-bold">ditampilkan.</span>
+                          </span>
+                      </label>
                   </div>
-                    <div class="my-2 px-5">
-                        <div class="flex flex-col mt-4">
-                            <label class="relative block inline-flex cursor-pointer">
-                                <input id="show-phone" name="show_phone" type="checkbox" value="" class="sr-only peer">
-                                <div class="w-11 h-6 bg-red-500 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-green-600"></div>
-                                <span id="active-search-status" class="ml-2 text-green-500 font-second text-sm font-semibold">Sembunyikan <span class="font-bold text-red-500">Nomor Handphone</span>.</span>
-                            </label>
-                        </div>
-                        <button *ngIf="userData.active_search == false" id="declare-active-search" class="w-full lg:w-max disabled:opacity-60 shadow-md flex items-start gap-1 bg-main text-white rounded-lg text-sm py-4 lg:py-2 px-4 mt-6">Aktifkan kartu Talent Hunt</button>
-                        <button *ngIf="userData.active_search == true" id="stop-active-search" class="w-full lg:w-max disabled:opacity-60 shadow-md flex items-start gap-1 bg-red-600 text-white rounded-lg text-sm py-4 lg:py-2 px-4 mt-6">Berhenti menampilkan kartu</button>
-                    </div>
-                </div>
-          </form>
+                  <div class="mt-4">
+                    <button (click)="changeActiveSearch(true)" *ngIf="userData.active_search == false" id="declare-active-search" class="w-full lg:w-max disabled:opacity-60 shadow-md flex items-start gap-1 bg-main text-white rounded-lg text-sm py-4 lg:py-2 px-4 mt-6">Aktifkan kartu Talent Hunt</button>
+                    <button (click)="changeActiveSearch(false)" *ngIf="userData.active_search == true" id="stop-active-search" class="w-full lg:w-max disabled:opacity-60 shadow-md flex items-start gap-1 bg-red-600 text-white rounded-lg text-sm py-4 lg:py-2 px-4 mt-6">Berhenti menampilkan kartu</button>
+                  </div>
+              </div>
+          </div>
       </div>
   </div>
   `,
@@ -51,6 +57,7 @@ export class ProfileTalentPopupComponent implements OnInit {
 
   @Input() closePopup: any
   @Input() userData!: UserInterface
+  @Output() userDataUpdated = new EventEmitter<string>()
   formSummary = new FormGroup({
     summary: new FormControl("")
   })
@@ -66,18 +73,17 @@ export class ProfileTalentPopupComponent implements OnInit {
     return true
   }
 
-  submitSummary(){
-    const summaryData = this.formSummary.value
-    if(summaryData.summary){
-      this.userData.summary = summaryData.summary
-      this.userService.updateUserData(summaryData)
-      .then(() => {
-        this.closePopup("summary")
-      })
-      .catch((e) => {
-        alert(e.error.message)
-        console.log(e)
-      })
-    }
+  updateShowPhone(switchPhone:any){
+    const isChecked = $(switchPhone).prop("checked")
+    this.userService.UpdateUserSpecificData({show_phone: isChecked}, "config").then(() => {
+      this.userData.config.show_phone = isChecked
+    })
+  }
+
+  changeActiveSearch(isChecked:boolean){
+    this.userService.updateUserData({active_search: isChecked}).then(() => {
+      this.closePopup("active-search");
+      this.userDataUpdated.emit()
+    })
   }
 }
