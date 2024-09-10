@@ -47,6 +47,14 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     }
   }
 
+  goToPost(){
+    if(this.userService.checkAuth()){      
+      this.router.navigate(["/posts/foryou"])
+    }else{
+      this.router.navigate(["/posts/explore"])
+    }
+  }
+
   handleGoogleSignIn(response: any) {
     this.userService.googleLoginHandler(response.credential).then(userAuthenticate => {
       this.userService.setCookie(userAuthenticate, "userAuthenticate")

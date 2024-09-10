@@ -7,6 +7,7 @@ import { CommunityComponent } from './pages/community/community.component';
 import { PostsForYouComponent } from './pages/posts/foryou/posts.component';
 import { ExploreComponent } from './pages/posts/explore/explore.component';
 import { BookmarkComponent } from './pages/posts/bookmark/bookmark.component';
+import { TalentHuntComponent } from './pages/talent-hunt/talent-hunt.component';
 
 export const routes: Routes = [
     { path: "", redirectTo:"posts/explore", pathMatch: "full" },
@@ -25,6 +26,7 @@ export const routes: Routes = [
             {path:"me", component: ProfileComponent}
         ]
     },
+    { path: "talent", component: TalentHuntComponent },
     { path: "community", component: CommunityComponent },
     { path: "terms-of-service", component: TermsOfServicesComponent },
     { path: "privacy-policy", component: PrivacyPolicyComponent },

@@ -75,6 +75,10 @@ export class UserService {
     const userData:any = await this.requestService.getEncryptedRequest(`/api/v1/users/info`)
     return userData
   }
+  async getAllUserActiveData(){
+    const userData:any = await this.requestService.getEncryptedRequest(`/api/v1/users/active`)
+    return userData
+  }
   
   async updateUserData(userData:any){
     const updatedData = await this.requestService.putEncryptedRequest("/api/v1/users", userData)
