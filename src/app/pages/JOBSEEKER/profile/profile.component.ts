@@ -1,30 +1,30 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { UserService } from '../../services/user.service';
+import { UserService } from '../../../services/user.service';
 import { CommonModule, Location, NgIf } from '@angular/common';
-import { UserInterface } from '../../interface/user.interface';
+import { UserInterface } from '../../../interface/user.interface';
 import $ from "jquery"
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // IMPORT COMPONENTS
-import { ProfileBasicInformationComponent } from '../../components/ProfileComponents/BasicInformation/profile-basic-information.component';
-import { ProfileBasicInformationPopupComponent } from '../../components/ProfileComponents/BasicInformation/profile-basic-information-popup.component';
-import { ProfileSummaryComponent } from '../../components/ProfileComponents/Summary/profile-summary.component';
-import { ProfileSummaryPopupComponent } from '../../components/ProfileComponents/Summary/profile-summary-popup.component';
-import { ProfileExperiencesComponent } from '../../components/ProfileComponents/Experiences/profile-experiences.component';
-import { ProfileExperiencesPopupComponent } from '../../components/ProfileComponents/Experiences/profile-experiences-popup.component';
-import { ProfileEducationsComponent } from '../../components/ProfileComponents/Educations/profile-educations.component';
-import { ProfileEducationsPopupComponent } from '../../components/ProfileComponents/Educations/profile-educations-popup.component';
-import { ExperienceInterface } from '../../interface/experience.interface';
-import { EducationInterface } from '../../interface/education.interface';
-import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { ProfileSkillsComponent } from '../../components/ProfileComponents/Skills/profile-skills.component';
-import { ProfileSkillsPopupComponent } from '../../components/ProfileComponents/Skills/profile-skills-popup.component';
-import { ProfileAttachmentsComponent } from '../../components/ProfileComponents/Attachments/profile-attachment.component';
-import { ProfileAttachmentsPopupComponent } from '../../components/ProfileComponents/Attachments/profile-attachment-popup.component';
-import { ProfileSocialsComponent } from '../../components/ProfileComponents/Socials/profile-socials.component';
-import { ProfileSocialsPopupComponent } from '../../components/ProfileComponents/Socials/profile-socials-popup.component';
-import { ProfileTalentComponent } from '../../components/ProfileComponents/TalentHunt/profile-talent.component';
-import { ProfileTalentPopupComponent } from '../../components/ProfileComponents/TalentHunt/profile-talent-popup.component';
+import { ProfileBasicInformationComponent } from '../../../components/ProfileComponents/BasicInformation/profile-basic-information.component';
+import { ProfileBasicInformationPopupComponent } from '../../../components/ProfileComponents/BasicInformation/profile-basic-information-popup.component';
+import { ProfileSummaryComponent } from '../../../components/ProfileComponents/Summary/profile-summary.component';
+import { ProfileSummaryPopupComponent } from '../../../components/ProfileComponents/Summary/profile-summary-popup.component';
+import { ProfileExperiencesComponent } from '../../../components/ProfileComponents/Experiences/profile-experiences.component';
+import { ProfileExperiencesPopupComponent } from '../../../components/ProfileComponents/Experiences/profile-experiences-popup.component';
+import { ProfileEducationsComponent } from '../../../components/ProfileComponents/Educations/profile-educations.component';
+import { ProfileEducationsPopupComponent } from '../../../components/ProfileComponents/Educations/profile-educations-popup.component';
+import { ExperienceInterface } from '../../../interface/experience.interface';
+import { EducationInterface } from '../../../interface/education.interface';
+import { NavbarComponent } from '../../../components/navbar/navbar.component';
+import { ProfileSkillsComponent } from '../../../components/ProfileComponents/Skills/profile-skills.component';
+import { ProfileSkillsPopupComponent } from '../../../components/ProfileComponents/Skills/profile-skills-popup.component';
+import { ProfileAttachmentsComponent } from '../../../components/ProfileComponents/Attachments/profile-attachment.component';
+import { ProfileAttachmentsPopupComponent } from '../../../components/ProfileComponents/Attachments/profile-attachment-popup.component';
+import { ProfileSocialsComponent } from '../../../components/ProfileComponents/Socials/profile-socials.component';
+import { ProfileSocialsPopupComponent } from '../../../components/ProfileComponents/Socials/profile-socials-popup.component';
+import { ProfileTalentComponent } from '../../../components/ProfileComponents/TalentHunt/profile-talent.component';
+import { ProfileTalentPopupComponent } from '../../../components/ProfileComponents/TalentHunt/profile-talent-popup.component';
 import { Router } from '@angular/router';
 
 @Component({

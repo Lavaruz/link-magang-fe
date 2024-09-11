@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { NavbarComponent } from '../../../components/navbar/navbar.component';
+import { NavbarComponent } from '../../../../components/navbar/navbar.component';
 import { RouterLink } from '@angular/router';
-import { PostNavbarComponent } from '../../../components/post-navbar/post-navbar.component';
-import { UserService } from '../../../services/user.service';
-import { PostsService } from '../../../services/posts.service';
+import { PostNavbarComponent } from '../../../../components/post-navbar/post-navbar.component';
+import { UserService } from '../../../../services/user.service';
+import { PostsService } from '../../../../services/posts.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -17,18 +17,29 @@ export class PostsForYouComponent implements OnInit {
   userService = inject(UserService)
   postService = inject(PostsService)
 
-  POSTS_DATA:any
+  IS_LOGIN = false
+
+  POSTS_DATA:any = []
   POST_DATAS_DETAIL:any
   DONE_LOADING_DETAIL = false
   DONE_LOADING = false
 
   ngOnInit(): void {
-    this.postService.GetAllMatchPosts({}).then(postsData => {
-      this.POSTS_DATA = postsData.datas
+    this.IS_LOGIN = this.userService.checkAuth()
+    console.log(this.IS_LOGIN);
+    
+    if(this.IS_LOGIN){
+      this.postService.GetAllMatchPosts({}).then(postsData => {
+        this.POSTS_DATA = postsData.datas
+        this.DONE_LOADING = true
+      })
+    }else{
       this.DONE_LOADING = true
-      
-      
-    })
+    }
+  }
+
+  savePost(){
+    alert("SAVED")
   }
 
   openPostDetail(id:any){

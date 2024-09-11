@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { NavbarComponent } from '../../components/navbar/navbar.component';
-import { UserInterface } from '../../interface/user.interface';
-import { UserService } from '../../services/user.service';
+import { NavbarComponent } from '../../../components/navbar/navbar.component';
+import { UserInterface } from '../../../interface/user.interface';
+import { UserService } from '../../../services/user.service';
 import { CommonModule } from '@angular/common';
 import $ from "jquery"
 

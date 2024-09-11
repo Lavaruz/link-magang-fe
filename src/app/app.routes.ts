@@ -1,13 +1,17 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import { TermsOfServicesComponent } from './pages/terms-of-services/terms-of-services.component';
-import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { CommunityComponent } from './pages/community/community.component';
-import { PostsForYouComponent } from './pages/posts/foryou/posts.component';
-import { ExploreComponent } from './pages/posts/explore/explore.component';
-import { BookmarkComponent } from './pages/posts/bookmark/bookmark.component';
-import { TalentHuntComponent } from './pages/talent-hunt/talent-hunt.component';
+import { HomeComponent } from './pages/JOBSEEKER/home/home.component';
+import { TermsOfServicesComponent } from './pages/GENERAL/terms-of-services/terms-of-services.component';
+import { PrivacyPolicyComponent } from './pages/GENERAL/privacy-policy/privacy-policy.component';
+import { ProfileComponent } from './pages/JOBSEEKER/profile/profile.component';
+import { CommunityComponent } from './pages/JOBSEEKER/community/community.component';
+import { PostsForYouComponent } from './pages/JOBSEEKER/posts/foryou/posts.component';
+import { ExploreComponent } from './pages/JOBSEEKER/posts/explore/explore.component';
+import { BookmarkComponent } from './pages/JOBSEEKER/posts/bookmark/bookmark.component';
+import { TalentHuntComponent } from './pages/JOBSEEKER/talent-hunt/talent-hunt.component';
+import { LoginComponent } from './pages/ADMIN/login/login.component';
+import { AdminPostsComponent } from './pages/ADMIN/admin-posts/admin-posts.component';
+import { AdminUsersComponent } from './pages/ADMIN/admin-users/admin-users.component';
+import { AdminAdditionalsComponent } from './pages/ADMIN/admin-additionals/admin-additionals.component';
 
 export const routes: Routes = [
     { path: "", redirectTo:"posts/explore", pathMatch: "full" },
@@ -30,5 +34,15 @@ export const routes: Routes = [
     { path: "community", component: CommunityComponent },
     { path: "terms-of-service", component: TermsOfServicesComponent },
     { path: "privacy-policy", component: PrivacyPolicyComponent },
+    { 
+        path: "admin",
+        children: [
+            {path: "", redirectTo: "/admin/posts", pathMatch: "full"},
+            {path: "login", component: LoginComponent},
+            {path: "posts", component: AdminPostsComponent},
+            {path: "users", component: AdminUsersComponent},
+            {path: "additionals", component: AdminAdditionalsComponent},
+        ] 
+    },
     { path: '**', redirectTo:"posts/explore", pathMatch: "full" }
 ];

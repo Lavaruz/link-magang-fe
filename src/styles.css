@@ -120,4 +120,8 @@ line-height: 1.5;
     font-weight: 700;
     color: #47A992;
 }
-    
+.selected-admin-nav, .selected-admin-nav:hover{
+    font-weight: 700;
+    color: #47A992;
+    background-color: white !important;
+}

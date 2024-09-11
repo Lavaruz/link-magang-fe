@@ -1,76 +1,89 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { NavbarComponent } from '../../../components/navbar/navbar.component';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { PostNavbarComponent } from '../../../components/post-navbar/post-navbar.component';
 import { PostsService } from '../../../services/posts.service';
-import { CommonModule } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import $ from "jquery"
+import { RequestService } from '../../../services/request.service';
 import { UserService } from '../../../services/user.service';
+import { CommonModule, Location, NgIf } from '@angular/common';
+import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NavbarComponent } from '../../../components/navbar/navbar.component';
 
 @Component({
-  selector: 'app-explore',
+  selector: 'app-home',
   standalone: true,
-  imports: [NavbarComponent, RouterLink, PostNavbarComponent, CommonModule, ReactiveFormsModule],
-  templateUrl: './explore.component.html'
+  imports: [NgIf, GoogleSigninButtonModule, ReactiveFormsModule, CommonModule, RouterLink, NavbarComponent],
+  templateUrl: './home.component.html',
 })
-export class ExploreComponent implements OnInit {
-  postService = inject(PostsService)
-  userService = inject(UserService)
-  aRoute = inject(ActivatedRoute)
-  router = inject(Router)
+export class HomeComponent implements OnInit {
+  dashboard_img = "assets/images/noise-light.png"
 
   FORM_SEARCH:FormGroup = new FormGroup("")
+  IS_VERIFIED:boolean = false
 
-  SHOW_MORE_BUTTON = true
-  POST_PAGE = 1
-  POST_LIMIT = 6
-  POST_DATAS:any = []
+  POST_DATAS:any
   POST_DATAS_DETAIL:any
-  POST_COUNT = 0
-
-  LOCATION_DATAS:any
-  SKILL_DATAS:any
-
-  IS_BUTTON_LOADING = false
+  POST_LIMIT:number = 3
+  POST_PAGE:number = 1
+  POST_COUNT:number = 0
+  SHOW_PAGINATION = true
 
   DONE_LOADING = false
   DONE_LOADING_DETAIL = false
-  DONE_LOADING_SIDEBAR = false
+
   QUERY:any
 
-  ngOnInit(): void {
-    this.aRoute.queryParams.subscribe(params => {
+  // INJECTABLE SERVICE
+  postService = inject(PostsService)
+  requestService = inject(RequestService)
+
+  constructor(private aRoute: ActivatedRoute, private router: Router, private userService: UserService, private location: Location){
+    aRoute.queryParams.subscribe(params => {
+      this.SHOW_PAGINATION = true
       this.POST_PAGE = parseFloat(params["page"]) || 1
+      this.DONE_LOADING = false
       this.QUERY = {
         limit: this.POST_LIMIT,
         page: this.POST_PAGE,
         search: params["search"] || "",
         platform: ""
       }
-
-
-      this.userService.GetAllLocations().then(locationData => {
-        this.LOCATION_DATAS = locationData
-        this.userService.GetAllSkills().then(skillsData => {
-          this.SKILL_DATAS = skillsData
-          this.DONE_LOADING_SIDEBAR = true
-          params["search"] ? this.SHOW_MORE_BUTTON = false : this.SHOW_MORE_BUTTON = true
-        })
-      })
-
-      this.FORM_SEARCH = new FormGroup({
-        search: new FormControl(""),
-      })
+      this.callGetProduct()
     })
-    
-    this.callGetPost()
-    
+
+    this.FORM_SEARCH = new FormGroup({
+      search: new FormControl(""),
+    })
   }
 
+  async ngOnInit() {
+    this.IS_VERIFIED = await this.userService.verifyToken()
+  }
 
-  callGetPost(){
-    this.QUERY.limit = 6
+  
+  addPage(){
+    this.POST_PAGE++
+    this.QUERY["page"] = this.POST_PAGE
+    this.router.navigate(
+      [],{
+        queryParams: { page: this.POST_PAGE },
+        queryParamsHandling: "merge"
+      }
+    )
+    this.callGetProduct()
+  }
+  subPage(){
+    this.POST_PAGE--
+    this.QUERY["page"] = this.POST_PAGE
+    this.router.navigate(
+      [],{
+        queryParams: { page: this.POST_PAGE },
+        queryParamsHandling: "merge"
+      }
+    )
+    this.callGetProduct()
+  }
+  callGetProduct(){
     this.postService.GetAllPosts(this.QUERY).then(postData => {
       this.POST_DATAS = postData.datas
       this.POST_LIMIT = postData.limit
@@ -78,28 +91,15 @@ export class ExploreComponent implements OnInit {
 
       this.postService.GetCountAllPosts().then(postCount => {
         this.POST_COUNT = postCount
-        this.DONE_LOADING = true
+
+        setTimeout(() => {
+          this.DONE_LOADING = true
+        }, 1000)
       })
       
     })
-  }
 
-  resetFilter(){
-    this.QUERY.limit = 6
-    this.QUERY.page = 1
-    this.POST_DATAS = []
-    this.SHOW_MORE_BUTTON = true
-    this.router.navigate([], {
-      queryParams: {
-        'search': null,
-        'location': null,
-        'skills': null,
-        'page': null
-      },
-      queryParamsHandling: 'merge'
-    })
   }
-
   submitFormSearch(){
     if(this.FORM_SEARCH.invalid) return
 
@@ -108,7 +108,7 @@ export class ExploreComponent implements OnInit {
       this.QUERY.limit = 999
       this.QUERY.page = 1
     }else{
-      this.QUERY.limit = 6
+      this.QUERY.limit = 9
     }
 
     this.router.navigate(
@@ -118,32 +118,13 @@ export class ExploreComponent implements OnInit {
       }
     )
 
-    this.postService.GetAllPosts(this.QUERY).then(postData => {
-      this.POST_DATAS = postData.datas
-      this.POST_LIMIT = postData.limit
-      this.POST_PAGE = postData.page  
-      this.SHOW_MORE_BUTTON = false
-    })
+    this.callGetProduct()
+    this.SHOW_PAGINATION = false
   }
 
 
-  addPage(){
-    this.IS_BUTTON_LOADING = true
-    this.POST_PAGE++
-    this.QUERY["page"] = this.POST_PAGE
-
-    this.postService.GetAllPosts(this.QUERY).then(postData => {
-      this.POST_DATAS.push(...postData.datas)
-      this.IS_BUTTON_LOADING = false
-    })
-  }
 
 
-  expandSidebar(evt: any){
-    const $this = $(evt)
-    $this.find("i").toggleClass("uil-angle-left uil-angle-down")
-    $this.next().slideToggle("fast").css("display", "flex")
-  }
 
   openPostDetail(id:any){
     this.DONE_LOADING_DETAIL = false
@@ -152,7 +133,9 @@ export class ExploreComponent implements OnInit {
       $("body").css("overflow", "hidden")
       this.postService.GetPostById(id).then(postData => {
         this.POST_DATAS_DETAIL = postData
-        this.DONE_LOADING_DETAIL = true
+        setTimeout(() => {
+          this.DONE_LOADING_DETAIL = true
+        }, 1000)
       })
     }).css("display", "flex")
   }
@@ -204,13 +187,8 @@ export class ExploreComponent implements OnInit {
           return '<img class="w-5 h-5 rounded-lg" src="assets/img/Jobstreet.png" alt="JobStreet">';
       case 'Indeed':
           return '<img class="w-5 h-5 rounded-lg" src="assets/img/Indeed.png" alt="Indeed">';
-      case 'Dealls':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Dealls.png" alt="Dealls">';
-      case 'Kitalulus':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Kitalulus.png" alt="Kitalulus">';
       default:
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Other.png" alt="Default">';
+          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Default.png" alt="Default">';
     }
   }
-
 }
