@@ -61,37 +61,42 @@
             </form>
 
 
-            <div class="grid grid-cols-3 gap-4 mt-8">
-                <div class="job-detail cursor-pointer hover:scale-[1.005] duration-100 shadow-lg border hover:border-main bg-white p-4 rounded-xl flex flex-col justify-between">
-                    <div class="">
-                        <!-- TITLE -->
-                        <p class="font-medium text-black mb-2">Junior Software Engineer</p>
-                        <!-- SKILLS -->
-                        <div class="flex gap-2 flex-wrap">
-                            <button class="text-xs bg-main text-white px-2 py-1 rounded">JavaScript</button>
-                            <button class="text-xs bg-main text-white px-2 py-1 rounded">Angular</button>
-                            <button class="text-xs bg-main text-white px-2 py-1 rounded">Backend Development</button>
-                            <button class="text-xs bg-main text-white px-2 py-1 rounded">Frontend Development</button>
-                            <button class="text-xs bg-main text-white px-2 py-1 rounded">+2</button>
+            <div *ngIf="DONE_LOADING == true" class="grid grid-cols-3 gap-4 mt-8">
+                @for(post of POSTS_DATA; track post.id){
+                    <div (click)="openPostDetail(post.id)" class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border hover:border-main bg-white p-4 rounded-xl flex flex-col justify-between">
+                        <div class="">
+                            <!-- TITLE -->
+                            <p class="font-medium text-black mb-2">{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
+                            <!-- SKILLS -->
+                            <div class="flex gap-2 flex-wrap" *ngIf="post.skills && post.skills.length > 0">
+                                <ng-container *ngFor="let skill of getActiveSkills(post.skills)">
+                                    <button class="text-xs bg-main text-white px-2 py-1 rounded">
+                                    {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
+                                    </button>
+                                </ng-container>
+                                <button *ngIf="getRemainingSkills(post.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
+                                    +{{ getRemainingSkills(post.skills).length }}
+                                </button>
+                            </div>
+                            <!-- ADDITIONAL INFO -->
+                            <p class="text-sm flex items-center gap-2 mt-4"><i class="uil uil-building"></i>{{post.company.length > 38 ? post.company.substring(0,38) + ".." : post.company}}</p>
+                            <p class="text-sm flex items-center gap-2 mt-1"><i class="uil uil-location-point"></i> {{post.type}} • {{post.location}}</p>
                         </div>
-                        <!-- ADDITIONAL INFO -->
-                        <p class="text-sm flex items-center gap-2 mt-4"><i class="uil uil-building"></i>Google Inc</p>
-                        <p class="text-sm flex items-center gap-2 mt-1"><i class="uil uil-location-point"></i>Full-Time • San Francisco</p>
-                    </div>
-                    <div class="">
-                        <hr class="my-2">
-                        <div class="flex items-center justify-between gap-3 mt-4">
-                            <span class="text-white text-xs font-medium bg-orange-500 px-2 py-1">kamu banget</span>
-                            <div class="flex items-center gap-2 ms-auto">
-                                <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">muncul di</span></p>
-                                <div>
-                                    <img src="assets/img/Kalibrr.png" alt="Platform Logo" class="h-4">
+                        <div class="">
+                            <hr class="my-2">
+                            <div class="flex items-center justify-between gap-3 mt-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                                    <path d="M 12.8125 2 C 12.335938 2.089844 11.992188 2.511719 12 3 L 12 47 C 11.996094 47.359375 12.1875 47.691406 12.496094 47.871094 C 12.804688 48.054688 13.1875 48.054688 13.5 47.875 L 25 41.15625 L 36.5 47.875 C 36.8125 48.054688 37.195313 48.054688 37.503906 47.871094 C 37.8125 47.691406 38.003906 47.359375 38 47 L 38 3 C 38 2.449219 37.550781 2 37 2 L 13 2 C 12.96875 2 12.9375 2 12.90625 2 C 12.875 2 12.84375 2 12.8125 2 Z M 14 4 L 36 4 L 36 45.25 L 25.5 39.125 C 25.191406 38.945313 24.808594 38.945313 24.5 39.125 L 14 45.25 Z"></path>
+                                </svg>
+                                <div class="flex items-center gap-2">
+                                    <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">muncul di</span></p>
+                                    <div [innerHTML]="getPlatformImage(post.platform)"></div>
+                                    <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgo(post.post_date)}}</span></p>
                                 </div>
-                                <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">2 days ago</span></p>
                             </div>
                         </div>
                     </div>
-                </div>  
+                } 
             </div>
         </div>
         

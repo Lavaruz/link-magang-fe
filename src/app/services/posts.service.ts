@@ -17,6 +17,15 @@ export class PostsService {
     }
   }
 
+  async GetAllMatchPosts(QUERY: any) {
+    try {
+      const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts/match`);
+      return postData
+    } catch (error) {
+      console.error('Error on Get Membership Price:', error);
+    }
+  }
+
   async GetPostById(CARD_ID: any) {
     try {
       const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts/${CARD_ID}`);

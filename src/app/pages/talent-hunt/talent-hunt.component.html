@@ -3,7 +3,7 @@
     <div class="min-h-screen lg:w-[1150px] mx-auto pb-20 px-[5%] mt-8 lg:px-0 grid grid-cols-8 gap-8">
 
         <!-- SIDEBAR -->
-        <div class="lg:col-span-2 bg-white border rounded-xl sticky top-[6rem]">
+        <div class="lg:col-span-2 bg-white border rounded-xl sticky top-[6rem] self-start h-max">
             <form id="form-market-filter" class="flex flex-col items-center gap-4 py-6 px-4">
                 <div class="w-full flex flex-col gap-4 w-full">
                     <div class="pb-4 flex justify-between w-full">
@@ -59,73 +59,97 @@
                     <!-- <p class="text-sm font-medium text-main">BY PENDIDIKAN ---</p> -->
                     <!-- FILTER BY TIPE PEKERJAAN -->
                     <div class="">
-                        <button type="button" (click)="expandSidebar(sidebarPrefJob)" #sidebarPrefJob class="w-full flex items-center justify-between py-2">
+                        <button type="button" (click)="expandSidebar(sidebarInstitute)" #sidebarInstitute class="w-full flex items-center justify-between py-2">
                             <p>Institusi</p>
-                            <i class="uil uil-angle-down"></i>
+                            <i class="uil uil-angle-left"></i>
                         </button>
-                        <div class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
-                            <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="WFO" class="rounded outline-none focus:ring-0">
-                                <label for="WFO">Work From Office</label>
-                            </div>
-                            <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="WFH" class="rounded outline-none focus:ring-0">
-                                <label for="WFH">Work From Home</label>
-                            </div>
-                            <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="WFA" class="rounded outline-none focus:ring-0">
-                                <label for="WFA">Work From Anywhere</label>
-                            </div>
+                        <div class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                            @for(institute of INSTITUTIONS; track institute){
+                                <div class="flex items-center gap-2 text-sm">
+                                    <input type="checkbox" name="" id="{{institute}}" class="rounded outline-none focus:ring-0">
+                                    <label for="{{institute}}">{{institute}}</label>
+                                </div>
+                            }
                         </div>
                     </div>
 
                     <hr>
                     <!-- FILTER BY TIPE PEKERJAAN -->
                     <div class="">
-                        <button type="button" (click)="expandSidebar(sidebarPrefJob)" #sidebarPrefJob class="w-full flex items-center justify-between py-2">
+                        <button type="button" (click)="expandSidebar(sidebarJobLevel)" #sidebarJobLevel class="w-full flex items-center justify-between py-2">
                             <p>Level Pendidikan</p>
-                            <i class="uil uil-angle-down"></i>
+                            <i class="uil uil-angle-left"></i>
                         </button>
-                        <div class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        <div class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="WFO" class="rounded outline-none focus:ring-0">
-                                <label for="WFO">Work From Office</label>
+                                <input type="checkbox" name="pendidikan" id="S2" class="rounded outline-none focus:ring-0">
+                                <label for="S2">Pacasarjana (S2)</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="WFH" class="rounded outline-none focus:ring-0">
-                                <label for="WFH">Work From Home</label>
+                                <input type="checkbox" name="pendidikan" id="S1" class="rounded outline-none focus:ring-0">
+                                <label for="S1">Sarjana (S1)</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="WFA" class="rounded outline-none focus:ring-0">
-                                <label for="WFA">Work From Anywhere</label>
+                                <input type="checkbox" name="pendidikan" id="SMA" class="rounded outline-none focus:ring-0">
+                                <label for="SMA">Sekolah Menengah Atas</label>
                             </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="pendidikan" id="SMP" class="rounded outline-none focus:ring-0">
+                                <label for="SMP">Sekolah Menengah Pertama</label>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="pendidikan" id="SD" class="rounded outline-none focus:ring-0">
+                                <label for="SD">Sekolah Dasar</label>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="pendidikan" id="Bootcamp" class="rounded outline-none focus:ring-0">
+                                <label for="Bootcamp">Bootcamp</label>
+                            </div>
+                            
                         </div>
                     </div>
 
                     <hr>
                     <!-- FILTER BY TIPE PEKERJAAN -->
                     <div class="">
-                        <button type="button" (click)="expandSidebar(sidebarPrefJob)" #sidebarPrefJob class="w-full flex items-center justify-between py-2">
+                        <button type="button" (click)="expandSidebar(sidebarNilai)" #sidebarNilai class="w-full flex items-center justify-between py-2">
                             <p>Nilai atau IPK</p>
                             <i class="uil uil-angle-down"></i>
                         </button>
                         <div class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="WFO" class="rounded outline-none focus:ring-0">
-                                <label for="WFO">Work From Office</label>
+                                <input type="checkbox" name="nilai" id="3.50" class="rounded outline-none focus:ring-0">
+                                <label for="3.50">> IPK 3.50</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="WFH" class="rounded outline-none focus:ring-0">
-                                <label for="WFH">Work From Home</label>
+                                <input type="checkbox" name="nilai" id="3.00" class="rounded outline-none focus:ring-0">
+                                <label for="3.00">> IPK 3.00</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="WFA" class="rounded outline-none focus:ring-0">
-                                <label for="WFA">Work From Anywhere</label>
+                                <input type="checkbox" name="nilai" id="2.00" class="rounded outline-none focus:ring-0">
+                                <label for="2.00">> IPK 2.00</label>
                             </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="nilai" id="90" class="rounded outline-none focus:ring-0">
+                                <label for="90">> Raport 90</label>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="nilai" id="80" class="rounded outline-none focus:ring-0">
+                                <label for="80">> Raport 80</label>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="nilai" id="70" class="rounded outline-none focus:ring-0">
+                                <label for="70">> Raport 70</label>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="nilai" id="60" class="rounded outline-none focus:ring-0">
+                                <label for="60">> Raport 60</label>
+                            </div>
+                            
                         </div>
                     </div>
 
-                    <hr>
+                    <!-- <hr> -->
                 </div>
             </form>
         </div>
@@ -133,13 +157,13 @@
         <!-- CARDS -->
         <div *ngIf="DONE_LOADING == true" class="lg:col-span-6 overflow-y-scroll px-1">
             
-            <div id="off-login" class="my-4">
+            <div *ngIf="!IS_LOGIN" id="off-login" class="my-4">
                 <p class="text-black/60">Pamerkan betapa kerennya dirimu, untuk membuat <b>orang lain</b> & <b>recruiter</b> tertarik terhadap profilemu</p>
                 <button id="button-create-card" class="text-white font-medium text-sm bg-main rounded-lg mt-4 px-6 py-2">Buat kartu kamu sendiri !</button>
             </div>
 
             
-            <div class="flex justify-between items-center py-4 mt-2 lg:mt-0">
+            <div class="flex justify-between items-center py-4 lg:mt-0">
                 <p class="text-2xl font-medium text-main"><i class="uil uil-user-md"></i> Menampilkan {{ACTIVE_USER_COUNT}} Talent</p>
                 <button id="button-filter" class="lg:hidden shadow-md w-10 rounded-full h-10 bg-main text-white font-medium"><i class="uil uil-sliders-v"></i></button>
             </div>
@@ -166,8 +190,43 @@
                     </div>
                 </form>
             </div>
-            <!-- <p class="text-2xl font-medium">Showing 40 Talent</p> -->
             <div id="cards" class="grid lg:grid-cols-2 gap-6 mt-8">
+                <!-- Ketika posisinya login maka ini akan menjadi kartu user -->
+                @if(USER_DATA){
+                    <div class="card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
+                        <div class="w-full">
+                            <div class="flex items-center gap-2 pb-2.5">
+                                <div class="w-[70px] max-w-[70px] h-[70px] min-w-[70px] min-h-[70px] rounded-full overflow-hidden mx-auto lg:mx-0">
+                                    <img id="basic-profile-pic" [src]="USER_DATA.profile_picture" onerror="src='/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
+                                </div>
+                                <div class="mb-2 w-full">
+                                    <p id="basic-fullname" class="font-bold text-xl text-main">{{USER_DATA.firstname}} {{USER_DATA.lastname  ? USER_DATA.lastname : ""}}</p>
+                                    <p id="basic-current-position" class="text-sm text-thrid/60 font-medium mb-1">{{USER_DATA.headline}}</p>
+                                    <span class="text-xs bg-orange-500 px-4 py-0.5 rounded text-white font-medium">Active</span>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="flex flex-col justify-between h-max">
+                                <div class="flex gap-2 mt-3 flex-wrap">
+                                    <div class="flex gap-2 flex-wrap" *ngIf="USER_DATA.skills && USER_DATA.skills.length > 0">
+                                        <ng-container *ngFor="let skill of getActiveSkills(USER_DATA.skills)">
+                                            <button class="text-xs bg-main text-white px-2 py-1 rounded">
+                                            {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
+                                            </button>
+                                        </ng-container>
+                                        <button *ngIf="getRemainingSkills(USER_DATA.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
+                                            +{{ getRemainingSkills(USER_DATA.skills).length }}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="pt-2 justify-self-end">
+                                    <p class="text-sm flex items-center mt-2"><i class="uil uil-university"></i><span class="ms-2">{{USER_DATA.educations.length > 0 ? USER_DATA.educations[0].edu_type + " • " + USER_DATA.educations[0].edu_program + " • " + USER_DATA.educations[0].edu_institution : "Pendidikan belum ditambahkan"}}</span></p>
+                                    <p class="text-sm flex items-center mt-2"><i class="uil uil-bag-alt"></i><span class="ms-2">{{USER_DATA.experiences.length > 0 ? USER_DATA.experiences[0].exp_position + " • " + USER_DATA.experiences[0].exp_orgname : "Pengalaman belum ditambahkan"}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
                 @for(user of ACTIVE_USER; track user.id){
                     <div class="card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
                         <div class="w-full">
@@ -201,7 +260,7 @@
                             </div>
                         </div>
                     </div>
-                    }
+                }
             </div>
         </div>
     </div>

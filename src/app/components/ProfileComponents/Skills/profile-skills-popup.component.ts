@@ -92,8 +92,6 @@ export class ProfileSkillsPopupComponent implements OnInit {
 
   addToSkills(id:any){
     this.SKILLS.push(id)
-    console.log(this.SKILLS);
-    
   }
 
   submitSummary(){

@@ -14,17 +14,37 @@ import $ from "jquery"
 export class TalentHuntComponent implements OnInit {
 
   userService = inject(UserService)
+
+  USER_DATA!:UserInterface
   ACTIVE_USER_COUNT!:any
   ACTIVE_USER!:UserInterface[]
+  INSTITUTIONS:any
+
+  IS_LOGIN = false
   DONE_LOADING = false
 
   ngOnInit(): void {
     this.userService.getAllUserActiveData().then(userActive => {
-      console.log(userActive);
-      
       this.ACTIVE_USER_COUNT = userActive.total_post
       this.ACTIVE_USER = userActive.datas
-      this.DONE_LOADING = true
+      this.IS_LOGIN = this.userService.checkAuth()
+
+        this.userService.GetAllSpesificData("educations").then(educationsData => {
+          this.INSTITUTIONS = Array.from(new Set(educationsData.map((education:any) => {
+            return education.edu_institution
+          })))
+
+          if(this.IS_LOGIN){
+            this.userService.getUserData().then(userData => {
+              this.ACTIVE_USER = this.ACTIVE_USER.filter(userEachActive => {
+                return userEachActive.id !== userData.id
+              })
+              this.USER_DATA = userData
+              this.DONE_LOADING = true
+            })
+          }
+          this.DONE_LOADING = true
+        })
     })
   }
 

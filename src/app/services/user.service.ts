@@ -140,6 +140,11 @@ export class UserService {
     const picturesData = await this.requestService.getEncryptedRequest(`/api/v1/users/pictures`)
     return picturesData
   }
+
+  async GetAllSpesificData(route:string){
+    const fetchedData = await this.requestService.getEncryptedRequest(`/api/v1/users/info/${route}`)
+    return fetchedData
+  }
   async UpdateUserSpecificData(data:any, route:string){
     const updatedData = await this.requestService.putEncryptedRequest(`/api/v1/users/info/${route}`, data)
     return updatedData
