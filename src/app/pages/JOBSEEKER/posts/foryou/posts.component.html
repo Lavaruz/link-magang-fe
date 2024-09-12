@@ -45,13 +45,13 @@
             <p class="text-3xl font-bold text-black/80">Rekomendasi Buat Kamu</p>
             <p class="mt-1 text-black/80 mb-3">Lowongan disini kami khususkan buat kamu berdasarkan keahlian yang kamu miliki</p>
 
-            <form class="flex items-center justify-between gap-4 mt-6">
+            <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()" class="flex items-center justify-between gap-4 mt-6">
                 <div class="w-full">
                     <div class="relative w-full">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                             <i class="uil uil-search"></i>
                         </div>
-                        <input type="search" formControlName="search" class="duration-200 block w-full py-3 px-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari lowongan atau keyword..." required />
+                        <input type="search" formControlName="search" class="duration-200 block w-full py-3 px-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari lowongan atau keyword..." />
                     </div>
                 </div>
 
@@ -102,6 +102,10 @@
                             </div>
                         } 
                     </div>
+                    <button (click)="addPage()" *ngIf="SHOW_MORE_BUTTON == true" [disabled]="IS_BUTTON_LOADING == true" class="disabled:opacity-50 shadow-lg hover:scale-[1.01] duration-200 bg-main px-8 py-3 rounded-full text-white w-max block m-auto font-medium flex items-center gap-2">
+                        <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == false">Lebih Banyak <i class="uil uil-angle-down text-xl"></i></span>
+                        <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == true">Loading..</span>
+                    </button>
                 }@else if (IS_LOGIN == false) {
                     <div class="flex flex-col items-center justify-center min-h-[50vh]">
                         <p class="font-medium text-lg">Kamu belum punya profil ya?</p>

@@ -1,45 +1,103 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { NavbarComponent } from '../../../../components/navbar/navbar.component';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PostNavbarComponent } from '../../../../components/post-navbar/post-navbar.component';
 import { UserService } from '../../../../services/user.service';
 import { PostsService } from '../../../../services/posts.service';
 import { CommonModule } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-posts',
   standalone: true,
-  imports: [NavbarComponent, RouterLink, PostNavbarComponent, CommonModule],
+  imports: [NavbarComponent, RouterLink, PostNavbarComponent, CommonModule, ReactiveFormsModule],
   templateUrl: './posts.component.html',
 })
 export class PostsForYouComponent implements OnInit {
 
   userService = inject(UserService)
   postService = inject(PostsService)
+  aRoute = inject(ActivatedRoute)
+  router = inject(Router)
+
+  FORM_SEARCH:FormGroup = new FormGroup("")
 
   IS_LOGIN = false
+
+  SHOW_MORE_BUTTON = false
+  POST_PAGE = 1
+  POST_LIMIT = 6
 
   POSTS_DATA:any = []
   POST_DATAS_DETAIL:any
   DONE_LOADING_DETAIL = false
   DONE_LOADING = false
+  IS_BUTTON_LOADING = false
+  QUERY:any
 
   ngOnInit(): void {
-    this.IS_LOGIN = this.userService.checkAuth()
-    console.log(this.IS_LOGIN);
-    
-    if(this.IS_LOGIN){
-      this.postService.GetAllMatchPosts({}).then(postsData => {
-        this.POSTS_DATA = postsData.datas
-        this.DONE_LOADING = true
+    this.aRoute.queryParams.subscribe(params => {
+      this.FORM_SEARCH = new FormGroup({
+        search: new FormControl(params["search"]),
       })
-    }else{
-      this.DONE_LOADING = true
-    }
+      this.POST_PAGE = parseFloat(params["page"]) || 1
+      this.QUERY = {
+        limit: this.POST_LIMIT,
+        page: this.POST_PAGE,
+        search: params["search"] || "",
+      }
+
+      this.IS_LOGIN = this.userService.checkAuth()
+      
+      if(this.IS_LOGIN){
+        this.postService.GetAllMatchPosts(this.QUERY).then(postsData => {
+          this.POSTS_DATA = postsData.datas
+          this.SHOW_MORE_BUTTON = this.POSTS_DATA.length >= this.POST_LIMIT    
+          this.DONE_LOADING = true
+        })
+      }else{
+        this.DONE_LOADING = true
+      }
+    })
   }
 
   savePost(){
     alert("SAVED")
+  }
+
+  addPage(){
+    this.IS_BUTTON_LOADING = true
+    this.POST_PAGE++
+    this.QUERY["page"] = this.POST_PAGE
+
+    this.postService.GetAllMatchPosts(this.QUERY).then(postData => {
+      this.POSTS_DATA.push(...postData.datas)
+      this.SHOW_MORE_BUTTON = postData.datas.length >= this.POST_LIMIT 
+      this.IS_BUTTON_LOADING = false
+    })
+  }
+
+
+
+
+
+  submitFormSearch(){
+    if(this.FORM_SEARCH.invalid) return
+
+    this.QUERY.search = this.FORM_SEARCH.value.search
+    this.QUERY.page = 1
+
+    this.router.navigate(
+      [],{
+        queryParams: { search: this.QUERY.search },
+        queryParamsHandling: "merge"
+      }
+    )
+
+    this.postService.GetAllMatchPosts(this.QUERY).then(postData => {
+      this.POSTS_DATA = postData.datas
+      this.SHOW_MORE_BUTTON = postData.datas.length >= this.POST_LIMIT 
+    })
   }
 
   openPostDetail(id:any){

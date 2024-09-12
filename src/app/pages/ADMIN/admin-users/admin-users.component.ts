@@ -44,7 +44,7 @@ export class AdminUsersComponent {
   initDatatable(){
     let table = new DataTable('#myTable', {
       serverSide: true,
-      ajax: (data:any, callback, settings) => {
+      ajax: (data:any, callback:any, settings:any) => {
         console.log(data);
         
         var limit = data.length; // Limit dari DataTables
@@ -69,13 +69,13 @@ export class AdminUsersComponent {
       columns: [
         {
           data: null,
-          render: function (data, type, row, meta) {
+          render: function (data:any, type:any, row:any, meta:any) {
             return meta.row + meta.settings['_iDisplayStart'] + 1;
           },
         },
         { 
           data: "email",
-          render: function (data, type, row, meta) {
+          render: function (data:any) {
             return data.length > 30 ?
               data.substr( 0, 30 ) +'…' :
               data;
@@ -83,7 +83,7 @@ export class AdminUsersComponent {
         },
         { 
           data: "firstname",
-          render: function (data, type, row, meta) {
+          render: function (data:any) {
             return data.length > 30 ?
               data.substr( 0, 30 ) +'…' :
               data;
@@ -91,7 +91,7 @@ export class AdminUsersComponent {
         },
         { 
           data: "lastname",
-          render: function (data, type, row, meta) {
+          render: function (data:any) {
             return data.length > 30 ?
               data.substr( 0, 30 ) +'…' :
               data;
@@ -99,14 +99,14 @@ export class AdminUsersComponent {
         },
         { 
           data: "active_search",
-          render: function (data, type, row, meta) {
+          render: function (data:any) {
             return data == 1 ? "Active" : "Tidak Aktif"
           },
         },
         {
           data: "id",
           width:"5%",
-          render: function (data, type) {
+          render: function (data:any) {
             return `<a href="/siswa/edit/${data}" class="edit-siswa"><i class="uil uil-edit text-main"></i></a>`;
           },
           orderable: false,
@@ -115,7 +115,7 @@ export class AdminUsersComponent {
         {
           data: "id",
           width:"5%",
-          render: function (data, type) {
+          render: function (data:any) {
             return `<input type="checkbox" name="checkedSiswa" class="checkbox-delete" value="${data}" />`;
           },
           orderable: false,

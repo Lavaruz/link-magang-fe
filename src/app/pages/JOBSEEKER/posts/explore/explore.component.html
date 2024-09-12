@@ -6,7 +6,7 @@
 
         <div class="py-8">
             <p class="text-3xl font-bold text-black/80">Jelajahi Lowongan Kamu</p>
-            <p class="mt-1 text-black/80">Looking for job? Browse our latest job opening to view & apply to the best jobs today!</p>
+            <p class="mt-1 text-black/80">Mencari pekerjaan? Jelajahi lowongan pekerjaan terbaru kami untuk melihat & melamar pekerjaan terbaik hari ini!</p>
         </div>
 
         <div class="grid grid-cols-8 gap-8">
@@ -32,17 +32,17 @@
                                     <p>Tipe Pekerjaan</p>
                                     <i class="uil uil-angle-down"></i>
                                 </button>
-                                <div class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                                <div (change)="changeJobType(inputJobType)" #inputJobType class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
                                     <div class="flex items-center gap-2 text-sm">
-                                        <input type="checkbox" name="" id="internshit" class="rounded outline-none focus:ring-0">
-                                        <label for="internshit">Internship</label>
+                                        <input type="checkbox" name="Internship" id="internship" class="rounded outline-none focus:ring-0">
+                                        <label for="internship">Internship</label>
                                     </div>
                                     <div class="flex items-center gap-2 text-sm">
-                                        <input type="checkbox" name="" id="fulltime" class="rounded outline-none focus:ring-0">
+                                        <input type="checkbox" name="Full-Time" id="fulltime" class="rounded outline-none focus:ring-0">
                                         <label for="fulltime">Full-Time</label>
                                     </div>
                                     <div class="flex items-center gap-2 text-sm">
-                                        <input type="checkbox" name="" id="parttime" class="rounded outline-none focus:ring-0">
+                                        <input type="checkbox" name="Part-Time" id="parttime" class="rounded outline-none focus:ring-0">
                                         <label for="parttime">Part-Time</label>
                                     </div>
                                 </div>
@@ -56,11 +56,11 @@
                                     <p>Lokasi</p>
                                     <i class="uil uil-angle-down"></i>
                                 </button>
-                                <div *ngIf="DONE_LOADING_SIDEBAR == true" class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                                <div (change)="changeLocation(inputLocation)" #inputLocation *ngIf="DONE_LOADING_SIDEBAR == true" class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
                                     @if(LOCATION_DATAS.length > 0){
                                         @for(data of LOCATION_DATAS; track data.id){
                                             <div class="flex items-center gap-2 text-sm">
-                                                <input type="checkbox" name="" id="{{'location-'+data.id}}" class="rounded outline-none focus:ring-0">
+                                                <input type="checkbox" name="{{data.location}}" id="{{'location-'+data.id}}" class="rounded outline-none focus:ring-0">
                                                 <label for="{{'location-'+data.id}}">{{data.location}}</label>
                                             </div>
                                         }
@@ -74,13 +74,13 @@
                             <div class="">
                                 <button (click)="expandSidebar(sidebarSkills)" #sidebarSkills class="w-full flex items-center justify-between py-2">
                                     <p>Keahlian</p>
-                                    <i class="uil uil-angle-down"></i>
+                                    <i class="uil uil-angle-left"></i>
                                 </button>
-                                <div *ngIf="DONE_LOADING_SIDEBAR == true" class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                                <div (change)="changeSkill(inputSkills)" #inputSkills *ngIf="DONE_LOADING_SIDEBAR == true" class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
                                     @if(SKILL_DATAS.length > 0){
                                         @for(data of SKILL_DATAS; track data.id){
                                             <div class="flex items-center gap-2 text-sm">
-                                                <input type="checkbox" name="" id="{{'location-'+data.id}}" class="rounded outline-none focus:ring-0">
+                                                <input type="checkbox" name="{{data.skill}}" id="{{'location-'+data.id}}" class="rounded outline-none focus:ring-0">
                                                 <label for="{{'skill-'+data.id}}">{{data.skill}}</label>
                                             </div>
                                         }
@@ -100,13 +100,13 @@
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                             <i class="uil uil-search"></i>
                         </div>
-                        <input type="search" formControlName="search" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari lowongan atau keyword..." required />
+                        <input type="search" formControlName="search" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari lowongan atau keyword..." />
                         <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cari <i class="uil uil-arrow-right"></i></button>
                     </div>
                 </form>
 
                 <span class="text-gray-700 dark:text-gray-400 font-medium text-black/60">
-                    Menampilkan {{POST_COUNT}} lowongan
+                    Menampilkan {{POST_DATAS.length}} lowongan dari {{POST_COUNT}}
                 </span>
                 @if(POST_DATAS.length > 0){
                     <div id="cards" class="mt-4 grid lg:grid-cols-2 gap-6 mb-14">
@@ -160,8 +160,8 @@
                     <div class="flex flex-col items-center justify-center min-h-[50vh] text-sm">
                         <img width="100px" src="assets/img/Logo.png" alt="">
                         <div class="mt-3 text-center">
-                            <p>waduh, yang kamu cari belum ada</p>
-                            <a routerLink="/" class="text-main">cari lowongan lain</a>
+                            <p class="font-medium text-lg">Wahh lowongan ini belum ada buat sekarang</p>
+                            <p class="text-sm text-black/80">Ayo cari lowongan lain!</p>
                         </div>
                     </div>
                 }
@@ -171,17 +171,5 @@
                 <p class="text-sm">Menjelajahi lowongan..</p>
             </div>
         </div>
-        
-        <!-- <div class="flex flex-col items-center justify-center min-h-[50vh] text-sm">
-            <p class="text-4xl text-main font-medium">#404</p>
-            <div class="mt-3 text-center flex flex-col items-center justify-center">
-                <p class="text-base">belum ada lowongan yang <span class="text-orange-500 font-medium">kamu banget</span> nih ☹️</p>
-                <div class="flex gap-2 mt-6 items-center">
-                    <a routerLink="/posts/explore" class="text-white bg-main px-4 py-2 rounded-lg"><i class="uil uil-plane-departure"></i> Cari Lowongan Lain</a>
-                    <hr>
-                    <a routerLink="/profile/me" class="text-white bg-main px-4 py-2 rounded-lg"><i class="uil uil-basketball"></i> Tambahkan Keahlian</a>
-                </div>
-            </div>
-        </div> -->
     </div>
 </main>

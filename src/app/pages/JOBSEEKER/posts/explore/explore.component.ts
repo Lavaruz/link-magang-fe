@@ -22,7 +22,7 @@ export class ExploreComponent implements OnInit {
 
   FORM_SEARCH:FormGroup = new FormGroup("")
 
-  SHOW_MORE_BUTTON = true
+  SHOW_MORE_BUTTON = false
   POST_PAGE = 1
   POST_LIMIT = 6
   POST_DATAS:any = []
@@ -46,21 +46,31 @@ export class ExploreComponent implements OnInit {
         limit: this.POST_LIMIT,
         page: this.POST_PAGE,
         search: params["search"] || "",
-        platform: ""
+        platform: "",
+        type: params["type"] || "",
+        locations: params["locations"] || "",
+        skills: params["skills"] || "",
       }
 
-
+      
+      
       this.userService.GetAllLocations().then(locationData => {
         this.LOCATION_DATAS = locationData
         this.userService.GetAllSkills().then(skillsData => {
           this.SKILL_DATAS = skillsData
+          
+          setTimeout(() => {
+            this.checkSelectedCheckboxes(params["type"])
+            this.checkSelectedCheckboxes(params["locations"] || "")
+            this.checkSelectedCheckboxes(params["skills"] || "")
+          },500)
           this.DONE_LOADING_SIDEBAR = true
-          params["search"] ? this.SHOW_MORE_BUTTON = false : this.SHOW_MORE_BUTTON = true
+          
         })
       })
 
       this.FORM_SEARCH = new FormGroup({
-        search: new FormControl(""),
+        search: new FormControl(params["search"]),
       })
     })
     
@@ -79,9 +89,10 @@ export class ExploreComponent implements OnInit {
       this.POST_DATAS = postData.datas
       this.POST_LIMIT = postData.limit
       this.POST_PAGE = postData.page  
-
+      
       this.postService.GetCountAllPosts().then(postCount => {
         this.POST_COUNT = postCount
+        this.SHOW_MORE_BUTTON = this.POST_DATAS.length >= this.POST_LIMIT ? true : false
         this.DONE_LOADING = true
       })
       
@@ -92,12 +103,15 @@ export class ExploreComponent implements OnInit {
     this.QUERY.limit = 6
     this.QUERY.page = 1
     this.POST_DATAS = []
-    this.SHOW_MORE_BUTTON = true
-    this.router.navigate([], {
+    this.SHOW_MORE_BUTTON = this.POST_DATAS.length > 6 ? true : false
+    $("input:checked").prop("checked", false)
+    // this.callGetPost()
+    this.router.navigate(["/posts/explore"], {
       queryParams: {
         'search': null,
-        'location': null,
+        'locations': null,
         'skills': null,
+        'type': null,
         'page': null
       },
       queryParamsHandling: 'merge'
@@ -108,12 +122,7 @@ export class ExploreComponent implements OnInit {
     if(this.FORM_SEARCH.invalid) return
 
     this.QUERY.search = this.FORM_SEARCH.value.search
-    if(this.QUERY.search.length !== 0){
-      this.QUERY.limit = 999
-      this.QUERY.page = 1
-    }else{
-      this.QUERY.limit = 6
-    }
+    this.QUERY.page = 1
 
     this.router.navigate(
       [],{
@@ -140,6 +149,73 @@ export class ExploreComponent implements OnInit {
       this.POST_DATAS.push(...postData.datas)
       this.IS_BUTTON_LOADING = false
     })
+  }
+
+
+
+
+
+
+
+
+  checkSelectedCheckboxes(jobtype:any) {
+    const optionArray = jobtype.split(';');
+    optionArray.forEach((option:any) => {
+      const checkbox = document.querySelector(`input[name="${option}"]`) as HTMLInputElement;
+      console.log(checkbox);
+      
+      if (checkbox) {
+        checkbox.checked = true;
+      }
+    });
+  }
+  changeJobType(changedInput:any){
+    const CHECKED:any = []
+    $(changedInput).find("input:checked").each(function(){
+      CHECKED.push($(this).prop("name"))
+    })
+
+    this.QUERY.type = CHECKED.join(";")
+
+    this.router.navigate([], {
+      queryParams: {
+        type: CHECKED.join(";"),
+      },
+      queryParamsHandling: 'merge'
+    })
+    this.callGetPost()
+  }
+  changeLocation(changedInput:any){
+    const CHECKED:any = []
+    $(changedInput).find("input:checked").each(function(){
+      CHECKED.push($(this).prop("name"))
+    })
+
+    this.QUERY.locations = CHECKED.join(";")
+
+    this.router.navigate([], {
+      queryParams: {
+        locations: CHECKED.join(";"),
+      },
+      queryParamsHandling: 'merge'
+    })
+    this.callGetPost()
+  }
+  changeSkill(changedInput:any){
+    const CHECKED:any = []
+    $(changedInput).find("input:checked").each(function(){
+      CHECKED.push($(this).prop("name"))
+    })
+
+    this.QUERY.skills = CHECKED.join(";")
+
+    this.router.navigate([], {
+      queryParams: {
+        skills: CHECKED.join(";"),
+      },
+      queryParamsHandling: 'merge'
+    })
+    this.callGetPost()
   }
 
 

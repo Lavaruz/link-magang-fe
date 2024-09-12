@@ -10,7 +10,7 @@ export class PostsService {
 
   async GetAllPosts(QUERY: any) {
     try {
-      const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts?limit=${QUERY.limit}&page=${QUERY.page}&search=${QUERY.search}`);
+      const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts?limit=${QUERY.limit}&page=${QUERY.page}&search=${QUERY.search}&type=${QUERY.type}&locations=${QUERY.locations}&skills=${QUERY.skills}`);
       return postData
     } catch (error) {
       console.error('Error on Get Membership Price:', error);
@@ -19,7 +19,7 @@ export class PostsService {
 
   async GetAllMatchPosts(QUERY: any) {
     try {
-      const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts/match`);
+      const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts/match?limit=${QUERY.limit}&page=${QUERY.page}&search=${QUERY.search}`);
       return postData
     } catch (error) {
       console.error('Error on Get Membership Price:', error);
