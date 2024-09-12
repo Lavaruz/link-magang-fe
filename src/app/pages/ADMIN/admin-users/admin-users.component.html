@@ -1,1 +1,64 @@
-<p>admin-users works!</p>
+<app-admin-navbar></app-admin-navbar>
+
+<main class="noise">
+    <div class="px-[5%] lg:px-0">
+        
+        <div class="grid grid-cols-10 bg-main">
+            
+            <app-admin-sidebar class="col-span-2"></app-admin-sidebar>
+
+            <div class="col-span-8 overflow-y-scroll bg-white rounded-tl-[2rem]">
+                <!-- <a href="" class="block w-max py-4 ms-auto text-red-500 justify-self-end font-bold">Logout <i class="uil uil-arrow-right"></i></a> -->
+                <p class="text-2xl font-bold text-black/80 mt-8 px-8">Lowongan di Posting</p>
+                <div class="flex items-center px-8 gap-6 mt-6">
+                    <a href="" class="py-4 font-bold text-main">Registered User</a>
+                </div>
+
+                <hr class="mx-8 mb-6">
+
+                <div class="mx-8 pb-20">
+                    <table id="myTable" class="no-tailwind">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Email</th>
+                                <th>Firstname</th>
+                                <th>Lastname</th>
+                                <th>Active Search</th>
+                                <th></th>
+                                <th><input type="checkbox" name=""></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <!-- <input type="text" placeholder="Cari Lowongan atau Perusahaan" class="px-4 w-full py-3 border-l-0 border-r-0 border-gray-300"> -->
+                <!-- <div class="grid-post border bg-main/80 font-medium text-white">
+                    <input type="checkbox" name="" id="">
+                    <p>Posisi</p>
+                    <p>Perusahaan</p>
+                    <p>Lokasi</p>
+                    <p>Tipe</p>
+                    <p>Tanggal Upload</p>
+                </div>
+                <div class="">
+                    @for(post of POSTS_DATA; track post.id){
+                        <div class="grid-post border hover:bg-white">
+                            <input type="checkbox" name="" id="">
+                            <div class="">
+                                <p class="font-medium truncate">{{post.title}}</p>
+                                <div class="flex items-center gap-2">
+                                    <i class="uil uil-pen"></i>
+                                    <i class="uil uil-analytics"></i>
+                                </div>
+                            </div>
+                            <p class="text-sm text-black/70">{{post.company}}</p>
+                            <p class="text-sm text-black/70">{{post.location}}</p>
+                            <p class="text-sm text-black/70">{{post.type}}</p>
+                            <p class="text-sm text-black/70">{{formatDate(post.post_date)}}</p>
+                        </div>
+                    }
+                </div> -->
+            </div>
+        </div>
+    </div>
+</main>
