@@ -8,7 +8,6 @@ import { AdminSidebarComponent } from '../admin-sidebar/admin-sidebar.component'
 import $ from "jquery"
 import DataTable from 'datatables.net-dt';
 import { RequestService } from '../../../services/request.service';
-import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-admin-posts',
@@ -18,7 +17,7 @@ import { formatDate } from '@angular/common';
   styleUrl: './admin-posts.component.css'
 })
 export class AdminPostsComponent implements OnInit{
-  public requestService = inject(RequestService)
+  requestService = inject(RequestService)
   userService = inject(UserService)
   postService = inject(PostsService)
 

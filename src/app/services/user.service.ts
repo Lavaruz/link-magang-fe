@@ -75,7 +75,7 @@ export class UserService {
     const userData:any = await this.requestService.getEncryptedRequest(`/api/v1/users/info`)
     return userData
   }
-  async getAllUserActiveData(){
+  async getAllUserActiveData(QUERY:any){
     const userData:any = await this.requestService.getEncryptedRequest(`/api/v1/users/active`)
     return userData
   }

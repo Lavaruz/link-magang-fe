@@ -18,13 +18,13 @@
                             <p>Jenis Kelamin</p>
                             <i class="uil uil-angle-down"></i>
                         </button>
-                        <div class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        <div (change)="changeGender(inputGender)" #inputGender class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="Male" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="Male" id="Male" class="rounded outline-none focus:ring-0">
                                 <label for="Male">Laki Laki</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="Female" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="Female" id="Female" class="rounded outline-none focus:ring-0">
                                 <label for="Female">Perempuan</label>
                             </div>
                         </div>
@@ -37,17 +37,17 @@
                             <p>Prefrensi Pekerjaan</p>
                             <i class="uil uil-angle-down"></i>
                         </button>
-                        <div class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        <div (change)="changeJobPref(inputJobPref)" #inputJobPref class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="WFO" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="WFO" id="WFO" class="rounded outline-none focus:ring-0">
                                 <label for="WFO">Work From Office</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="WFH" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="WFH" id="WFH" class="rounded outline-none focus:ring-0">
                                 <label for="WFH">Work From Home</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="" id="WFA" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="WFA" id="WFA" class="rounded outline-none focus:ring-0">
                                 <label for="WFA">Work From Anywhere</label>
                             </div>
                         </div>
@@ -63,10 +63,10 @@
                             <p>Institusi</p>
                             <i class="uil uil-angle-left"></i>
                         </button>
-                        <div class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        <div (change)="changeInstitute(inputInstitute)" #inputInstitute class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
                             @for(institute of INSTITUTIONS; track institute){
                                 <div class="flex items-center gap-2 text-sm">
-                                    <input type="checkbox" name="" id="{{institute}}" class="rounded outline-none focus:ring-0">
+                                    <input type="checkbox" name="{{institute}}" id="{{institute}}" class="rounded outline-none focus:ring-0">
                                     <label for="{{institute}}">{{institute}}</label>
                                 </div>
                             }
@@ -80,29 +80,29 @@
                             <p>Level Pendidikan</p>
                             <i class="uil uil-angle-left"></i>
                         </button>
-                        <div class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        <div (change)="changeEduLevel(inputEduLevel)" #inputEduLevel class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="pendidikan" id="S2" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="Pacasarjana (S2)" id="S2" class="rounded outline-none focus:ring-0">
                                 <label for="S2">Pacasarjana (S2)</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="pendidikan" id="S1" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="Sarjana (S1)" id="S1" class="rounded outline-none focus:ring-0">
                                 <label for="S1">Sarjana (S1)</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="pendidikan" id="SMA" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="Sekolah Menengah Atas" id="SMA" class="rounded outline-none focus:ring-0">
                                 <label for="SMA">Sekolah Menengah Atas</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="pendidikan" id="SMP" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="Sekolah Menengah Pertama" id="SMP" class="rounded outline-none focus:ring-0">
                                 <label for="SMP">Sekolah Menengah Pertama</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="pendidikan" id="SD" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="Sekolah Dasar" id="SD" class="rounded outline-none focus:ring-0">
                                 <label for="SD">Sekolah Dasar</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="pendidikan" id="Bootcamp" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="Bootcamp" id="Bootcamp" class="rounded outline-none focus:ring-0">
                                 <label for="Bootcamp">Bootcamp</label>
                             </div>
                             
@@ -116,33 +116,33 @@
                             <p>Nilai atau IPK</p>
                             <i class="uil uil-angle-down"></i>
                         </button>
-                        <div class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        <div (change)="changeGrade(inputGrade)" #inputGrade class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="nilai" id="3.50" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="3.50" id="3.50" class="rounded outline-none focus:ring-0">
                                 <label for="3.50">> IPK 3.50</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="nilai" id="3.00" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="3.00" id="3.00" class="rounded outline-none focus:ring-0">
                                 <label for="3.00">> IPK 3.00</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="nilai" id="2.00" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="2.00" id="2.00" class="rounded outline-none focus:ring-0">
                                 <label for="2.00">> IPK 2.00</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="nilai" id="90" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="90" id="90" class="rounded outline-none focus:ring-0">
                                 <label for="90">> Raport 90</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="nilai" id="80" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="80" id="80" class="rounded outline-none focus:ring-0">
                                 <label for="80">> Raport 80</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="nilai" id="70" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="70" id="70" class="rounded outline-none focus:ring-0">
                                 <label for="70">> Raport 70</label>
                             </div>
                             <div class="flex items-center gap-2 text-sm">
-                                <input type="checkbox" name="nilai" id="60" class="rounded outline-none focus:ring-0">
+                                <input type="checkbox" name="60" id="60" class="rounded outline-none focus:ring-0">
                                 <label for="60">> Raport 60</label>
                             </div>
                             
@@ -170,26 +170,25 @@
 
             <hr class="border-gray-300">
 
-            <div class="flex items-center mt-4">
-                <form class="w-full">
-                    <div class="relative">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <i class="uil uil-search"></i>
-                        </div>
-                        <input type="search" formControlName="search" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari lowongan atau keyword..." required />
-                        <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cari <i class="uil uil-arrow-right"></i></button>
+            <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()" class="flex items-center mt-4">
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <i class="uil uil-search"></i>
                     </div>
-                </form>
-                <form class="w-full">
-                    <div class="relative">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <i class="uil uil-university"></i>
-                        </div>
-                        <input type="search" formControlName="search" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari program atau jurusan..." required />
-                        <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cari <i class="uil uil-arrow-right"></i></button>
+                    <input type="search" formControlName="search_person" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari seseorang atau keahlian..." />
+                    <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cari <i class="uil uil-arrow-right"></i></button>
+                </div>
+                <div class="relative w-full">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <i class="uil uil-university"></i>
                     </div>
-                </form>
-            </div>
+                    <input type="search" formControlName="search_eduexp" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari pendidikan atau pengalaman..." />
+                    <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cari <i class="uil uil-arrow-right"></i></button>
+                </div>
+            </form>
+
+
+
             <div id="cards" class="grid lg:grid-cols-2 gap-6 mt-8">
                 <!-- Ketika posisinya login maka ini akan menjadi kartu user -->
                 @if(USER_DATA){
@@ -202,7 +201,11 @@
                                 <div class="mb-2 w-full">
                                     <p id="basic-fullname" class="font-bold text-xl text-main">{{USER_DATA.firstname}} {{USER_DATA.lastname  ? USER_DATA.lastname : ""}}</p>
                                     <p id="basic-current-position" class="text-sm text-thrid/60 font-medium mb-1">{{USER_DATA.headline}}</p>
-                                    <span class="text-xs bg-orange-500 px-4 py-0.5 rounded text-white font-medium">Active</span>
+                                    @if(USER_DATA.active_search == true){
+                                        <span class="text-xs bg-orange-500 px-4 py-0.5 rounded text-white font-medium"> Aktif</span>
+                                    }@else {
+                                        <span title="Aktifkan visibilitas di profil kamu" class="text-xs bg-red-500 px-3 py-0.5 rounded text-white font-medium"><i class="uil uil-info-circle"></i> Non Aktif</span>
+                                    }
                                 </div>
                             </div>
                             <hr>
