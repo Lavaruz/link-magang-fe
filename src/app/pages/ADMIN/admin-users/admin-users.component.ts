@@ -72,6 +72,7 @@ export class AdminUsersComponent {
           render: function (data:any, type:any, row:any, meta:any) {
             return meta.row + meta.settings['_iDisplayStart'] + 1;
           },
+          width: "5%"
         },
         { 
           data: "email",
@@ -97,10 +98,20 @@ export class AdminUsersComponent {
               data;
           },
         },
+        {
+          data: "educations",
+          render: function (data: any) {
+            if (data && data.length > 0 && data[0].edu_program) {
+              return data[0].edu_program;
+            } else {
+              return 'Belum ditambahkan';
+            }
+          },
+        },
         { 
           data: "active_search",
           render: function (data:any) {
-            return data == 1 ? "Active" : "Tidak Aktif"
+            return data == 1 ? "<span class='text-green-500 font-bold'><i class='uil uil-check'></i> Active</span>" : "<span class='text-red-500 font-bold'><i class='uil uil-times'></i> Tidak Active</span>"
           },
         },
         {
@@ -111,14 +122,6 @@ export class AdminUsersComponent {
           },
           orderable: false,
           className: "text-center"
-        },
-        {
-          data: "id",
-          width:"5%",
-          render: function (data:any) {
-            return `<input type="checkbox" name="checkedSiswa" class="checkbox-delete" value="${data}" />`;
-          },
-          orderable: false,
         },
       ],
       pageLength: 10,               // Number of posts per page

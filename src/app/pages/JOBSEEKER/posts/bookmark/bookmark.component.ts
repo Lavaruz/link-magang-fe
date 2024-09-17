@@ -23,4 +23,19 @@ export class BookmarkComponent implements OnInit {
     this.IS_LOGIN = this.userService.checkAuth()
     this.DONE_LOADING = true
   }
+
+  openLoginPanel(){
+    $("#popup-layer-navbar").fadeIn(function() {
+      $("#popup-login").slideToggle();
+      $("body").css("overflow", "hidden");
+    }).css("display", "flex");
+  }
+
+  closeLoginPanel(){
+    $("#popup-login").slideToggle(function() {
+      $("#popup-layer-navbar").fadeOut(function() {
+          $("body").css("overflow", "auto");
+      });
+    });
+  }
 }

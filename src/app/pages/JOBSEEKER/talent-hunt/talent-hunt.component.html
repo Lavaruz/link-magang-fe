@@ -8,7 +8,7 @@
                 <div class="w-full flex flex-col gap-4 w-full">
                     <div class="pb-4 flex justify-between w-full">
                         <p class="text-sm text-black/70 font-medium">FILTER</p>
-                        <button id="clear-filter" class="text-xs text-orange-500 font-bold">CLEAR</button>
+                        <button (click)="resetFilter()" id="clear-filter" class="text-xs text-orange-500 font-bold">CLEAR</button>
                     </div> 
                     <!-- <label for="" class="">SEARCH</label> -->
                     <!-- <p class="text-sm font-medium text-main">BY INFORMASI BASIC ---</p> -->
@@ -61,9 +61,9 @@
                     <div class="">
                         <button type="button" (click)="expandSidebar(sidebarInstitute)" #sidebarInstitute class="w-full flex items-center justify-between py-2">
                             <p>Institusi</p>
-                            <i class="uil uil-angle-left"></i>
+                            <i class="uil uil-angle-down"></i>
                         </button>
-                        <div (change)="changeInstitute(inputInstitute)" #inputInstitute class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        <div (change)="changeInstitute(inputInstitute)" #inputInstitute class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
                             @for(institute of INSTITUTIONS; track institute){
                                 <div class="flex items-center gap-2 text-sm">
                                     <input type="checkbox" name="{{institute}}" id="{{institute}}" class="rounded outline-none focus:ring-0">
@@ -155,11 +155,11 @@
         </div>
 
         <!-- CARDS -->
-        <div *ngIf="DONE_LOADING == true" class="lg:col-span-6 overflow-y-scroll px-1">
+        <div class="lg:col-span-6 overflow-y-scroll px-1">
             
             <div *ngIf="!IS_LOGIN" id="off-login" class="my-4">
                 <p class="text-black/60">Pamerkan betapa kerennya dirimu, untuk membuat <b>orang lain</b> & <b>recruiter</b> tertarik terhadap profilemu</p>
-                <button id="button-create-card" class="text-white font-medium text-sm bg-main rounded-lg mt-4 px-6 py-2">Buat kartu kamu sendiri !</button>
+                <button (click)="openLoginPanel()" id="button-create-card" class="text-white font-medium text-sm bg-main rounded-lg mt-4 px-6 py-2">Buat kartu kamu sendiri !</button>
             </div>
 
             
@@ -175,21 +175,21 @@
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <i class="uil uil-search"></i>
                     </div>
-                    <input type="search" formControlName="search_person" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari seseorang atau keahlian..." />
+                    <input type="text" formControlName="search_person" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari seseorang atau keahlian..." />
                     <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cari <i class="uil uil-arrow-right"></i></button>
                 </div>
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <i class="uil uil-university"></i>
                     </div>
-                    <input type="search" formControlName="search_eduexp" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari pendidikan atau pengalaman..." />
+                    <input type="text" formControlName="search_eduexp" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari pendidikan atau pengalaman..." />
                     <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cari <i class="uil uil-arrow-right"></i></button>
                 </div>
             </form>
 
 
 
-            <div id="cards" class="grid lg:grid-cols-2 gap-6 mt-8">
+            <div *ngIf="DONE_LOADING == true" id="cards" class="grid lg:grid-cols-2 gap-6 mt-8">
                 <!-- Ketika posisinya login maka ini akan menjadi kartu user -->
                 @if(USER_DATA){
                     <div class="card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
@@ -198,9 +198,9 @@
                                 <div class="w-[70px] max-w-[70px] h-[70px] min-w-[70px] min-h-[70px] rounded-full overflow-hidden mx-auto lg:mx-0">
                                     <img id="basic-profile-pic" [src]="USER_DATA.profile_picture" onerror="src='/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
                                 </div>
-                                <div class="mb-2 w-full">
+                                <div class="mb-2 w-full truncate">
                                     <p id="basic-fullname" class="font-bold text-xl text-main">{{USER_DATA.firstname}} {{USER_DATA.lastname  ? USER_DATA.lastname : ""}}</p>
-                                    <p id="basic-current-position" class="text-sm text-thrid/60 font-medium mb-1">{{USER_DATA.headline}}</p>
+                                    <p class="basic-current-position text-sm text-thrid/60 font-medium mb-1">{{USER_DATA.headline}}</p>
                                     @if(USER_DATA.active_search == true){
                                         <span class="text-xs bg-orange-500 px-4 py-0.5 rounded text-white font-medium"> Aktif</span>
                                     }@else {
@@ -230,30 +230,32 @@
                         </div>
                     </div>
                 }
-                @for(user of ACTIVE_USER; track user.id){
-                    <div class="card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
-                        <div class="w-full">
-                            <div class="flex items-center gap-2 pb-2.5">
-                                <div class="w-[70px] max-w-[70px] h-[70px] min-w-[70px] min-h-[70px] rounded-full overflow-hidden mx-auto lg:mx-0">
-                                    <img id="basic-profile-pic" [src]="user.profile_picture" onerror="src='/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
-                                </div>
-                                <div class="mb-2 w-full">
-                                    <p id="basic-fullname" class="font-bold text-xl text-main">{{user.firstname}} {{user.lastname  ? user.lastname : ""}}</p>
-                                    <p id="basic-current-position" class="text-sm text-thrid/60 font-medium mb-1">{{user.headline}}</p>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="flex flex-col justify-between h-max">
-                                <div class="flex gap-2 mt-3 flex-wrap">
-                                    <div class="flex gap-2 flex-wrap" *ngIf="user.skills && user.skills.length > 0">
-                                        <ng-container *ngFor="let skill of getActiveSkills(user.skills)">
-                                            <button class="text-xs bg-main text-white px-2 py-1 rounded">
-                                            {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
+                @if(ACTIVE_USER.length > 0){
+                    @for(user of ACTIVE_USER; track user.id){
+                        <div class="group card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
+                            <div class="w-full flex flex-col justify-between">
+                                <div class="">
+                                    <div class="flex items-center gap-2 pb-2.5">
+                                        <div class="w-[70px] max-w-[70px] h-[70px] min-w-[70px] min-h-[70px] rounded-full overflow-hidden mx-auto lg:mx-0">
+                                            <img id="basic-profile-pic" [src]="user.profile_picture" onerror="src='/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="mb-2 w-full truncate group-hover:truncate-none">
+                                            <p id="basic-fullname" class="font-bold text-xl text-main">{{user.firstname}} {{user.lastname  ? user.lastname : ""}}</p>
+                                            <p class="basic-current-position text-sm text-thrid/60 font-medium mb-1">{{user.headline}}</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="flex gap-2 mt-3 flex-wrap">
+                                        <div class="flex gap-2 flex-wrap" *ngIf="user.skills && user.skills.length > 0">
+                                            <ng-container *ngFor="let skill of getActiveSkills(user.skills)">
+                                                <button class="text-xs bg-main text-white px-2 py-1 rounded">
+                                                {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
+                                                </button>
+                                            </ng-container>
+                                            <button *ngIf="getRemainingSkills(user.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
+                                                +{{ getRemainingSkills(user.skills).length }}
                                             </button>
-                                        </ng-container>
-                                        <button *ngIf="getRemainingSkills(user.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
-                                            +{{ getRemainingSkills(user.skills).length }}
-                                        </button>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="pt-2 justify-self-end">
@@ -262,8 +264,18 @@
                                 </div>
                             </div>
                         </div>
+                    }
+                }@else {
+                    <div class="col-span-2 flex flex-col items-center justify-center min-h-[50vh] text-center">
+                        <p class="font-medium text-lg">Wah talent yang kamu cari belum ada</p>
+                        <p class="text-sm text-black/80">Ayo cari talent dengan kualifikasi lain, banyak loh talent yang berkualitas disini</p>
+                        <button (click)="resetFilter()" class="bg-main text-white px-4 py-2 rounded-md mt-4">Cari Talent Lain <i class="uil uil-arrow-right"></i></button>
                     </div>
                 }
+            </div>
+            <div class="col-span-6 flex flex-col gap-2 items-center justify-center min-h-[60vh]" *ngIf="DONE_LOADING == false">
+                <span class="loader"></span>
+                <p class="text-sm">Mencari Talent..</p>
             </div>
         </div>
     </div>

@@ -37,6 +37,7 @@ export class PostsForYouComponent implements OnInit {
 
   ngOnInit(): void {
     this.aRoute.queryParams.subscribe(params => {
+      this.DONE_LOADING = false
       this.FORM_SEARCH = new FormGroup({
         search: new FormControl(params["search"]),
       })
@@ -166,5 +167,20 @@ export class PostsForYouComponent implements OnInit {
       default:
           return '<img class="w-5 h-5 rounded-lg" src="assets/img/Other.png" alt="Default">';
     }
+  }
+
+  openLoginPanel(){
+    $("#popup-layer-navbar").fadeIn(function() {
+      $("#popup-login").slideToggle();
+      $("body").css("overflow", "hidden");
+    }).css("display", "flex");
+  }
+
+  closeLoginPanel(){
+    $("#popup-login").slideToggle(function() {
+      $("#popup-layer-navbar").fadeOut(function() {
+          $("body").css("overflow", "auto");
+      });
+    });
   }
 }

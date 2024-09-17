@@ -12,6 +12,8 @@ import { LoginComponent } from './pages/ADMIN/login/login.component';
 import { AdminPostsComponent } from './pages/ADMIN/admin-posts/admin-posts.component';
 import { AdminUsersComponent } from './pages/ADMIN/admin-users/admin-users.component';
 import { AdminAdditionalsComponent } from './pages/ADMIN/admin-additionals/admin-additionals.component';
+import { AdminPostCreateComponent } from './pages/ADMIN/admin-posts/create/create.component';
+import { AdminPostEditComponent } from './pages/ADMIN/admin-posts/edit/edit.component';
 
 export const routes: Routes = [
     { path: "", redirectTo:"posts/explore", pathMatch: "full" },
@@ -39,7 +41,14 @@ export const routes: Routes = [
         children: [
             {path: "", redirectTo: "/admin/posts", pathMatch: "full"},
             {path: "login", component: LoginComponent},
-            {path: "posts", component: AdminPostsComponent},
+            {
+                path: "posts",
+                children: [
+                    { path: "", component: AdminPostsComponent},
+                    { path: "create", component: AdminPostCreateComponent},
+                    { path: "edit", component: AdminPostEditComponent}
+                ]
+            },
             {path: "users", component: AdminUsersComponent},
             {path: "additionals", component: AdminAdditionalsComponent},
         ] 

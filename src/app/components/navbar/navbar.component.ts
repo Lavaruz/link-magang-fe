@@ -26,14 +26,12 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   ngOnInit(){
     this.IS_LOGIN = this.userService.checkAuth()
-    this.userService.getUserData().then(userData => {
-      this.USER = userData
-      this.DONE_LOADING = true
-    })
-  }
-
-  ngAfterViewInit(): void {
-    window.onload = () => {
+    if(this.IS_LOGIN){
+      this.userService.getUserData().then(userData => {
+        this.USER = userData
+        this.DONE_LOADING = true
+      })
+    }else{
       if(!this.userService.checkAuth()){
         google.accounts.id.initialize({
           client_id: "698401836212-gi5ntasmqfae7hiu2q0qu8i2h2gco82h.apps.googleusercontent.com",
@@ -45,6 +43,10 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         );
       }
     }
+  }
+
+  ngAfterViewInit(): void {
+
   }
 
   goToPost(){

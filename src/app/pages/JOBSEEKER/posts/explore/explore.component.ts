@@ -24,7 +24,7 @@ export class ExploreComponent implements OnInit {
 
   SHOW_MORE_BUTTON = false
   POST_PAGE = 1
-  POST_LIMIT = 6
+  POST_LIMIT = 2
   POST_DATAS:any = []
   POST_DATAS_DETAIL:any
   POST_COUNT = 0
@@ -41,6 +41,7 @@ export class ExploreComponent implements OnInit {
 
   ngOnInit(): void {
     this.aRoute.queryParams.subscribe(params => {
+      this.DONE_LOADING = false
       this.POST_PAGE = parseFloat(params["page"]) || 1
       this.QUERY = {
         limit: this.POST_LIMIT,
@@ -58,13 +59,13 @@ export class ExploreComponent implements OnInit {
         this.LOCATION_DATAS = locationData
         this.userService.GetAllSkills().then(skillsData => {
           this.SKILL_DATAS = skillsData
+          this.DONE_LOADING_SIDEBAR = true
           
           setTimeout(() => {
             this.checkSelectedCheckboxes(params["type"])
             this.checkSelectedCheckboxes(params["locations"] || "")
             this.checkSelectedCheckboxes(params["skills"] || "")
           },500)
-          this.DONE_LOADING_SIDEBAR = true
           
         })
       })
@@ -72,10 +73,8 @@ export class ExploreComponent implements OnInit {
       this.FORM_SEARCH = new FormGroup({
         search: new FormControl(params["search"]),
       })
+      this.callGetPost()
     })
-    
-    this.callGetPost()
-    
   }
 
   savePost(){
@@ -84,7 +83,7 @@ export class ExploreComponent implements OnInit {
 
 
   callGetPost(){
-    this.QUERY.limit = 6
+    this.QUERY.limit = 2
     this.postService.GetAllPosts(this.QUERY).then(postData => {
       this.POST_DATAS = postData.datas
       this.POST_LIMIT = postData.limit
@@ -100,10 +99,10 @@ export class ExploreComponent implements OnInit {
   }
 
   resetFilter(){
-    this.QUERY.limit = 6
+    this.QUERY.limit = 2
     this.QUERY.page = 1
     this.POST_DATAS = []
-    this.SHOW_MORE_BUTTON = this.POST_DATAS.length > 6 ? true : false
+    this.SHOW_MORE_BUTTON = this.POST_DATAS.length > 2 ? true : false
     $("input:checked").prop("checked", false)
     // this.callGetPost()
     this.router.navigate(["/posts/explore"], {
@@ -162,8 +161,6 @@ export class ExploreComponent implements OnInit {
     const optionArray = jobtype.split(';');
     optionArray.forEach((option:any) => {
       const checkbox = document.querySelector(`input[name="${option}"]`) as HTMLInputElement;
-      console.log(checkbox);
-      
       if (checkbox) {
         checkbox.checked = true;
       }
@@ -183,7 +180,6 @@ export class ExploreComponent implements OnInit {
       },
       queryParamsHandling: 'merge'
     })
-    this.callGetPost()
   }
   changeLocation(changedInput:any){
     const CHECKED:any = []
@@ -199,7 +195,6 @@ export class ExploreComponent implements OnInit {
       },
       queryParamsHandling: 'merge'
     })
-    this.callGetPost()
   }
   changeSkill(changedInput:any){
     const CHECKED:any = []
@@ -215,7 +210,6 @@ export class ExploreComponent implements OnInit {
       },
       queryParamsHandling: 'merge'
     })
-    this.callGetPost()
   }
 
 
@@ -261,7 +255,7 @@ export class ExploreComponent implements OnInit {
     now.setHours(0, 0, 0, 0);
 
     const diffInMilliseconds = now - date;
-    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 20 * 20 * 24));
 
     if (diffInDays < 7) {
         return `minggu ini`;
