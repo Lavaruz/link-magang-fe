@@ -93,6 +93,7 @@ export class AdminUsersComponent {
         { 
           data: "lastname",
           render: function (data:any) {
+            if(!data) return ""
             return data.length > 30 ?
               data.substr( 0, 30 ) +'…' :
               data;

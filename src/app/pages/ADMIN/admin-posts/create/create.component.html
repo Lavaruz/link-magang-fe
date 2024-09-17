@@ -12,9 +12,9 @@
                 <p class="text-2xl font-bold text-black/80 mt-8 px-8">Buat Lowongan</p>
 
                 <div class="px-8">
-                    <form id="form-create-post" class="mt-10 min-h-[50vh] bg-white border-2 rounded-[1.5rem] shadow-md py-12 px-5">
+                    <form [formGroup]="FORM_CREATE_POST" (submit)="submitFormCreate()" id="form-create-post" class="mt-10 min-h-[50vh] bg-white border-2 rounded-[1.5rem] shadow-md py-12 px-5">
                         <div class="relative w-full lg:w-1/2">
-                            <input type="text" name="title" id="floating-phone-number" class="block py-2.5 pe-0 w-full text-gray-900 font-medium bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                            <input formControlName="title" type="text" name="title" id="floating-phone-number" class="block py-2.5 pe-0 w-full text-gray-900 font-medium bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
                             <label for="floating-phone-number" class="absolute text-sm text-main duration-300 transform -translate-y-6 z-10 scale-75 top-3 origin-[0] peer-placeholder-shown:start-4 peer-focus:start-0 peer-focus:text-main peer-focus:dark:text-main peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Job Position*</label>
                         </div>
                 
@@ -26,11 +26,11 @@
                             <div class="grid gap-4 grid-cols-2">
                                 <div class="">
                                     <label for="" class="block text-sm font-medium text-black/70 mb-2">COMPANY NAME*</label>
-                                    <input type="text" name="company" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
+                                    <input formControlName="company" type="text" name="company" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
                                 </div>
                                 <div class="">
                                     <label for="" class="block text-sm font-medium text-black/70 mb-2">PLATFORM*</label>
-                                    <select name="platform" type="text" class="w-full lg:w-1/2 rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
+                                    <select formControlName="platform" name="platform" type="text" class="w-full lg:w-1/2 rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
                                         <option value="Jobstreet">Jobstreet</option>
                                         <option value="Kalibrr">Kalibrr</option>
                                         <option value="Glints">Glints</option>
@@ -45,7 +45,7 @@
                             <div class="grid grid-cols-2 gap-4">
                                 <div class="">
                                     <label for="" class="block text-sm font-medium text-black/70 mb-2">JOB TYPE*</label>
-                                    <select type="text" name="type" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
+                                    <select formControlName="type" type="text" name="type" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
                                         <option value="Internship">Internship</option>
                                         <option value="Full-Time">Full-Time</option>
                                         <option value="Part-Time">Part-Time</option>
@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="">
                                     <label for="" class="block text-sm font-medium text-black/70 mb-2">POST DATE*</label>
-                                    <input type="date" name="" id="" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30">
+                                    <input formControlName="post_date" type="date" name="" id="" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30">
                                 </div>
                             </div>
 
@@ -61,16 +61,16 @@
                             <!-- LINK POSTINGAN -->
                             <div class="">
                                 <label for="" class="block text-sm font-medium text-black/70 mb-2">POST LINK*</label>
-                                <input type="text" name="link" class="w-full lg:w-2/3 rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. https://internshit.com/posts/create" name="" id="">
+                                <input formControlName="link" type="text" name="link" class="w-full lg:w-2/3 rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. https://internshit.com/posts/create" name="" id="">
                             </div>
                             
                             <!-- LOCATION -->
                             <div class="text-sm font-medium text-black/70">
                                 <p>LOKASI*</p>
                                 <div class="grid grid-cols-3 gap-4 mt-2">
-                                    <select2 [data]="PROVINSI" (update)="updateProvisi($event)" placeholder="Pilih Provinsi" styleMode="borderless" class="border py-1.5 border-2 rounded-lg border-gray-300"></select2>
-                                    <select2 [data]="KABUPATEN" (update)="updateKabupaten($event)" placeholder="Pilih Kabupaten" styleMode="borderless" class="border py-1.5 border-2 rounded-lg border-gray-300"></select2>
-                                    <select2 [data]="KECAMATAN" placeholder="Pilih Kecamatan" styleMode="borderless" class="border py-1.5 border-2 rounded-lg border-gray-300"></select2>
+                                    <select2 formControlName="provinsi" [data]="PROVINSI" (update)="updateProvisi($event)" placeholder="Pilih Provinsi" styleMode="borderless" class="border py-1.5 border-2 rounded-lg border-gray-300"></select2>
+                                    <select2 formControlName="kabupaten" [data]="KABUPATEN" (update)="updateKabupaten($event)" placeholder="Pilih Kabupaten" styleMode="borderless" class="border py-1.5 border-2 rounded-lg border-gray-300"></select2>
+                                    <select2 formControlName="kecamatan" [data]="KECAMATAN" placeholder="Pilih Kecamatan" styleMode="borderless" class="border py-1.5 border-2 rounded-lg border-gray-300"></select2>
                                 </div>
                             </div>
                 
@@ -119,16 +119,16 @@
                             <!-- JOB OVERVIEW -->
                             <div class="">
                                 <label for="" class="block text-sm font-medium text-black/70 mb-2">JOB OVERVIEW</label>
-                                <angular-editor class="no-tailwind" formControlName="htmlContent" [config]="editorConfig"></angular-editor>
+                                <angular-editor formControlName="overview" class="no-tailwind" [config]="editorConfig"></angular-editor>
                             </div>
                         </div>
                 
+                        <div class="flex justify-end mt-8">
+                            <button type="submit" class="bg-main text-white font-medium rounded-lg text-sm px-4 py-2">Buat Lowongan</button>
+                        </div>
                     </form>
                 </div>
 
-                <div class="flex justify-end px-8 mt-8">
-                    <button class="bg-main text-white font-medium rounded-lg text-sm px-4 py-2">Buat Lowongan</button>
-                </div>
             </div>
         </div>
     </div>

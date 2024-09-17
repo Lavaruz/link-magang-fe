@@ -1,16 +1,17 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { AdminNavbarComponent } from '../../admin-navbar/admin-navbar.component';
 import { AdminSidebarComponent } from '../../admin-sidebar/admin-sidebar.component';
 import { UserService } from '../../../../services/user.service';
-import { Select2Data, Select2Module } from 'ng-select2-component';
+import { Select2Module } from 'ng-select2-component';
 import { HttpClient } from '@angular/common/http';
 import { AngularEditorConfig, AngularEditorModule } from '@kolkov/angular-editor';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-create',
   standalone: true,
-  imports: [AdminNavbarComponent, AdminSidebarComponent, Select2Module, AngularEditorModule],
-  templateUrl: './create.component.html'
+  imports: [AdminNavbarComponent, AdminSidebarComponent, AngularEditorModule, Select2Module, ReactiveFormsModule],
+  templateUrl: './create.component.html',
 })
 export class AdminPostCreateComponent implements OnInit {
 
@@ -23,6 +24,8 @@ export class AdminPostCreateComponent implements OnInit {
   KECAMATAN:any = []
   SKILLS:any
   DONE_LOADING = false
+  FORM_CREATE_POST!:FormGroup
+
   editorConfig: AngularEditorConfig = {
     editable: true,
       spellcheck: true,
@@ -67,13 +70,27 @@ export class AdminPostCreateComponent implements OnInit {
       ['bold', 'italic'],
       ['fontSize']
     ]
-};
+  };
 
   ngOnInit(): void {
     var urlProvinsi = "https://ibnux.github.io/data-indonesia/provinsi.json";
     var urlKabupaten = "https://ibnux.github.io/data-indonesia/kabupaten/";
     var urlKecamatan = "https://ibnux.github.io/data-indonesia/kecamatan/";
     var urlKelurahan = "https://ibnux.github.io/data-indonesia/kelurahan/";
+
+    this.FORM_CREATE_POST = new FormGroup({
+      title: new FormControl(""),
+      company: new FormControl(""),
+      platform: new FormControl("Glints"),
+      type: new FormControl("Internship"),
+      post_date: new FormControl(""),
+      link: new FormControl(""),
+      provinsi: new FormControl(""),
+      kabupaten: new FormControl(""),
+      kecamatan: new FormControl(""),
+      overview: new FormControl(""),
+      skills: new FormControl(""),
+    })
 
     this.userService.GetAllSkills().then(skillsData => {
       this.SKILLS = skillsData
@@ -113,5 +130,21 @@ export class AdminPostCreateComponent implements OnInit {
 
   ngAfterViewInit(){
     $("footer").remove()
+  }
+
+  submitFormCreate(){
+    if(this.FORM_CREATE_POST.invalid){
+      return
+    }
+    const formData = this.FORM_CREATE_POST.value
+    const provinsiData = (this.PROVINSI.find((prof:any) => prof.value == this.FORM_CREATE_POST.value["provinsi"])).label
+    const kabupatenData = (this.KABUPATEN.find((prof:any) => prof.value == this.FORM_CREATE_POST.value["kabupaten"])).label
+    const kecamatanData = (this.KECAMATAN.find((prof:any) => prof.value == this.FORM_CREATE_POST.value["kecamatan"])).label
+    console.log(`${provinsiData} > ${kabupatenData} > ${kecamatanData}`);
+    formData.location = `${provinsiData} > ${kabupatenData} > ${kecamatanData}`
+    console.log(formData);
+    
+    
+    
   }
 }

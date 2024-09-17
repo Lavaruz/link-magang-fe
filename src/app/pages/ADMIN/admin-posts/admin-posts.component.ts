@@ -64,7 +64,7 @@ export class AdminPostsComponent implements OnInit{
                   data: response.datas // Data yang ditampilkan
               });
           }
-      });
+        });
       },
       // ajax: {
       //   var limit = data.length; // Limit dari DataTables
