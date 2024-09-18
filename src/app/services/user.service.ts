@@ -137,6 +137,15 @@ export class UserService {
     }
   }
 
+  async AddNewSkill(skillName:any) {
+    try {
+      const skillsData:any = await this.requestService.postEncryptedRequest(`/api/v1/users/skills`, skillName);
+      return skillsData
+    } catch (error) {
+      console.error('Error on Get Membership Price:', error);
+    }
+  }
+
 
   async GetAllProfilePictureAvailable(){
     const picturesData = await this.requestService.getEncryptedRequest(`/api/v1/users/pictures`)
