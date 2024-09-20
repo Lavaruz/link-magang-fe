@@ -89,16 +89,16 @@ export class AdminPostCreateComponent implements OnInit {
     var urlKelurahan = "https://ibnux.github.io/data-indonesia/kelurahan/";
 
     this.FORM_CREATE_POST = new FormGroup({
-      title: new FormControl("Software Developer"),
-      company: new FormControl("Internshit"),
+      title: new FormControl(""),
+      company: new FormControl(""),
       platform: new FormControl("Glints"),
       type: new FormControl("Internship"),
       post_date: new FormControl(this.getTodayDate()),
-      link: new FormControl("https://internshits.com"),
+      link: new FormControl(""),
       provinsi: new FormControl(""),
       kabupaten: new FormControl(""),
       kecamatan: new FormControl(""),
-      overview: new FormControl("Konz"),
+      overview: new FormControl(""),
       skills: new FormControl(""),
     })
 

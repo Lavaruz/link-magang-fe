@@ -6,13 +6,13 @@
 
         <div class="py-8">
             <p class="text-3xl font-bold text-black/80">Jelajahi Lowongan Kamu</p>
-            <p class="mt-1 text-black/80">Mencari pekerjaan? Jelajahi lowongan pekerjaan terbaru kami untuk melihat & melamar pekerjaan terbaik hari ini!</p>
+            <p class="mt-1 text-black/80">Mencari magang? Jelajahi lowongan magang terbaru kami untuk melihat & melamar magang terbaik hari ini!</p>
         </div>
 
-        <div class="grid grid-cols-8 gap-8">
+        <div class="grid lg:grid-cols-8 gap-8">
 
             <!-- SEARCH TOOLS -->
-            <div class="col-span-2 bg-white p-5 rounded-xl border border-gray-300 noise self-start pb-8 sticky top-[6rem]">
+            <div class="hidden lg:block col-span-2 bg-white p-5 rounded-xl border border-gray-300 noise self-start pb-8 sticky top-[6rem]">
                 <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()" class="">
                     <!-- <div class="relative z-0">
                         <input formControlName="search" type="text" id="post_search" class="font-medium block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-main focus:outline-none focus:ring-0 focus:border-main peer px-3" placeholder=" " />
@@ -94,15 +94,13 @@
 
 
             <!-- JOBS -->
-            <div *ngIf="DONE_LOADING == true" class="col-span-6">
-                <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()">
-                    <div class="relative mb-6">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <i class="uil uil-search"></i>
-                        </div>
-                        <input type="text" formControlName="search" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari lowongan atau keyword..." />
-                        <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cari <i class="uil uil-arrow-right"></i></button>
+            <div *ngIf="DONE_LOADING == true" class="lg:col-span-6">
+                <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()" class="flex gap-2 mb-6">
+                    <div class="relative w-full">
+                        <input type="text" formControlName="search" class="duration-200 hover:shadow-lg block w-full lg:p-4 p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari lowongan atau keyword..." />
+                        <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-2 lg:px-4 py-1 lg:py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><i class="uil uil-search"></i></button>
                     </div>
+                    <button type="button" (click)="openFilterMobile()" class="lg:hidden bg-white border-2 rounded-md hover:shadow-lg duration-300 px-2.5 py-1"><i class="uil uil-filter text-xl"></i></button>
                 </form>
 
                 <span class="text-gray-700 dark:text-gray-400 font-medium text-black/60">
@@ -174,3 +172,130 @@
         </div>
     </div>
 </main>
+
+<div (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/50 flex items-end lg:items-center justify-end lg:justify-center z-30" id="popup-home">
+    
+    <div id="popup-detail-job" class="hidden popup lg:w-1/2 bg-background noise rounded-t-2xl lg:rounded-3xl overflow-hidden">
+        <div class="h-[85vh] lg:h-[500px] overflow-y-scroll lg:px-8 p-5 pb-20 py-8 relative">
+            <button type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-main font-medium text-base">
+                <i class="uil uil-arrow-left"></i> Kembali ke Beranda
+            </button>
+
+            <!-- MAIN INFO -->
+            <div class="w-full">
+                <div class="grid lg:grid-cols-3 items-start">
+                    <p id="popup-title" class="col-span-2 text-2xl font-bold text-main mb-4">Backend Developer</p>
+                    <button id="close-detail-job" class="hidden lg:block justify-self-end font-medium text-2xl"><i class="uil uil-multiply"></i></button>
+                </div>
+                <p class="flex gap-2 items-center text-black/70"><i class="uil uil-building"></i><span id="popup-company">PT Enviromate Technology International</span></p>
+                <p class="flex gap-2 items-center text-black/70 mt-1"><i class="uil uil-map-marker-alt"></i> <span id="popup-location">Surabaya</span></p>
+                <div class="flex gap-4 items-center mt-4 ">
+                    <a id="popup-link" href="#" target="_blank" class="w-max px-8 block py-2.5 self-start rounded-lg text-sm font-medium bg-main text-white shadow-md hover:scale-[1.01]"><i class="uil uil-external-link-alt"></i> Buka di <span id="popup-platform">Jobstreet</span></a>
+                    <!-- <button id="close-detail-job" class="px-8 hidden lg:block text-main font-medium">Close</button> -->
+                </div>
+            </div>
+
+            
+            <div id="skills-need" class="hidden justify-self-start">
+                <hr class="my-4">
+                <p class="font-medium text-black/70">Keahlian yang dibutuhkan</p>
+                <div id="skills" class="flex gap-3 mt-4 flex-wrap flex-row">
+                    <!-- HERE -->
+                </div>
+            </div>
+            
+            <hr class="my-4">
+
+            <div class="">
+                <p class="text-black/60 font-bold mt-4 text-xl">Ringkasan Pekerjaan</p>
+                <p id="popup-overview" class="mt-4 text-black/70 no-tailwind">Tidak ada overview ditampilkan ~</p>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="popup-filter" class="hidden popup w-full rounded-t-2xl bg-white h-[80vh] p-5 overflow-y-scroll">
+        <!-- <button type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-main font-medium text-base">
+            <i class="uil uil-arrow-left"></i> Kembali ke Beranda
+        </button> -->
+        <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()" class="w-full">
+            <!-- <div class="relative z-0">
+                <input formControlName="search" type="text" id="post_search" class="font-medium block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-main focus:outline-none focus:ring-0 focus:border-main peer px-3" placeholder=" " />
+                <label for="post_search" class="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-main peer-focus:dark:text-main peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"><i class="uil uil-search"></i> Jelajahi lowongan..</label>
+            </div> -->
+            <!-- FILTER -->
+            <div class="sticky top-0">
+                <div class="flex justify-between mb-3">
+                    <p class="font-medium text-sm">FILTER</p>
+                    <button (click)="resetFilter()" class="font-medium text-sm text-orange-500">Reset</button>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <!-- FILTER BY TIPE PEKERJAAN -->
+                    <div class="">
+                        <button (click)="expandSidebar(sidebarJobtypeMobile)" #sidebarJobtypeMobile class="w-full flex items-center justify-between py-2">
+                            <p>Tipe Pekerjaan</p>
+                            <i class="uil uil-angle-down"></i>
+                        </button>
+                        <div (change)="changeJobType(inputJobTypeMobile)" #inputJobTypeMobile class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                            <div class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="Internship" id="internship" class="rounded outline-none focus:ring-0">
+                                <label for="internship">Internship</label>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="Full-Time" id="fulltime" class="rounded outline-none focus:ring-0">
+                                <label for="fulltime">Full-Time</label>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="Part-Time" id="parttime" class="rounded outline-none focus:ring-0">
+                                <label for="parttime">Part-Time</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- FILTER BY LOKASI -->
+                    <div class="">
+                        <button (click)="expandSidebar(sidebarLocationMobile)" #sidebarLocationMobile class="w-full flex items-center justify-between py-2">
+                            <p>Lokasi</p>
+                            <i class="uil uil-angle-down"></i>
+                        </button>
+                        <div (change)="changeLocation(inputLocationMobile)" #inputLocationMobile *ngIf="DONE_LOADING_SIDEBAR == true" class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                            @if(LOCATION_DATAS.length > 0){
+                                @for(data of LOCATION_DATAS; track data.id){
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" name="{{data.location}}" id="{{'location-'+data.id}}" class="rounded outline-none focus:ring-0">
+                                        <label for="{{'location-'+data.id}}">{{data.location}}</label>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- FILTER BY KEAHLIAN -->
+                    <div class="">
+                        <button (click)="expandSidebar(sidebarSkillsMobile)" #sidebarSkillsMobile class="w-full flex items-center justify-between py-2">
+                            <p>Keahlian</p>
+                            <i class="uil uil-angle-left"></i>
+                        </button>
+                        <div (change)="changeSkill(inputSkillsMobile)" #inputSkillsMobile *ngIf="DONE_LOADING_SIDEBAR == true" class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                            @if(SKILL_DATAS.length > 0){
+                                @for(data of SKILL_DATAS; track data.id){
+                                    <div class="flex items-center gap-2 text-sm">
+                                        <input type="checkbox" name="{{data.skill}}" id="{{'location-'+data.id}}" class="rounded outline-none focus:ring-0">
+                                        <label for="{{'skill-'+data.id}}">{{data.skill}}</label>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

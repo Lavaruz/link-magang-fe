@@ -21,12 +21,14 @@ import { UtilsService } from '../../../services/utils.service';
                   <div class="experience w-full py-3">
                     <div class="lg:flex justify-between items-start">
                         <div class="">
-                            <p class="mb-1 text-sm bg-main/60 px-2 w-max text-white">{{ experience.exp_type }}</p>
+                            <div class="flex items-center gap-4 mb-1">
+                              <p class="text-sm bg-main/60 px-2 w-max text-white">{{ experience.exp_type }}</p>
+                              <span *ngIf="idx == 0" class="text-sm bg-orange-500 px-2 w-max text-white">Aktif</span>
+                            </div>
                             <div class="text-xl font-semibold flex items-center gap-3">
                               <span>
                                 {{ experience.exp_position.length > 50 ? experience.exp_position.substring(0,50) + '..' : experience.exp_position }}
                               </span>
-                              <span *ngIf="idx == 0" class="text-xs bg-orange-500 px-2 w-max text-white">Aktif</span>
                             </div>
                             <div class="flex items-center font-medium lg:font-normal gap-1 text-black/70 text-sm lg:text-base">
                                 <p>

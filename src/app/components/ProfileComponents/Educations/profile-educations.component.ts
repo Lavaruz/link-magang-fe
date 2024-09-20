@@ -24,9 +24,10 @@ import { UtilsService } from '../../../services/utils.service';
                           <!-- Left Section: Education Details -->
                           <div>
                               <!-- Education Type -->
-                              <p class="mb-1 text-sm bg-main/60 px-2 w-max text-white">
-                                  {{ education.edu_type }}
-                              </p>
+                              <div class="flex items-center gap-4 mb-1">
+                                <p class="text-sm bg-main/60 px-2 w-max text-white">{{ education.edu_type }}</p>
+                                <span *ngIf="idx == 0" class="text-sm bg-orange-500 px-2 w-max text-white">Aktif</span>
+                              </div>
                               <!-- Program Name (truncated if more than 50 characters) -->
                               <div class="text-xl font-semibold flex items-center gap-3">
                                 <span>
@@ -36,7 +37,6 @@ import { UtilsService } from '../../../services/utils.service';
                                     : education.edu_program 
                                   }}
                                 </span>
-                                <span *ngIf="idx == 0" class="text-xs bg-orange-500 px-2 w-max text-white">Aktif</span>
                               </div>
                               <!-- Institution and GPA -->
                               <div class="flex items-center font-medium lg:font-normal gap-1 text-black/70 text-sm lg:text-base">

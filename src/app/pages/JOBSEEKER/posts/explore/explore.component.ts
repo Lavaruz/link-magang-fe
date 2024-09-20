@@ -24,7 +24,7 @@ export class ExploreComponent implements OnInit {
 
   SHOW_MORE_BUTTON = false
   POST_PAGE = 1
-  POST_LIMIT = 2
+  POST_LIMIT = 6
   POST_DATAS:any = []
   POST_DATAS_DETAIL:any
   POST_COUNT = 0
@@ -74,6 +74,7 @@ export class ExploreComponent implements OnInit {
         search: new FormControl(params["search"]),
       })
       this.callGetPost()
+      
     })
   }
 
@@ -83,15 +84,14 @@ export class ExploreComponent implements OnInit {
 
 
   callGetPost(){
-    this.QUERY.limit = 2
     this.postService.GetAllPosts(this.QUERY).then(postData => {
       this.POST_DATAS = postData.datas
       this.POST_LIMIT = postData.limit
-      this.POST_PAGE = postData.page  
+      this.POST_PAGE = postData.page        
       
       this.postService.GetCountAllPosts().then(postCount => {
         this.POST_COUNT = postCount
-        this.SHOW_MORE_BUTTON = this.POST_DATAS.length >= this.POST_LIMIT ? true : false
+        this.SHOW_MORE_BUTTON = this.POST_LIMIT * this.POST_PAGE < this.POST_COUNT ? true : false
         this.DONE_LOADING = true
       })
       
@@ -99,19 +99,18 @@ export class ExploreComponent implements OnInit {
   }
 
   resetFilter(){
-    this.QUERY.limit = 2
     this.QUERY.page = 1
     this.POST_DATAS = []
-    this.SHOW_MORE_BUTTON = this.POST_DATAS.length > 2 ? true : false
+    this.SHOW_MORE_BUTTON = this.POST_DATAS.length > 6 ? true : false
     $("input:checked").prop("checked", false)
     // this.callGetPost()
     this.router.navigate(["/posts/explore"], {
       queryParams: {
-        'search': null,
-        'locations': null,
-        'skills': null,
-        'type': null,
-        'page': null
+        'search': "",
+        'locations': "",
+        'skills': "",
+        'type': "",
+        'page': ""
       },
       queryParamsHandling: 'merge'
     })
@@ -143,6 +142,7 @@ export class ExploreComponent implements OnInit {
     this.IS_BUTTON_LOADING = true
     this.POST_PAGE++
     this.QUERY["page"] = this.POST_PAGE
+    this.SHOW_MORE_BUTTON = this.POST_LIMIT * this.POST_PAGE < this.POST_COUNT ? true : false
 
     this.postService.GetAllPosts(this.QUERY).then(postData => {
       this.POST_DATAS.push(...postData.datas)
@@ -217,6 +217,27 @@ export class ExploreComponent implements OnInit {
     const $this = $(evt)
     $this.find("i").toggleClass("uil-angle-left uil-angle-down")
     $this.next().slideToggle("fast").css("display", "flex")
+  }
+
+  hideAllPopup(evt:any, e:any){
+    const $this = $(evt)
+
+    if(e.target.id == "popup-home"){
+      $this.children().each(function(){
+        if($(this).is(":visible")){
+          $(this).slideToggle(function(){
+            $this.fadeOut(function(){})
+            $("body").css("overflow", "auto")
+          }) 
+        }
+      })
+    }
+  }
+  openFilterMobile(){
+    $("#popup-home").fadeIn(() => {
+      $("#popup-filter").slideToggle()
+      $("body").css("overflow", "hidden")
+    }).css("display", "flex")
   }
 
   openPostDetail(id:any){

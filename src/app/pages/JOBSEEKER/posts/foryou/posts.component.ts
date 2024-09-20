@@ -27,6 +27,7 @@ export class PostsForYouComponent implements OnInit {
   SHOW_MORE_BUTTON = false
   POST_PAGE = 1
   POST_LIMIT = 6
+  POST_COUNT = 0
 
   POSTS_DATA:any = []
   POST_DATAS_DETAIL:any
@@ -53,7 +54,10 @@ export class PostsForYouComponent implements OnInit {
       if(this.IS_LOGIN){
         this.postService.GetAllMatchPosts(this.QUERY).then(postsData => {
           this.POSTS_DATA = postsData.datas
-          this.SHOW_MORE_BUTTON = this.POSTS_DATA.length >= this.POST_LIMIT    
+          this.POST_PAGE = postsData.page
+          this.POST_COUNT = postsData.total_entries
+
+          this.SHOW_MORE_BUTTON = this.POST_PAGE * this.POST_LIMIT < this.POST_COUNT    
           this.DONE_LOADING = true
         })
       }else{
@@ -73,7 +77,8 @@ export class PostsForYouComponent implements OnInit {
 
     this.postService.GetAllMatchPosts(this.QUERY).then(postData => {
       this.POSTS_DATA.push(...postData.datas)
-      this.SHOW_MORE_BUTTON = postData.datas.length >= this.POST_LIMIT 
+      
+      this.SHOW_MORE_BUTTON = this.POST_PAGE * this.POST_LIMIT < this.POST_COUNT
       this.IS_BUTTON_LOADING = false
     })
   }
@@ -83,6 +88,7 @@ export class PostsForYouComponent implements OnInit {
 
 
   submitFormSearch(){
+    this.DONE_LOADING = false
     if(this.FORM_SEARCH.invalid) return
 
     this.QUERY.search = this.FORM_SEARCH.value.search
@@ -97,6 +103,7 @@ export class PostsForYouComponent implements OnInit {
 
     this.postService.GetAllMatchPosts(this.QUERY).then(postData => {
       this.POSTS_DATA = postData.datas
+      this.DONE_LOADING = true
       this.SHOW_MORE_BUTTON = postData.datas.length >= this.POST_LIMIT 
     })
   }
@@ -151,21 +158,21 @@ export class PostsForYouComponent implements OnInit {
   getPlatformImage(platform:any){
     switch (platform) {
       case 'Glints':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Glints.png" alt="Glints">';
+          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Glints.png" alt="Glints">';
       case 'Linkedin':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Linkedin.png" alt="LinkedIn">';
+          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Linkedin.png" alt="LinkedIn">';
       case 'Kalibrr':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Kalibrr.png" alt="Kalibrr">';
+          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Kalibrr.png" alt="Kalibrr">';
       case 'Jobstreet':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Jobstreet.png" alt="JobStreet">';
+          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Jobstreet.png" alt="JobStreet">';
       case 'Indeed':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Indeed.png" alt="Indeed">';
+          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Indeed.png" alt="Indeed">';
       case 'Dealls':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Dealls.png" alt="Dealls">';
+          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Dealls.png" alt="Dealls">';
       case 'Kitalulus':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Kitalulus.png" alt="Kitalulus">';
+          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Kitalulus.png" alt="Kitalulus">';
       default:
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Other.png" alt="Default">';
+          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Other.png" alt="Default">';
     }
   }
 

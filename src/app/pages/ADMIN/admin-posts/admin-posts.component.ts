@@ -66,19 +66,6 @@ export class AdminPostsComponent implements OnInit{
           }
         });
       },
-      // ajax: {
-      //   var limit = data.length; // Limit dari DataTables
-      //   var start = data.start;
-
-      //   url: `https://internshits.com/api/v1/posts?limit=10`,
-      //   type: "GET",
-      //   dataSrc: (json) => {
-      //     json = this.requestService.decryptData(json)
-      //     console.log(json);
-          
-      //     return json.datas || json; 
-      //   }
-      // },
       columns: [
         {
           data: null,
@@ -114,7 +101,7 @@ export class AdminPostsComponent implements OnInit{
           data: "id",
           width:"5%",
           render: function (data, type) {
-            return `<a href="/siswa/edit/${data}" class="edit-siswa"><i class="uil uil-edit text-main"></i></a>`;
+            return `<a href="/admin/posts/edit/${data}" class="edit-siswa"><i class="uil uil-edit text-main"></i></a>`;
           },
           orderable: false,
           className: "text-center"

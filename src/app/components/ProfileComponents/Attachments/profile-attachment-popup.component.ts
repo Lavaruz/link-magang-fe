@@ -29,7 +29,7 @@ import { UserService } from '../../../services/user.service';
                               <p class="text-main font-bold text-lg">Curriculum Vitae (CV)*</p>
                               <p class="hidden lg:block font-second text-black/80 text-sm font-medium">Harap di perhatikan beberapa perusahaan masih mewajibkan penggunaan CV, tampilkan link yang dapat langsung mengarah ke CV mu, seperti Google Drive!</p>
                               <label class="flex items-center gap-3 mt-4 lg:mt-3">
-                                  <span class="text-black/80 tracking-[1.4px] font-normal text-sm">LINK</span>
+                                  <span class="hidden lg:block text-black/80 tracking-[1.4px] font-normal text-sm">LINK</span>
                                   <!-- Using form state modifiers, the classes can be identical for every input -->
                                   <input formControlName="atc_resume" id="popup-body-resume" type="url" name="atc_resume" placeholder="https://drive.google.com/file" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                                     focus:invalid:border-red-500 focus:invalid:ring-red-500
@@ -43,7 +43,7 @@ import { UserService } from '../../../services/user.service';
                               <p class="text-main font-bold text-lg">Portfolio</p>
                               <p class="font-second text-black/80 text-sm font-medium">Tampilkan karya karya yang telah kamu buat sebelumnya, lampiran dapat berupa berbagai hal seperti GitHub, Behance, Google Drive, dll.</p>
                               <label class="flex items-center gap-3 mt-4 lg:mt-3">
-                                  <span class="text-black/80 tracking-[1.4px] font-normal text-sm">LINK</span>
+                                  <span class="hidden lg:block text-black/80 tracking-[1.4px] font-normal text-sm">LINK</span>
                                   <!-- Using form state modifiers, the classes can be identical for every input -->
                                   <input formControlName="atc_portfolio" id="popup-body-portfolio" type="url" name="atc_portfolio" placeholder="https://drive.google.com/file" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                                     focus:invalid:border-red-500 focus:invalid:ring-red-500

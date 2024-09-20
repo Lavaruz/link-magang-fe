@@ -46,7 +46,7 @@ export const routes: Routes = [
                 children: [
                     { path: "", component: AdminPostsComponent},
                     { path: "create", component: AdminPostCreateComponent},
-                    { path: "edit", component: AdminPostEditComponent}
+                    { path: "edit/:id", component: AdminPostEditComponent}
                 ]
             },
             {path: "users", component: AdminUsersComponent},

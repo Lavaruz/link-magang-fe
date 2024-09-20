@@ -59,7 +59,7 @@ import $ from "jquery"
                       <div class="">
                           <label class="block mt-4 lg:mt-0">
                               <label class="block mb-1 text-white-60 tracking-[1.4px] font-normal text-sm">HEADLINE</label>
-                              <input formControlName="headline" id="popup-headline" type="text" name="headline" placeholder="Founder | Backend Developer" class="block border-2 border-gray-300 w-full lg:w-[380px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder:text-black/40 text-black/80"/>
+                              <input maxlength="50" max="50" formControlName="headline" id="popup-headline" type="text" name="headline" placeholder="Founder | Backend Developer" class="block border-2 border-gray-300 w-full lg:w-[380px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder:text-black/40 text-black/80"/>
                           </label>
                       </div>
 
