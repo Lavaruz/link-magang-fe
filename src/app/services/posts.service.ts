@@ -52,4 +52,15 @@ export class PostsService {
       console.error('Error on Get Membership Price:', error);
     }
   }
+
+  async DeletePosts(postIds:any) {
+    try {
+      console.log(`/api/v1/posts?ids=${postIds}`);
+      
+      const postData:any = await this.requestServices.deleteEncryptedRequest(`/api/v1/posts?ids=${postIds}`);
+      return postData
+    } catch (error) {
+      console.error('Error on Get Membership Price:', error);
+    }
+  }
 }

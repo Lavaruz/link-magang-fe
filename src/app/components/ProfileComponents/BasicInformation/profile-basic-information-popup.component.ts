@@ -31,14 +31,11 @@ import $ from "jquery"
                               <img id="popup-profile-pic" [src]="userData.profile_picture" onerror="src='assets/img/no-profile.jpg'" alt="profile-pic" class="w-full h-full object-cover">
                           </div>
                           <div class="">
-                              <div class="hidden lg:block">
+                              <div class="">
                                   <p class="text-white-60 font-second text-sm font-medium mb-2">Pilih foto profil yang paling menampilkan personamu.<br>
                               </div>
                               <button (click)="isDisplay = false; isPicture = true" id="button-choose-profile-pic" type="button" class="flex items-center gap-1 bg-main text-white text-sm py-2 px-4 rounded-lg">Pilih foto profil</button>
                           </div>
-                      </div>
-                      <div class="lg:hidden pt-4">
-                          <p class="text-white-60 font-second text-sm font-medium mb-2">Pilih foto profil yang paling menampilkan personamu.<br>
                       </div>
                   </div>
 

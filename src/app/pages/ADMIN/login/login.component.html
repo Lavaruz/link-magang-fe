@@ -1,9 +1,9 @@
 <main class="h-screen flex items-center justify-center">
     <div class="">
         <p class="">Credentials:</p>
-        <div class="flex items-center gap-2 mt-2">
-            <input type="password" class="rounded-lg border border-gray-300 focus:ring-main focus:border focus:border-main">
-            <button class="bg-main text-white text-sm font-medium p-2.5 border-2 hover:bg-main/80 rounded-lg">Go</button>
-        </div>
+        <form [formGroup]="FORM_LOGIN" (submit)="submitFormCredentials()" class="flex items-center gap-2 mt-2">
+            <input type="password" formControlName="credentials" class="rounded-lg border border-gray-300 focus:ring-main focus:border focus:border-main">
+            <button type="submit" class="bg-main text-white text-sm font-medium p-2.5 border-2 hover:bg-main/80 rounded-lg">Go</button>
+        </form>
     </div>
 </main>

@@ -26,6 +26,8 @@ import { ProfileSocialsPopupComponent } from '../../../components/ProfileCompone
 import { ProfileTalentComponent } from '../../../components/ProfileComponents/TalentHunt/profile-talent.component';
 import { ProfileTalentPopupComponent } from '../../../components/ProfileComponents/TalentHunt/profile-talent-popup.component';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+import { GoogleAnalyticsServiceService } from '../../../services/google-analytics.service.service';
 
 @Component({
   selector: 'app-profile',
@@ -47,6 +49,8 @@ import { Router } from '@angular/router';
 export class ProfileComponent implements OnInit {
   userService: UserService = inject(UserService);
   router = inject(Router)
+  titleService = inject(Title)
+  googleAnalytics = inject(GoogleAnalyticsServiceService)
 
   FORM_BASIC:FormGroup = new FormGroup("")
   FORM_SUMMARY:FormGroup = new FormGroup("")
@@ -61,6 +65,7 @@ export class ProfileComponent implements OnInit {
   constructor( private location: Location){}
 
   ngOnInit() {
+    this.titleService.setTitle("Internshit - Profil Kamu");
     if(!this.userService.checkAuth()){
       this.router.navigate(["/"])
     }

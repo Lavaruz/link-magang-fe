@@ -5,14 +5,14 @@ import $ from "jquery"
 import { RequestService } from '../../../services/request.service';
 import { UserService } from '../../../services/user.service';
 import { CommonModule, Location, NgIf } from '@angular/common';
-import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NavbarComponent } from '../../../components/navbar/navbar.component';
+import { GoogleAnalyticsServiceService } from '../../../services/google-analytics.service.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [NgIf, GoogleSigninButtonModule, ReactiveFormsModule, CommonModule, RouterLink, NavbarComponent],
+  imports: [NgIf, ReactiveFormsModule, CommonModule, RouterLink, NavbarComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
@@ -36,6 +36,7 @@ export class HomeComponent implements OnInit {
   // INJECTABLE SERVICE
   postService = inject(PostsService)
   requestService = inject(RequestService)
+  googleAnalytics = inject(GoogleAnalyticsServiceService)
 
   constructor(private aRoute: ActivatedRoute, private router: Router, private userService: UserService, private location: Location){
     aRoute.queryParams.subscribe(params => {

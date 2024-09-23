@@ -1,9 +1,9 @@
 <app-navbar></app-navbar>
 <main class="noise">
-    <div class="min-h-screen lg:w-[1150px] mx-auto pb-20 px-[5%] mt-8 lg:px-0 grid grid-cols-8 gap-8">
+    <div class="min-h-screen lg:w-[1150px] mx-auto pb-20 px-[5%] lg:mt-8 lg:px-0 grid lg:grid-cols-8 gap-8">
 
         <!-- SIDEBAR -->
-        <div class="lg:col-span-2 bg-white border rounded-xl sticky top-[6rem] self-start h-max">
+        <div class="hidden lg:block lg:col-span-2 bg-white border rounded-xl sticky top-[6rem] self-start h-max">
             <form id="form-market-filter" class="flex flex-col items-center gap-4 py-6 px-4">
                 <div class="w-full flex flex-col gap-4 w-full">
                     <div class="pb-4 flex justify-between w-full">
@@ -155,36 +155,28 @@
         </div>
 
         <!-- CARDS -->
-        <div class="lg:col-span-6 overflow-y-scroll px-1">
+        <div class="lg:col-span-6 px-1">
             
             <div *ngIf="!IS_LOGIN" id="off-login" class="my-4">
                 <p class="text-black/60">Pamerkan betapa kerennya dirimu, untuk membuat <b>orang lain</b> & <b>recruiter</b> tertarik terhadap profilemu</p>
                 <button (click)="openLoginPanel()" id="button-create-card" class="text-white font-medium text-sm bg-main rounded-lg mt-4 px-6 py-2">Buat kartu kamu sendiri !</button>
             </div>
 
-            
             <div class="flex justify-between items-center py-4 lg:mt-0">
-                <p class="text-2xl font-medium text-main"><i class="uil uil-user-md"></i> Menampilkan {{ACTIVE_USER_COUNT}} Talent</p>
-                <button id="button-filter" class="lg:hidden shadow-md w-10 rounded-full h-10 bg-main text-white font-medium"><i class="uil uil-sliders-v"></i></button>
+                <p class="text-xl lg:text-2xl font-medium text-main"><i class="uil uil-user-md"></i> Menampilkan {{ACTIVE_USER_COUNT}} Talent</p>
             </div>
 
             <hr class="border-gray-300">
 
-            <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()" class="flex items-center mt-4">
+            <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()" class="flex lg:flex-row flex-col gap-3 lg:gap-0 items-center mt-4">
                 <div class="relative w-full">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                         <i class="uil uil-search"></i>
                     </div>
-                    <input type="text" formControlName="search_person" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari seseorang atau keahlian..." />
-                    <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cari <i class="uil uil-arrow-right"></i></button>
+                    <input type="search" formControlName="search_person" class="duration-200 hover:shadow-lg block w-full py-3 lg:py-4 p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white/80 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari talent berdasarkan apapun..." />
+                    <button type="submit" class="hidden lg:block text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cari <i class="uil uil-arrow-right"></i></button>
                 </div>
-                <div class="relative w-full">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <i class="uil uil-university"></i>
-                    </div>
-                    <input type="text" formControlName="search_eduexp" class="duration-200 hover:shadow-lg block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari pendidikan atau pengalaman..." />
-                    <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cari <i class="uil uil-arrow-right"></i></button>
-                </div>
+                <button type="button" (click)="openFilterMobile()" class="lg:hidden font-medium text-sm w-full bg-background py-2 rounded-full border border-gray-300 text-black/60"><i class="uil uil-sliders-v-alt rotate-90"></i> Filter</button>
             </form>
 
 
@@ -192,19 +184,19 @@
             <div *ngIf="DONE_LOADING == true" id="cards" class="grid lg:grid-cols-2 gap-6 mt-8">
                 <!-- Ketika posisinya login maka ini akan menjadi kartu user -->
                 @if(USER_DATA){
-                    <div class="card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
+                    <div (click)="openUserCard(USER_DATA.id)" class="card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
                         <div class="w-full">
                             <div class="flex items-center gap-2 pb-2.5">
                                 <div class="w-[70px] max-w-[70px] h-[70px] min-w-[70px] min-h-[70px] rounded-full overflow-hidden mx-auto lg:mx-0">
-                                    <img id="basic-profile-pic" [src]="USER_DATA.profile_picture" onerror="src='/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
+                                    <img id="basic-profile-pic" [src]="USER_DATA.profile_picture" onerror="src='assets/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
                                 </div>
                                 <div class="mb-2 w-full truncate">
-                                    <p id="basic-fullname" class="font-bold text-xl text-main">{{USER_DATA.firstname}} {{USER_DATA.lastname  ? USER_DATA.lastname : ""}}</p>
+                                    <p id="basic-fullname" class="font-bold text-lg lg:text-xl text-main flex items-center gap-1"><span class="text-blue-500" *ngIf="USER_DATA.sex == 'Male'"><i class="uil uil-mars"></i></span><span class="text-red-500" *ngIf="USER_DATA.sex == 'Female'"><i class="uil uil-venus"></i></span>{{USER_DATA.firstname}} {{USER_DATA.lastname  ? USER_DATA.lastname : ""}}</p>
                                     <p class="basic-current-position text-sm text-thrid/60 font-medium mb-1">{{USER_DATA.headline}}</p>
                                     @if(USER_DATA.active_search == true){
                                         <span class="text-xs bg-orange-500 px-4 py-0.5 rounded text-white font-medium"> Aktif</span>
                                     }@else {
-                                        <span title="Aktifkan visibilitas di profil kamu" class="text-xs bg-red-500 px-3 py-0.5 rounded text-white font-medium"><i class="uil uil-info-circle"></i> Non Aktif</span>
+                                        <span title="Aktifkan visibilitas di profil kamu" class="text-xs bg-red-500 px-3 py-0.5 rounded text-white font-medium"><i class="uil uil-info-circle"></i> Tidak aktif</span>
                                     }
                                 </div>
                             </div>
@@ -232,7 +224,7 @@
                 }
                 @if(ACTIVE_USER.length > 0){
                     @for(user of ACTIVE_USER; track user.id){
-                        <div class="group card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
+                        <div (click)="openUserCard(user.id)" class="group card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
                             <div class="w-full flex flex-col justify-between">
                                 <div class="">
                                     <div class="flex items-center gap-2 pb-2.5">
@@ -240,8 +232,8 @@
                                             <img id="basic-profile-pic" [src]="user.profile_picture" onerror="src='/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
                                         </div>
                                         <div class="mb-2 w-full truncate group-hover:truncate-none">
-                                            <p id="basic-fullname" class="font-bold text-xl text-main">{{user.firstname}} {{user.lastname  ? user.lastname : ""}}</p>
-                                            <p class="basic-current-position text-sm text-thrid/60 font-medium mb-1">{{user.headline}}</p>
+                                            <p class="basic-fullname font-bold text-lg lg:text-xl text-main flex items-center gap-1 lg:w-full w-[50vw]"><span class="text-blue-500" *ngIf="user.sex == 'Male'"><i class="uil uil-mars"></i></span><span class="text-red-500" *ngIf="user.sex == 'Female'"><i class="uil uil-venus"></i></span>{{user.firstname}} {{user.lastname  ? user.lastname : ""}}</p>
+                                            <p class="basic-current-position text-sm text-thrid/60 font-medium mb-1 lg:w-full w-[50vw]">{{user.headline}}</p>
                                         </div>
                                     </div>
                                     <hr>
@@ -249,7 +241,7 @@
                                         <div class="flex gap-2 flex-wrap" *ngIf="user.skills && user.skills.length > 0">
                                             <ng-container *ngFor="let skill of getActiveSkills(user.skills)">
                                                 <button class="text-xs bg-main text-white px-2 py-1 rounded">
-                                                {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
+                                                {{ skill.skill.length >= 15 ? skill.skill.substring(0, 15) + '..' : skill.skill }}
                                                 </button>
                                             </ng-container>
                                             <button *ngIf="getRemainingSkills(user.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
@@ -265,7 +257,7 @@
                             </div>
                         </div>
                     }
-                }@else {
+                }@else if(ACTIVE_USER.length == 0 && !USER_DATA) {
                     <div class="col-span-2 flex flex-col items-center justify-center min-h-[50vh] text-center">
                         <p class="font-medium text-lg">Wah talent yang kamu cari belum ada</p>
                         <p class="text-sm text-black/80">Ayo cari talent dengan kualifikasi lain, banyak loh talent yang berkualitas disini</p>
@@ -277,6 +269,309 @@
                 <span class="loader"></span>
                 <p class="text-sm">Mencari Talent..</p>
             </div>
+            <button type="button" (click)="addPage()" *ngIf="SHOW_MORE_BUTTON == true" [disabled]="IS_BUTTON_LOADING == true" class="mt-16 disabled:opacity-50 shadow-lg hover:scale-[1.01] duration-200 bg-main px-8 py-3 rounded-full text-white w-max block m-auto font-medium flex items-center gap-2">
+                <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == false">Lebih Banyak <i class="uil uil-angle-down text-xl"></i></span>
+                <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == true">Loading..</span>
+            </button>
         </div>
     </div>
 </main>
+
+<div (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/50 flex items-end lg:items-center justify-end lg:justify-center z-30" id="popup-home">
+
+    <div id="popup-user" class="hidden popup w-full lg:w-1/2 bg-background noise rounded-2xl relative overflow-hidden">
+        <div *ngIf="DONE_LOADING_DETAIL == true" id="popup-user-s" class="h-[70vh] overflow-y-scroll w-full px-[5%] lg:px-12 py-8">
+
+            <!-- BASIC INFO -->
+            <div class="lg:grid lg:grid-cols-2 justify-between">
+                <div class="flex gap-4 items-center w-full">
+                    <div class="w-[90px] h-[90px] min-w-[90px] min-h-[90px] rounded-full overflow-hidden mx-auto lg:mx-0">
+                        <img id="popup-profile-pic" [src]="ACTIVE_USER_DETAIL.profile_picture" onerror="src='/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
+                    </div>
+                    <div class="w-full">
+                        <p id="popup-username" class="text-lg lg:text-2xl font-bold text-main"><i class="uil uil-mars text-blue-500"></i> {{ACTIVE_USER_DETAIL.firstname}} {{ACTIVE_USER_DETAIL.lastname}}</p>
+                        <p id="popup-headline" class="font-medium text-black/60 text-sm">{{ACTIVE_USER_DETAIL.headline}}</p>
+                        <div class="flex items-center gap-3 mt-2">
+                            <a id="popup-email" *ngIf="ACTIVE_USER_DETAIL.email" target="_blank" href="mailto:{{ACTIVE_USER_DETAIL.email}}" class="px-4 lg:px-2 py-1 bg-blue-500 text-xs block w-max text-white/90 rounded flex items-center gap-2"><i class="uil uil-envelope"></i> <span class="hidden lg:block">Hubungi Email</span></a>
+                            <a id="popup-whatsapp" *ngIf="ACTIVE_USER_DETAIL.mobile" target="_blank" href="https://wa.me/+62{{ACTIVE_USER_DETAIL.mobile}}" class="px-4 lg:px-2 py-1 bg-blue-500 text-xs block w-max text-white/90 rounded flex items-center gap-2"><i class="uil uil-whatsapp"></i> <span class="hidden lg:block">Hubungi Whatsapp</span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:justify-self-end mt-8 lg:mt-0 flex divide-x divide-gray-400 items-center justify-center w-full lg:w-max">
+                    <div class="text-center px-4">
+                        <p id="popup-work-pref" class="font-semibold leading-tight text-lg text-black/80">WFO</p>
+                        <small class="text-black/60">Preferensi Pekerjaan</small>
+                    </div>
+                    <div class="text-center px-4">
+                        <p id="popup-domicile" class="font-semibold leading-tight text-lg text-black/80">Citayam</p>
+                        <small class="text-black/60">Domisili</small>
+                    </div>
+                </div>
+            </div>
+    
+            <hr class="my-4">
+    
+            <!-- SKILL USER -->
+            <div id="popup-skills" class="flex items-center justify-center flex-wrap gap-3">
+                @for (skill of ACTIVE_USER_DETAIL.skills; track skill.id) {
+                    <button class="text-sm bg-main text-white px-4 py-1 rounded-md">
+                        {{ skill.skill }}
+                    </button>
+                }
+            </div>
+    
+            <hr class="my-4">
+            
+            <!-- PROFILE SUMMARY -->
+            <p id="popup-summary" class="text-black/80 text-center paragraph">{{ACTIVE_USER_DETAIL.summary}}</p>
+            
+            <hr class="my-4">
+
+            <!-- EDUCATION USER -->
+            <div class="flex flex-col gap-4">
+                <p class="font-semibold text-xl text-main flex items-center gap-2"><i class="uil uil-university"></i>Pendidikan</p>
+                <div id="popup-educations" class="flex flex-col gap-4">
+                    @for (education of ACTIVE_USER_DETAIL.educations; track $index; let idx = $index) {
+                        <div class="card-education bg-white p-5 py-4 rounded-lg border border-main">
+                            <div class="relative flex gap-4">
+                                <div class="w-full">
+                                    <div class="head lg:flex justify-between mb-4">
+                                        <div class="">
+                                            <div class="flex items-center gap-2">
+                                                <p class="text-white bg-main/60 py-[2px] px-2 inline cursor-default text-xs font-second font-medium">{{education.edu_type.toUpperCase()}}</p>
+                                                <p class="text-white bg-white/30 py-[2px] px-2 inline cursor-default text-xs font-second font-medium">GPA {{education.edu_gpa}}</p>
+                                            </div>
+                                            <p class="font-bold text-lg text-main">{{education.edu_program}}</p>
+                                            <p class="font-semibold text-sm text-white-80 font-second">{{education.edu_institution}}</p>
+                                        </div>
+                                        <div class="text-left mt-1 lg:mt-0 lg:text-right flex gap-2 lg:block">
+                                            <p class="font-second text-xs font-normal text-black/80">{{utilService.formatDateMonth(education.edu_startdate)}} - {{utilService.formatDateMonth(education.edu_enddate)}}</p>
+                                            <p class="text-xs font-semibold text-[#A5A5A5]">{{utilService.calculateMonthDifference(education.edu_startdate, education.edu_enddate).toUpperCase()}}</p>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="education.edu_description.length > 0" class="mb-6 paragraph flex gap-2">
+                                        <p>{{ isExpandedEdu[idx] 
+                                            ? education.edu_description 
+                                            : (education.edu_description | slice: 0:100) + '...' }}
+                                            <button class="text-sm text-main font-medium" *ngIf="education.edu_description.length > 100 && !isExpandedEdu[idx]" (click)="toggleDescriptionEdu(idx)">
+                                            Read More
+                                            </button></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- EXPERIENCE USER -->
+            <div *ngIf="ACTIVE_USER_DETAIL.experiences.length > 0" class="flex flex-col gap-4">
+                <p class="font-semibold text-xl text-main flex items-center gap-2"><i class="uil uil-bag-alt"></i>Pengalaman (<span id="popup-yoe">{{ACTIVE_USER_DETAIL.YoE}} bulan</span>)</p>
+                <div id="popup-experiences" class="flex flex-col gap-4">
+                    @for (experience of ACTIVE_USER_DETAIL.experiences; track $index; let idx = $index) {
+                        <div class="card-experience bg-white p-5 py-4 rounded-lg border border-main">
+                            <div class="relative flex gap-4">
+                                <div class="w-full">
+                                    <div class="head lg:flex justify-between mb-4">
+                                        <div class="">
+                                            <p class="text-white bg-main/60 py-[2px] px-2 inline cursor-default text-xs font-second font-medium">{{ experience.exp_type.toUpperCase() }}</p>
+                                            <p class="font-bold text-lg text-main mt-2 lg:mt-0">{{ experience.exp_position }}</p>
+                                            <p class="font-semibold text-sm text-black/80 font-second">{{ experience.exp_orgname }} • {{ experience.exp_time }} • {{ experience.exp_status }} ({{ experience.exp_location }}) </p>
+                                        </div>
+                                        <div class="text-left mt-1 lg:mt-0 lg:text-right flex gap-2 lg:block">
+                                            <p class="font-second text-xs font-normal text-black/80">{{ utilService.formatDateMonth(experience.exp_startdate) }} - {{ experience.exp_enddate ? utilService.formatDateMonth(experience.exp_enddate) : "Now" }}</p>
+                                            <p class="text-xs font-semibold text-[#A5A5A5]">{{ utilService.calculateMonthDifference(experience.exp_startdate, experience.exp_enddate ? experience.exp_enddate : utilService.getFormattedDate()).toUpperCase() }}</p>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="experience.exp_description.length > 0" class="mb-6 paragraph flex gap-2">
+                                        <p>{{ isExpandedExp[idx] 
+                                                ? experience.exp_description 
+                                                : (experience.exp_description | slice: 0:100) + '...' }}
+                                                <button class="text-sm text-main font-medium" *ngIf="experience.exp_description.length > 100 && !isExpandedExp[idx]" (click)="toggleDescriptionExp(idx)">
+                                                Read More
+                                                </button></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+    
+            <hr class="my-4">
+
+            <!-- SOCIAL MEDIA USER -->
+            <div id="popup-socials" class="flex items-center gap-6 text-thrid/80 text-xl justify-center">
+                <a id="link-twitter" *ngIf="ACTIVE_USER_DETAIL.socials.twitter" [href]="ACTIVE_USER_DETAIL.socials.twitter" target="_blank" class="link-social text-3xl"><i class="uil uil-twitter"></i></a>
+                <a id="link-instagram" *ngIf="ACTIVE_USER_DETAIL.socials.instagram" [href]="ACTIVE_USER_DETAIL.socials.instagram" target="_blank" class="link-social text-3xl"><i class="uil uil-instagram-alt"></i></a>
+                <a id="link-linkedin" *ngIf="ACTIVE_USER_DETAIL.socials.linkedin" [href]="ACTIVE_USER_DETAIL.socials.linkedin" target="_blank" class="link-social text-3xl"><i class="uil uil-linkedin"></i></a>
+                <a id="link-behance" *ngIf="ACTIVE_USER_DETAIL.socials.behance" [href]="ACTIVE_USER_DETAIL.socials.behance" target="_blank" class="link-social text-3xl"><i class="uil uil-behance"></i></a>
+                <a id="link-github" *ngIf="ACTIVE_USER_DETAIL.socials.github" [href]="ACTIVE_USER_DETAIL.socials.github" target="_blank" class="link-social text-3xl"><i class="uil uil-github"></i></a>
+                <a id="link-youtube" *ngIf="ACTIVE_USER_DETAIL.socials.youtube" [href]="ACTIVE_USER_DETAIL.socials.youtube" target="_blank" class="link-social text-3xl"><i class="uil uil-youtube"></i></a>
+            </div>
+    
+            <div class="flex flex-col gap-3 mt-8">
+                <a [href]="ACTIVE_USER_DETAIL.attachments.atc_resume" *ngIf="ACTIVE_USER_DETAIL.attachments.atc_resume" target="_blank" class="popup-resume text-white font-medium bg-main mx-auto w-full py-3 rounded-lg flex justify-center gap-2"><i class="uil uil-external-link-alt"></i> Lihat Curriculum Vitae (CV)</a>
+                <a [href]="ACTIVE_USER_DETAIL.attachments.atc_portfolio" *ngIf="ACTIVE_USER_DETAIL.attachments.atc_portfolio" target="_blank" class="popup-portfolio text-white font-medium bg-main mx-auto w-full py-3 rounded-lg flex justify-center gap-2"><i class="uil uil-external-link-alt"></i> Lihat Portfolio</a>
+                <button (click)="closePopupDetail()" class="close-x text-sm text-red-500 font-medium mx-auto w-full py-3 rounded-lg">Tutup data talent</button>
+            </div>
+        </div>
+        <div *ngIf="DONE_LOADING_DETAIL == false" class="h-[70vh] lg:h-[500px] flex items-center justify-center">
+            <span class="loader"></span>
+            <p class="text-sm">Menyusun data talent..</p>
+        </div>
+    </div>
+
+    <div id="popup-filter" class="hidden popup w-full rounded-t-2xl bg-white h-[70vh] p-5 overflow-y-scroll pb-16">
+        <form id="form-market-filter" class="flex flex-col items-center gap-4">
+            <div class="w-full flex flex-col gap-4 w-full">
+                <div class="pb-4 flex justify-between w-full">
+                    <p class="text-sm text-black/70 font-medium">FILTER</p>
+                    <button type="button" (click)="resetFilter()" id="clear-filter" class="text-xs text-orange-500 font-bold">CLEAR</button>
+                </div> 
+                <!-- <label for="" class="">SEARCH</label> -->
+                <!-- <p class="text-sm font-medium text-main">BY INFORMASI BASIC ---</p> -->
+                <!-- FILTER BY TIPE PEKERJAAN -->
+                <div class="">
+                    <button type="button" (click)="expandSidebar(sidebarGenderMobile)" #sidebarGenderMobile class="w-full flex items-center justify-between py-2">
+                        <p>Jenis Kelamin</p>
+                        <i class="uil uil-angle-down"></i>
+                    </button>
+                    <div (change)="changeGender(inputGenderMobile)" #inputGenderMobile class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="Male" id="MaleMobile" class="rounded outline-none focus:ring-0">
+                            <label for="MaleMobile">Laki Laki</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="Female" id="FemaleMobile" class="rounded outline-none focus:ring-0">
+                            <label for="FemaleMobile">Perempuan</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <!-- FILTER BY TIPE PEKERJAAN -->
+                <div class="">
+                    <button type="button" (click)="expandSidebar(sidebarPrefJobMobile)" #sidebarPrefJobMobile class="w-full flex items-center justify-between py-2">
+                        <p>Prefrensi Pekerjaan</p>
+                        <i class="uil uil-angle-down"></i>
+                    </button>
+                    <div (change)="changeJobPref(inputJobPrefMobile)" #inputJobPrefMobile class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="WFO" id="WFOMobile" class="rounded outline-none focus:ring-0">
+                            <label for="WFOMobile">Work From Office</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="WFH" id="WFHMobile" class="rounded outline-none focus:ring-0">
+                            <label for="WFHMobile">Work From Home</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="WFA" id="WFAMobile" class="rounded outline-none focus:ring-0">
+                            <label for="WFAMobile">Work From Anywhere</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+            </div>
+            <div class="flex flex-col gap-4 w-full">
+                <!-- <p class="text-sm font-medium text-main">BY PENDIDIKAN ---</p> -->
+                <!-- FILTER BY TIPE PEKERJAAN -->
+                <div class="">
+                    <button type="button" (click)="expandSidebar(sidebarInstituteMobile)" #sidebarInstituteMobile class="w-full flex items-center justify-between py-2">
+                        <p>Institusi</p>
+                        <i class="uil uil-angle-down"></i>
+                    </button>
+                    <div (change)="changeInstitute(inputInstituteMobile)" #inputInstituteMobile class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        @for(institute of INSTITUTIONS; track institute){
+                            <div class="flex items-center gap-2 text-sm">
+                                <input type="checkbox" name="{{institute}}" id="{{institute}}Mobile" class="rounded outline-none focus:ring-0">
+                                <label for="{{institute}}Mobile">{{institute}}</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <hr>
+                <!-- FILTER BY TIPE PEKERJAAN -->
+                <div class="">
+                    <button type="button" (click)="expandSidebar(sidebarJobLevelMobile)" #sidebarJobLevelMobile class="w-full flex items-center justify-between py-2">
+                        <p>Level Pendidikan</p>
+                        <i class="uil uil-angle-left"></i>
+                    </button>
+                    <div (change)="changeEduLevel(inputEduLevelMobile)" #inputEduLevelMobile class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="Pacasarjana (S2)" id="S2Mobile" class="rounded outline-none focus:ring-0">
+                            <label for="S2Mobile">Pacasarjana (S2)</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="Sarjana (S1)" id="S1Mobile" class="rounded outline-none focus:ring-0">
+                            <label for="S1Mobile">Sarjana (S1)</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="Sekolah Menengah Atas" id="SMAMobile" class="rounded outline-none focus:ring-0">
+                            <label for="SMAMobile">Sekolah Menengah Atas</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="Sekolah Menengah Pertama" id="SMPMobile" class="rounded outline-none focus:ring-0">
+                            <label for="SMPMobile">Sekolah Menengah Pertama</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="Sekolah Dasar" id="SDMobile" class="rounded outline-none focus:ring-0">
+                            <label for="SDMobile">Sekolah Dasar</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="Bootcamp" id="BootcampMobile" class="rounded outline-none focus:ring-0">
+                            <label for="BootcampMobile">Bootcamp</label>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <hr>
+                <!-- FILTER BY TIPE PEKERJAAN -->
+                <div class="">
+                    <button type="button" (click)="expandSidebar(sidebarNilaiMobile)" #sidebarNilaiMobile class="w-full flex items-center justify-between py-2">
+                        <p>Nilai atau IPK</p>
+                        <i class="uil uil-angle-down"></i>
+                    </button>
+                    <div (change)="changeGrade(inputGradeMobile)" #inputGradeMobile class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="3.50" id="3.50M" class="rounded outline-none focus:ring-0">
+                            <label for="3.50">> IPK 3.50</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="3.00" id="3.00M" class="rounded outline-none focus:ring-0">
+                            <label for="3.00M">> IPK 3.00</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="2.00" id="2.00M" class="rounded outline-none focus:ring-0">
+                            <label for="2.00M">> IPK 2.00</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="90" id="90M" class="rounded outline-none focus:ring-0">
+                            <label for="90M">> Raport 90</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="80" id="80M" class="rounded outline-none focus:ring-0">
+                            <label for="80M">> Raport 80</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="70" id="70M" class="rounded outline-none focus:ring-0">
+                            <label for="70M">> Raport 70</label>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <input type="checkbox" name="60" id="60M" class="rounded outline-none focus:ring-0">
+                            <label for="60M">> Raport 60</label>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <!-- <hr> -->
+            </div>
+        </form>
+    </div>
+</div>

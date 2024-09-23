@@ -16,18 +16,16 @@ import { CommonModule } from '@angular/common';
           <p (click)="closePopup('experiences')" class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</p>
       </div>
 
-      <div id="popup-experiences-s" class="body bg-background lg:bg-background h-[85vh] lg:h-[500px] overflow-y-scroll">
-
+      <div id="popup-experiences-s" class="bg-background bg-background h-[85vh] lg:h-[500px] overflow-y-scroll">
           <!-- ADDING NEW EXPERIENCE -->
 
-          <div *ngIf="isCreate" id="adding-new-experience" class="additional-popup">
+          <div *ngIf="isCreate" id="adding-new-experience" class="w-[99vw] lg:w-full">
               <form id="form-add-experience" class="relative" [formGroup]="formExperience" (submit)="submitAddExperience()">
                   <div class="pb-40 lg:pb-5 p-5 divide-gray-300 divide-y flex flex-col gap-4">
                       <div class="lg:flex flex-col gap-4 py-4 lg:py-0">
                           <p class="font-bold text-xl lg:text-lg text-main mb-6 lg:mb-1">Menambahkan Pengalaman</p>
                           <label class="block">
                               <label class="block mb-1 text-black/80 tracking-[1.4px] font-normal text-sm">POSISI DI PEKERJAAN/ORGANISASI*</label>
-                              <!-- Using form state modifiers, the classes can be identical for every input -->
                               <input formControlName="exp_position" required id="popup-firstname" type="text" placeholder="Software Engineer" name="exp_position" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/30 text-black/80
                               focus:outline-none focus:border-white-60 focus:ring-1 focus:ring-white-60
                               focus:invalid:border-red-500 focus:invalid:ring-red-500
@@ -35,7 +33,6 @@ import { CommonModule } from '@angular/common';
                           </label>
                           <label class="block">
                               <label class="block mb-1 text-black/80 tracking-[1.4px] font-normal text-sm">NAMA PERUSAHAAN/ORGANISASI*</label>
-                              <!-- Using form state modifiers, the classes can be identical for every input -->
                               <input formControlName="exp_orgname" required id="popup-firstname" type="text" placeholder="Internshit" name="exp_orgname" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/30 text-black/80
                               focus:outline-none focus:border-white-60 focus:ring-1 focus:ring-white-60
                               focus:invalid:border-red-500 focus:invalid:ring-red-500
@@ -46,7 +43,6 @@ import { CommonModule } from '@angular/common';
                           <div class="lg:flex gap-5">
                               <label class="block">
                                   <label class="block mb-1 text-black/80 tracking-[1.4px] font-normal text-sm">TIPE PENGALAMAN*</label>
-                                  <!-- Using form state modifiers, the classes can be identical for every input -->
                                   <select formControlName="exp_type" id="countries" name="exp_type" class="block border-2 border-gray-300 w-full lg:w-[240px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/30 text-black/80 focus:ring-white-60">
                                       <option value="Karyawan" selected>Karyawan</option>
                                       <option value="Relawan">Relawan</option>
@@ -56,7 +52,6 @@ import { CommonModule } from '@angular/common';
                               </label>
                               <label class="block mt-4 lg:mt-0">
                                   <label class="block mb-1 text-black/80 tracking-[1.4px] font-normal text-sm">STATUS PEKERAAN*</label>
-                                  <!-- Using form state modifiers, the classes can be identical for every input -->
                                   <select formControlName="exp_time" id="countries" name="exp_time" class="block border-2 border-gray-300 w-full lg:w-[140px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/30 text-black/80 focus:ring-white-60">
                                       <option selected value="Internship">Internship</option>
                                       <option value="Part-time">Part-time</option>
@@ -67,7 +62,6 @@ import { CommonModule } from '@angular/common';
                           <div class="lg:flex gap-5 items-center">
                               <label class="block lg:w-max">
                                   <label class="block mb-1 text-black/80 tracking-[1.4px] font-normal text-sm">WAKTU MULAI*</label>
-                                  <!-- Using form state modifiers, the classes can be identical for every input -->
                                   <input formControlName="exp_startdate" required id="popup-firstname" type="month" placeholder="" name="exp_startdate" class="block border-2 border-gray-300 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/30 text-black/80
                                   focus:outline-none focus:border-white-60 focus:ring-1 focus:ring-white-60
                                   focus:invalid:border-red-500 focus:invalid:ring-red-500
@@ -75,7 +69,6 @@ import { CommonModule } from '@angular/common';
                               </label>
                               <label class="block lg:w-max mt-4 lg:mt-0">
                                   <label class="block mb-1 text-black/80 tracking-[1.4px] font-normal text-sm">WAKTU BERAKHIR*</label>
-                                  <!-- Using form state modifiers, the classes can be identical for every input -->
                                   <input formControlName="exp_enddate" id="popup-firstname" type="month" placeholder="" name="exp_enddate" class="block border-2 border-gray-300 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/30 text-black/80
                                   focus:outline-none focus:border-white-60 focus:ring-1 focus:ring-white-60
                                   focus:invalid:border-red-500 focus:invalid:ring-red-500 disabled:opacity-50
@@ -90,7 +83,6 @@ import { CommonModule } from '@angular/common';
                       <div class="lg:flex gap-5 py-4">
                           <label class="block">
                               <label class="block mb-1 text-black/80 tracking-[1.4px] font-normal text-sm">TIPE LOKASI</label>
-                              <!-- Using form state modifiers, the classes can be identical for every input -->
                               <select formControlName="exp_status" id="countries" name="exp_status" class="block border-2 border-gray-300 w-full lg:w-[140px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/30 text-black/80 focus:ring-white-60">
                                   <option value="On-Site" selected>On-Site</option>
                                   <option value="Hybrid">Hybrid</option>
@@ -99,7 +91,6 @@ import { CommonModule } from '@angular/common';
                           </label>
                           <label class="block mt-4 lg:mt-0">
                               <label class="block mb-1 text-black/80 tracking-[1.4px] font-normal text-sm">LOKASI KANTOR*</label>
-                              <!-- Using form state modifiers, the classes can be identical for every input -->
                               <input formControlName="exp_location" required id="popup-firstname" type="text" placeholder="Jakarta" name="exp_location" class="block border-2 border-gray-300 w-full lg:w-[200px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/30 text-black/80
                               focus:outline-none focus:border-white-60 focus:ring-1 focus:ring-white-60
                               focus:invalid:border-red-500 focus:invalid:ring-red-500
@@ -120,7 +111,7 @@ import { CommonModule } from '@angular/common';
 
           <!-- EDITING EXPERIENCE -->
 
-          <div *ngIf="isEdit" id="editing-experience" class="additional-popup-edit">
+          <div *ngIf="isEdit" id="editing-experience" class="w-[99vw] lg:w-full">
               <form id="form-editing-experience" class="relative" [formGroup]="formExperience" (submit)="submitEditExperience(editId)">
                   <div class="pb-40 lg:pb-5 p-5 divide-gray-300 divide-y flex flex-col gap-4">
                       <div class="flex flex-col gap-4">
@@ -227,7 +218,7 @@ import { CommonModule } from '@angular/common';
                           <i class="uil uil-arrow-left"></i> Kembali ke Profil
                       </button>
                       <p class="font-bold text-xl lg:text-lg text-main mb-1">Pengalaman Kamu</p>
-                      <p class="text-black/80 text-sm font-second font-medium">Kamu bisa menambhakan pengalaman sebanyak yang kamu mau! Kamu bahkan dapat menambahkan pengalaman organisasi. Ingat untuk selalu menjelaskan responsibilitymu dengan jelas di deskripsi.</p>
+                      <p class="text-black/80 text-sm font-second font-medium">Kamu bisa menambahkan pengalaman sebanyak yang kamu mau! Kamu bahkan dapat menambahkan pengalaman organisasi. Ingat untuk selalu menjelaskan responsibilitymu dengan jelas di deskripsi.</p>
                   </div>
                   <div class="px-5">
                       <div class="lg:divide-y divide-gray-300">
@@ -238,11 +229,11 @@ import { CommonModule } from '@angular/common';
                           </div>
 
                           <div id="popup-body-experiences" class="flex flex-col gap-4 pt-4 pb-20">
-                              @for(experience of userData.experiences; track experience.id){
+                              @for(experience of userData.experiences; track experience.id; let idx = $index){
                                 <div class="card-experience bg-white p-5 py-4 rounded-lg border border-main">
                                     <div class="relative flex gap-4">
                                         <div class="w-full">
-                                            <div class="head lg:flex justify-between">
+                                            <div class="head lg:flex justify-between mb-4">
                                                 <div class="">
                                                     <p class="text-white bg-main/60 py-[2px] px-2 inline cursor-default text-xs font-second font-medium">{{ experience.exp_type.toUpperCase() }}</p>
                                                     <p class="font-bold text-lg text-main mt-2 lg:mt-0">{{ experience.exp_position }}</p>
@@ -253,9 +244,14 @@ import { CommonModule } from '@angular/common';
                                                     <p class="text-xs font-semibold text-[#A5A5A5]">{{ utilService.calculateMonthDifference(experience.exp_startdate, experience.exp_enddate ? experience.exp_enddate : utilService.getFormattedDate()).toUpperCase() }}</p>
                                                 </div>
                                             </div>
-                                            <p class="mt-3 content">
-                                                {{ experience.exp_description}}
-                                            </p>
+                                            <div *ngIf="experience.exp_description.length > 0" class="mb-6 paragraph flex gap-2">
+                                                <p>{{ isExpanded[idx] 
+                                                        ? experience.exp_description 
+                                                        : (experience.exp_description | slice: 0:100) + '...' }}
+                                                        <button class="text-sm text-main font-medium" *ngIf="experience.exp_description.length > 100 && !isExpanded[idx]" (click)="toggleDescription(idx)">
+                                                        Read More
+                                                        </button></p>
+                                            </div>
                                         </div>
                                         <div class="flex absolute lg:static right-0 lg:flex-col flex-row-reverse gap-4 lg:gap-2">
                                             <svg (click)="clickEditExperience(experience); isDisplay = false; isEdit = true" class="cursor-pointer update-experience-button" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none">
@@ -288,6 +284,7 @@ export class ProfileExperiencesPopupComponent implements OnInit {
     isDisplay = true
     isCurrentlyWorking = false;
     editId:any
+    isExpanded: boolean[] = [];
 
     toggleCurrentlyWorking(event: Event) {
         const checkbox = event.target as HTMLInputElement;
@@ -298,6 +295,10 @@ export class ProfileExperiencesPopupComponent implements OnInit {
             this.formExperience.controls["exp_enddate"].enable()
             this.isCurrentlyWorking = false
         }
+    }
+
+    toggleDescription(idx: number) {
+        this.isExpanded[idx] = !this.isExpanded[idx];
     }
 
     @Input() closePopup: any
@@ -316,7 +317,7 @@ export class ProfileExperiencesPopupComponent implements OnInit {
     })
 
     ngOnInit(): void {
-        
+        this.isExpanded = this.userData.experiences.map(() => false);
     }
 
     clickEditExperience(experience:any){

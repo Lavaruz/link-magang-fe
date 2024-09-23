@@ -7,6 +7,10 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import $ from "jquery"
 import { UserService } from '../../../../services/user.service';
+import { Title } from '@angular/platform-browser';
+import { GoogleAnalyticsServiceService } from '../../../../services/google-analytics.service.service';
+
+declare var google: any;
 
 @Component({
   selector: 'app-explore',
@@ -19,12 +23,14 @@ export class ExploreComponent implements OnInit {
   userService = inject(UserService)
   aRoute = inject(ActivatedRoute)
   router = inject(Router)
+  titleService = inject(Title)
+  googleAnalytics = inject(GoogleAnalyticsServiceService)
 
   FORM_SEARCH:FormGroup = new FormGroup("")
 
   SHOW_MORE_BUTTON = false
   POST_PAGE = 1
-  POST_LIMIT = 6
+  POST_LIMIT = 4
   POST_DATAS:any = []
   POST_DATAS_DETAIL:any
   POST_COUNT = 0
@@ -40,6 +46,7 @@ export class ExploreComponent implements OnInit {
   QUERY:any
 
   ngOnInit(): void {
+    this.titleService.setTitle("Internshit - Jelajahi Lowongan Magang");
     this.aRoute.queryParams.subscribe(params => {
       this.DONE_LOADING = false
       this.POST_PAGE = parseFloat(params["page"]) || 1
@@ -79,22 +86,18 @@ export class ExploreComponent implements OnInit {
   }
 
   savePost(){
-    alert("SAVED")
+    alert("Dalam development, ditunggu ya")
   }
-
 
   callGetPost(){
     this.postService.GetAllPosts(this.QUERY).then(postData => {
       this.POST_DATAS = postData.datas
       this.POST_LIMIT = postData.limit
-      this.POST_PAGE = postData.page        
-      
-      this.postService.GetCountAllPosts().then(postCount => {
-        this.POST_COUNT = postCount
-        this.SHOW_MORE_BUTTON = this.POST_LIMIT * this.POST_PAGE < this.POST_COUNT ? true : false
-        this.DONE_LOADING = true
-      })
-      
+      this.POST_PAGE = postData.page     
+
+      this.POST_COUNT = postData.total_entries
+      this.SHOW_MORE_BUTTON = this.POST_LIMIT * this.POST_PAGE < this.POST_COUNT ? true : false
+      this.DONE_LOADING = true
     })
   }
 
@@ -247,6 +250,8 @@ export class ExploreComponent implements OnInit {
       $("body").css("overflow", "hidden")
       this.postService.GetPostById(id).then(postData => {
         this.POST_DATAS_DETAIL = postData
+        console.log(this.POST_DATAS_DETAIL);
+        
         this.DONE_LOADING_DETAIL = true
       })
     }).css("display", "flex")
@@ -267,24 +272,42 @@ export class ExploreComponent implements OnInit {
     return skills.slice(4);
   }
 
-  timeAgo(dateString:any) {
-    const date:any = new Date(dateString);
-    const now:any = new Date();
-    
+  timeAgo(dateString: any) {
+    const date: any = new Date(dateString);
+    const now: any = new Date();
+  
     // Menghilangkan perbedaan waktu agar hanya tanggal yang dibandingkan
     date.setHours(0, 0, 0, 0);
     now.setHours(0, 0, 0, 0);
-
+  
     const diffInMilliseconds = now - date;
-    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 20 * 20 * 24));
-
+  
+    // Konversi milidetik ke hari yang benar
+    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+  
     if (diffInDays < 7) {
-        return `minggu ini`;
+      return `minggu ini`;
     } else if (diffInDays < 14) {
-        return `minggu lalu`;
+      return `minggu lalu`;
     } else {
-        return `beberapa minggu lalu`;
-    } 
+      return `beberapa minggu lalu`;
+    }
+  }  
+
+  timeAgoNumber(dateString: any) {
+    const date: any = new Date(dateString);
+    const now: any = new Date();
+  
+    // Menghilangkan perbedaan waktu agar hanya tanggal yang dibandingkan
+    date.setHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
+  
+    const diffInMilliseconds = now - date;
+  
+    // Konversi milidetik ke hari yang benar
+    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+  
+    return diffInDays
   }
 
   getPlatformImage(platform:any){

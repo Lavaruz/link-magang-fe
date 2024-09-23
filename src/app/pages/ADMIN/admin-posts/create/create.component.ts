@@ -23,10 +23,9 @@ export class AdminPostCreateComponent implements OnInit {
   postService = inject(PostsService)
   http = inject(HttpClient)
 
-  LOCATIONS:any
-  PROVINSI:any = []
-  KABUPATEN:any = []
-  KECAMATAN:any = []
+  LOCATIONS:any = []
+  OUR_LOCATIONS:any
+
   SKILLS:any
   DONE_LOADING = false
   FORM_CREATE_POST!:FormGroup
@@ -83,11 +82,6 @@ export class AdminPostCreateComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    var urlProvinsi = "https://ibnux.github.io/data-indonesia/provinsi.json";
-    var urlKabupaten = "https://ibnux.github.io/data-indonesia/kabupaten/";
-    var urlKecamatan = "https://ibnux.github.io/data-indonesia/kecamatan/";
-    var urlKelurahan = "https://ibnux.github.io/data-indonesia/kelurahan/";
-
     this.FORM_CREATE_POST = new FormGroup({
       title: new FormControl(""),
       company: new FormControl(""),
@@ -95,48 +89,23 @@ export class AdminPostCreateComponent implements OnInit {
       type: new FormControl("Internship"),
       post_date: new FormControl(this.getTodayDate()),
       link: new FormControl(""),
-      provinsi: new FormControl(""),
-      kabupaten: new FormControl(""),
-      kecamatan: new FormControl(""),
       overview: new FormControl(""),
       skills: new FormControl(""),
+      location: new FormControl("")
     })
 
     this.userService.GetAllSkills().then(skillsData => {
       this.SKILLS = skillsData
-      this.http.get("assets/location/provinsi.json").subscribe((data:any) => {
-        data.forEach((provinsi:any) => {
-          this.PROVINSI.push({
-            value: provinsi.id,
-            label: provinsi.nama,
+      this.userService.GetAllLocations().then(locationData => {
+        this.OUR_LOCATIONS = locationData
+        locationData.forEach((location:any) => {
+          this.LOCATIONS.push({
+            value: location.location,
+            label: location.location
           })
         });
         this.DONE_LOADING = true
       })
-    })
-  }
-
-  updateProvisi(evt:any){
-    this.http.get(`assets/location/kabupaten/${evt.value}.json`).subscribe((data:any) => {
-      this.KABUPATEN = []
-      data.forEach((kabupaten:any) => {
-        this.KABUPATEN.push({
-          value: kabupaten.id,
-          label: kabupaten.nama,
-        })
-      });
-    })
-  }
-
-  updateKabupaten(evt:any){
-    this.http.get(`assets/location/kecamatan/${evt.value}.json`).subscribe((data:any) => {
-      this.KECAMATAN = []
-      data.forEach((kecamatan:any) => {
-        this.KECAMATAN.push({
-          value: kecamatan.id,
-          label: kecamatan.nama,
-        })
-      });
     })
   }
 
@@ -150,19 +119,26 @@ export class AdminPostCreateComponent implements OnInit {
     }
 
     this.LOADING_POST_DATA = true
-
     const formData = this.FORM_CREATE_POST.value
-    const provinsiData = this.capitalize((this.PROVINSI.find((prof:any) => prof.value == this.FORM_CREATE_POST.value["provinsi"])).label);
-    const kabupatenData = this.FORM_CREATE_POST.value["kabupaten"] ? this.capitalize((this.KABUPATEN.find((prof:any) => prof.value == this.FORM_CREATE_POST.value["kabupaten"])).label) : null;
-    const kecamatanData = this.FORM_CREATE_POST.value["kecamatan"] ? this.capitalize((this.KECAMATAN.find((prof:any) => prof.value == this.FORM_CREATE_POST.value["kecamatan"])).label) : null;
-
-    formData.location = `${kecamatanData ? kecamatanData + ", " : ""}${kabupatenData ? kabupatenData + ", " : ""}${provinsiData}`;
     formData.skills = this.activeSkills.join(";")
     formData.post_date = moment(this.FORM_CREATE_POST.value["post_date"]).format('MM/DD/YYYY');
-    this.postService.CreateNewPost(formData).then(postedData => {
-      this.LOADING_POST_DATA = false
-      location.reload()
-    })
+
+    let isHaveLocation = this.OUR_LOCATIONS.some((location:any) => location.location.toLowerCase() == formData.location.toLowerCase() )
+    if(isHaveLocation == false){
+      this.userService.AddNewLocation({location: formData.location}).then(() => {
+        this.postService.CreateNewPost(formData).then(postedData => {
+          this.LOADING_POST_DATA = false
+          location.reload()
+        })
+      })
+    }else{
+      this.postService.CreateNewPost(formData).then(postedData => {
+        this.LOADING_POST_DATA = false
+        location.reload()
+      })
+    }
+    
+    
     
     
     

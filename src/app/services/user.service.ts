@@ -18,8 +18,8 @@ export class UserService {
 
   constructor(private requestService: RequestService, private cookieService: CookieService) {}
 
-  checkAuth() {
-    return this.cookieService.check('userAuthenticate');
+  checkAuth(cookieName:any = "userAuthenticate") {
+    return this.cookieService.check(cookieName);
   }
 
   setCookie(value: any, key = 'userAuthenticate') {
@@ -71,13 +71,19 @@ export class UserService {
 
 
 
+
+
   async getUserData(){
     const userData:any = await this.requestService.getEncryptedRequest(`/api/v1/users/info`)
     return userData
   }
+  async getUserById(id:any){
+    const userData:any = await this.requestService.getEncryptedRequest(`/api/v1/users/${id}`)
+    return userData
+  }
   async getAllUserActiveData(QUERY:any){
     const userData:any = await this.requestService.getEncryptedRequest(
-      `/api/v1/users/active?gender=${QUERY.gender}&work_pref=${QUERY.work_pref}&institute=${QUERY.institute}&edu_type=${QUERY.edu_type}&gpa=${QUERY.gpa}&search_person=${QUERY.search_person}&search_eduexp=${QUERY.search_eduexp}&limit=${QUERY.limit}&page=${QUERY.page}`
+      `/api/v1/users/active?gender=${QUERY.gender}&work_pref=${QUERY.work_pref}&institute=${QUERY.institute}&edu_type=${QUERY.edu_type}&gpa=${QUERY.gpa}&search_person=${QUERY.search_person}&limit=${QUERY.limit}&page=${QUERY.page}`
     )
     return userData
   }
@@ -85,6 +91,10 @@ export class UserService {
   async updateUserData(userData:any){
     const updatedData = await this.requestService.putEncryptedRequest("/api/v1/users", userData)
     return updatedData
+  }
+  async updateUserSkills(skillData:any){
+    const updatedSkill = await this.requestService.putEncryptedRequest("/api/v1/users/info/skills", skillData)
+    return updatedSkill
   }
 
   async getUserEducations(){
@@ -104,6 +114,11 @@ export class UserService {
   async googleLoginHandler(userData:any){
     const userAuthenticate:any = await this.requestService.postEncryptedRequest("/api/v1/users/auth/google", userData)
     return userAuthenticate
+  }
+
+  async adminLoginHandler(loginData:any){
+    const adminAuthenticate:any = await this.requestService.postEncryptedRequest("/api/v1/users/admin/login", loginData)
+    return adminAuthenticate
   }
 
   async logoutUser(){
@@ -137,14 +152,7 @@ export class UserService {
     }
   }
 
-  async AddNewSkill(skillName:any) {
-    try {
-      const skillsData:any = await this.requestService.postEncryptedRequest(`/api/v1/users/skills`, skillName);
-      return skillsData
-    } catch (error) {
-      console.error('Error on Get Membership Price:', error);
-    }
-  }
+  
 
 
   async GetAllProfilePictureAvailable(){
@@ -171,5 +179,24 @@ export class UserService {
   async AddUserSpesificData(data:any, route:string){
     const addedData = await this.requestService.postEncryptedRequest(`/api/v1/users/info/${route}`, data)
     return addedData
+  }
+
+
+
+  async AddNewSkill(skillName:any) {
+    try {
+      const skillsData:any = await this.requestService.postEncryptedRequest(`/api/v1/users/skills`, skillName);
+      return skillsData
+    } catch (error) {
+      console.error('Error on Get Membership Price:', error);
+    }
+  }
+  async AddNewLocation(locationName:any) {
+    try {
+      const locationData:any = await this.requestService.postEncryptedRequest(`/api/v1/users/locations`, locationName);
+      return locationData
+    } catch (error) {
+      console.error('Error on Get Membership Price:', error);
+    }
   }
 }

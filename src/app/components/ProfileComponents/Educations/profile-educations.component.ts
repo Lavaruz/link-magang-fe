@@ -20,11 +20,11 @@ import { UtilsService } from '../../../services/utils.service';
               <div id="on-educations" class="flex flex-col pb-4 pt-3">
                   @for(education of userData.educations.slice(0,LIMIT); track education.id; let idx = $index){
                     <div class="experience w-full py-3">
-                      <div class="lg:flex justify-between items-start">
+                      <div class="lg:flex justify-between items-start mb-4">
                           <!-- Left Section: Education Details -->
                           <div>
                               <!-- Education Type -->
-                              <div class="flex items-center gap-4 mb-1">
+                              <div class="flex items-center gap-2 mb-1">
                                 <p class="text-sm bg-main/60 px-2 w-max text-white">{{ education.edu_type }}</p>
                                 <span *ngIf="idx == 0" class="text-sm bg-orange-500 px-2 w-max text-white">Aktif</span>
                               </div>
@@ -68,7 +68,14 @@ import { UtilsService } from '../../../services/utils.service';
                           </div>
                       </div>
 
-                      <div class="mt-3 mb-6" [innerHTML]="education.edu_description"></div>
+                      <div *ngIf="education.edu_description.length > 0" class="mb-6 paragraph flex gap-2">
+                        <p>{{ isExpanded[idx] 
+                            ? education.edu_description 
+                            : (education.edu_description | slice: 0:100) + '...' }}
+                            <button class="text-sm text-main font-medium" *ngIf="education.edu_description.length > 100 && !isExpanded[idx]" (click)="toggleDescription(idx)">
+                              Read More
+                            </button></p>
+                      </div>
                       <hr *ngIf="idx+1 !== userData.educations.length">
                   </div>
                   }
@@ -85,19 +92,27 @@ import { UtilsService } from '../../../services/utils.service';
     </div>
   `,
 })
-export class ProfileEducationsComponent {
+export class ProfileEducationsComponent implements OnInit {
   @Input() userData!:UserInterface
   @Input() educationsData!:EducationInterface[]
   @Input() openPopup:any
+  isExpanded: boolean[] = [];
 
   utilService = inject(UtilsService)
   LIMIT = 2
+
+  ngOnInit(): void {
+    this.isExpanded = this.userData.educations.map(() => false);
+  }
 
   showAllData(){
     this.LIMIT = 99
   }
   absNumber(input:any){
     return Math.abs(input)
+  }
+  toggleDescription(idx: number) {
+    this.isExpanded[idx] = !this.isExpanded[idx];
   }
   
 }

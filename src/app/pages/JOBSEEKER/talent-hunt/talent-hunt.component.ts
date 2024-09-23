@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
 import $ from "jquery"
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UtilsService } from '../../../services/utils.service';
+import { Title } from '@angular/platform-browser';
+import { GoogleAnalyticsServiceService } from '../../../services/google-analytics.service.service';
 
 @Component({
   selector: 'app-talent-hunt',
@@ -13,7 +16,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   imports: [NavbarComponent, CommonModule, ReactiveFormsModule],
   templateUrl: './talent-hunt.component.html',
   styles: `
-    .card-user:hover .basic-current-position {
+    .card-user:hover .basic-current-position, .card-user:hover .basic-fullname{
       white-space: normal;
       overflow: visible;
       text-overflow: unset;
@@ -23,39 +26,48 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class TalentHuntComponent implements OnInit {
 
   userService = inject(UserService)
+  utilService = inject(UtilsService)
+  titleService = inject(Title)
   aRoute = inject(ActivatedRoute)
   router = inject(Router)
+  googleAnalytics = inject(GoogleAnalyticsServiceService)
 
 
   USER_DATA!:UserInterface
   ACTIVE_USER_COUNT:any = 0
   ACTIVE_USER!:UserInterface[]
+  ACTIVE_USER_DETAIL!:UserInterface
+  TOTAL_ENTRIES = 0
   INSTITUTIONS:any
+  isExpandedEdu: boolean[] = [];
+  isExpandedExp: boolean[] = [];
 
-  POST_LIMIT = 2
+  SHOW_MORE_BUTTON = true
+  IS_BUTTON_LOADING = false
+  POST_LIMIT = 10
   POST_PAGE = 1
 
   IS_LOGIN = false
   DONE_LOADING = false
+  DONE_LOADING_DETAIL = false
 
   QUERY:any
   PARAMS:any
   FORM_SEARCH:FormGroup = new FormGroup("")
 
   ngOnInit(): void {
+    this.titleService.setTitle("Internshit - Lihat Talent² Berkualitas");
     this.aRoute.queryParams.subscribe(params => {
       this.DONE_LOADING = false
       this.PARAMS = params
       this.FORM_SEARCH = new FormGroup({
         search_person: new FormControl(params["search_person"]),
-        search_eduexp: new FormControl(params["search_eduexp"]),
       })
 
       this.QUERY = {
         limit: this.POST_LIMIT,
         page: this.POST_PAGE,
         search_person: params["search_person"] || "",
-        search_eduexp: params["search_eduexp"] || "",
         gender: params["gender"] || "",
         work_pref: params["work_pref"] || "",
         institute: params["institute"] || "",
@@ -80,6 +92,13 @@ export class TalentHuntComponent implements OnInit {
     })
   }
 
+  toggleDescriptionEdu(idx: number) {
+    this.isExpandedEdu[idx] = !this.isExpandedEdu[idx];
+  }
+  toggleDescriptionExp(idx: number) {
+    this.isExpandedExp[idx] = !this.isExpandedExp[idx];
+  }
+
   resetFilter(){
     this.QUERY.limit = 6
     this.QUERY.page = 1
@@ -90,7 +109,6 @@ export class TalentHuntComponent implements OnInit {
     this.router.navigate(["/talent"], {
       queryParams: {
         'search_person': null,
-        'search_eduexp': null,
         'gender': null,
         'work_pref': null,
         'institute': null,
@@ -101,24 +119,35 @@ export class TalentHuntComponent implements OnInit {
     })
   }
 
+  addPage(){
+    this.IS_BUTTON_LOADING = true
+    this.POST_PAGE++
+    this.QUERY["page"] = this.POST_PAGE
+    this.SHOW_MORE_BUTTON = this.POST_LIMIT * this.POST_PAGE < this.TOTAL_ENTRIES
+
+    this.userService.getAllUserActiveData(this.QUERY).then(activeUser => {
+      this.ACTIVE_USER.push(...activeUser.datas)
+      this.IS_BUTTON_LOADING = false
+    })
+  }
+
   submitFormSearch(){
     if(this.FORM_SEARCH.invalid) return
 
     this.QUERY.search_person = this.FORM_SEARCH.value.search_person
-    this.QUERY.search_eduexp = this.FORM_SEARCH.value.search_eduexp
     this.QUERY.page = 1
 
     this.router.navigate(
       [],{
-        queryParams: { search_person: this.QUERY.search_person, search_eduexp: this.QUERY.search_eduexp },
+        queryParams: { search_person: this.QUERY.search_person },
         queryParamsHandling: "merge"
       }
     )
 
-    this.userService.getAllUserActiveData(this.QUERY).then(userActive => {
-      this.ACTIVE_USER_COUNT = userActive.datas.length
-      this.ACTIVE_USER = userActive.datas
-    })
+    // this.userService.getAllUserActiveData(this.QUERY).then(userActive => {
+    //   this.ACTIVE_USER_COUNT = userActive.datas.length
+    //   this.ACTIVE_USER = userActive.datas
+    // })
   }
 
   expandSidebar(evt: any){
@@ -136,9 +165,13 @@ export class TalentHuntComponent implements OnInit {
   }
 
   callGetTalent(){
+
     this.userService.getAllUserActiveData(this.QUERY).then(userActive => {
       this.ACTIVE_USER_COUNT = userActive.datas.length
       this.ACTIVE_USER = userActive.datas
+      this.TOTAL_ENTRIES = userActive.total_entries
+      this.SHOW_MORE_BUTTON = this.POST_LIMIT * this.POST_PAGE < this.TOTAL_ENTRIES
+      
       this.IS_LOGIN = this.userService.checkAuth()
         if(this.IS_LOGIN){
           this.userService.getUserData().then(userData => {
@@ -162,8 +195,6 @@ export class TalentHuntComponent implements OnInit {
     const optionArray = params.split(';');
     optionArray.forEach((option:any) => {
       const checkbox = document.querySelector(`input[name="${option}"]`) as HTMLInputElement;
-      console.log(checkbox);
-      
       if (checkbox) {
         checkbox.checked = true;
       }
@@ -246,6 +277,49 @@ export class TalentHuntComponent implements OnInit {
   }
 
 
+
+  openUserCard(id:any){
+    this.DONE_LOADING_DETAIL = false
+    
+    $("#popup-home").fadeIn(() => {
+      $("#popup-user").slideToggle()
+      $("body").css("overflow", "hidden")
+      this.userService.getUserById(id).then(userData => {
+        console.log(userData);
+        
+        this.isExpandedEdu = userData.educations.map(() => false);
+        this.isExpandedExp = userData.educations.map(() => false);
+        this.ACTIVE_USER_DETAIL = userData
+        this.DONE_LOADING_DETAIL = true
+      })
+    }).css("display", "flex")
+  }
+  closePopupDetail(){
+    $("#popup-user").slideToggle(function(){
+      $("#popup-home").fadeOut(function(){})
+      $("body").css("overflow", "auto")
+    })
+  }
+  openFilterMobile(){
+    $("#popup-home").fadeIn(() => {
+      $("#popup-filter").slideToggle()
+      $("body").css("overflow", "hidden")
+    }).css("display", "flex")
+  }
+  hideAllPopup(evt:any, e:any){
+    const $this = $(evt)
+
+    if(e.target.id == "popup-home"){
+      $this.children().each(function(){
+        if($(this).is(":visible")){
+          $(this).slideToggle(function(){
+            $this.fadeOut(function(){})
+            $("body").css("overflow", "auto")
+          }) 
+        }
+      })
+    }
+  }
   openLoginPanel(){
     $("#popup-layer-navbar").fadeIn(function() {
       $("#popup-login").slideToggle();

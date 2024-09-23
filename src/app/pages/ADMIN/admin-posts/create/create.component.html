@@ -1,15 +1,18 @@
 <app-admin-navbar></app-admin-navbar>
 
 <main class="noise">
-    <div class="px-[5%] lg:px-0">
+    <div class="px-0">
         
-        <div class="grid grid-cols-10 bg-main">
+        <div class="grid lg:grid-cols-10 bg-main">
             
-            <app-admin-sidebar class="col-span-2"></app-admin-sidebar>
+            <app-admin-sidebar class="hidden lg:block lg:col-span-2"></app-admin-sidebar>
 
-            <div class="col-span-8 overflow-y-scroll bg-white rounded-tl-[2rem] pb-20">
+            <div class="lg:col-span-8 overflow-y-scroll bg-white rounded-tl-[2rem] pb-20">
                 <!-- <a href="" class="block w-max py-4 ms-auto text-red-500 justify-self-end font-bold">Logout <i class="uil uil-arrow-right"></i></a> -->
-                <p class="text-2xl font-bold text-black/80 mt-8 px-8">Buat Lowongan</p>
+                <div class="flex items-center justify-between mt-8 px-8">
+                    <p class="text-2xl font-bold text-black/80">Buat Lowongan</p>
+                    <a class="lg:hidden font-medium text-main" href="/admin/posts">Kembali</a>
+                </div>
 
                 <div class="px-8">
                     <form [formGroup]="FORM_CREATE_POST" (submit)="submitFormCreate()" id="form-create-post" class="mt-10 min-h-[50vh] bg-white border-2 rounded-[1.5rem] shadow-md py-12 px-5">
@@ -23,7 +26,7 @@
                         <div class="mt-6 flex flex-col gap-6">
 
                             <!-- COMPANY NAME DAN PLATFORM -->
-                            <div class="grid gap-4 grid-cols-2">
+                            <div class="grid gap-4 lg:grid-cols-2">
                                 <div class="">
                                     <label for="" class="block text-sm font-medium text-black/70 mb-2">COMPANY NAME*</label>
                                     <input formControlName="company" type="text" name="company" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
@@ -42,7 +45,7 @@
                             </div>
 
                             <!-- JOB TYPE DAN POST DATE -->
-                            <div class="grid grid-cols-2 gap-4">
+                            <div class="grid lg:grid-cols-2 gap-4">
                                 <div class="">
                                     <label for="" class="block text-sm font-medium text-black/70 mb-2">JOB TYPE*</label>
                                     <select formControlName="type" type="text" name="type" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
@@ -67,10 +70,8 @@
                             <!-- LOCATION -->
                             <div class="text-sm font-medium text-black/70">
                                 <p>LOKASI*</p>
-                                <div class="grid grid-cols-3 gap-4 mt-2">
-                                    <select2 formControlName="provinsi" [data]="PROVINSI" (update)="updateProvisi($event)" placeholder="Pilih Provinsi" styleMode="borderless" class="border py-1.5 border-2 rounded-lg border-gray-300"></select2>
-                                    <select2 formControlName="kabupaten" [data]="KABUPATEN" (update)="updateKabupaten($event)" placeholder="Pilih Kabupaten" styleMode="borderless" class="border py-1.5 border-2 rounded-lg border-gray-300"></select2>
-                                    <select2 formControlName="kecamatan" [data]="KECAMATAN" placeholder="Pilih Kecamatan" styleMode="borderless" class="border py-1.5 border-2 rounded-lg border-gray-300"></select2>
+                                <div class="grid lg:grid-cols-3 gap-4 mt-2">
+                                    <select2 [autoCreate]="true" formControlName="location" [data]="LOCATIONS" placeholder="Pilih Lokasi" styleMode="borderless" class="border py-1.5 border-2 rounded-lg border-gray-300"></select2>
                                 </div>
                             </div>
                 
@@ -116,16 +117,16 @@
                                         </ul>
                                     </div>
                                     
-                                  </div>
+                                </div>
                                   
                                   <!-- Active skills display -->
-                                  <div id="active-skills" class="w-full p-5 rounded-lg bg-background noise">
+                                <div id="active-skills" class="w-full p-5 rounded-lg bg-background noise">
                                     <ng-container *ngFor="let skillId of activeSkills">
                                       <button type="button" class="m-1 text-black/80 px-4 py-1 rounded-lg bg-main text-white">
                                         {{ getSkillName(skillId) }} <!-- Tampilkan nama skill berdasarkan id -->
                                       </button>
                                     </ng-container>
-                                  </div>
+                                </div>
                                   
                             </div>
                 

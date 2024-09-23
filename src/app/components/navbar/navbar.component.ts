@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, NgZone, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { CommonModule, NgIf } from '@angular/common';
+import { CommonModule, NgIf, Location } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { UserInterface } from '../../interface/user.interface';
 import $ from "jquery"
+import { accounts } from 'google-one-tap';
+import { environment } from '../../../environments/environment';
 
 declare var google: any;
 
@@ -19,34 +20,49 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   router = inject(Router)
 
   IS_LOGIN:any
-  USER!: UserInterface
-  DONE_LOADING = false
+  USER_NAVBAR!: UserInterface
+  DONE_LOADING_NAVBAR = false
 
-  constructor(private userService: UserService, private authService: SocialAuthService){}
+  constructor(private userService: UserService, private location: Location, private ngZone: NgZone){}
 
   ngOnInit(){
     this.IS_LOGIN = this.userService.checkAuth()
     if(this.IS_LOGIN){
       this.userService.getUserData().then(userData => {
-        this.USER = userData
-        this.DONE_LOADING = true
+        this.USER_NAVBAR = userData
+        this.DONE_LOADING_NAVBAR = true
       })
-    }else{
-      if(!this.userService.checkAuth()){
-        google.accounts.id.initialize({
-          client_id: "698401836212-gi5ntasmqfae7hiu2q0qu8i2h2gco82h.apps.googleusercontent.com",
-          callback: (response: any) => this.handleGoogleSignIn(response)
-        });
-        google.accounts.id.renderButton(
-          document.getElementById("button-google"),
-          { size: "large", type: "standard", shape: "pill", text:"continue_with" }  // customization attributes
-        );
-      }
     }
   }
 
   ngAfterViewInit(): void {
+    // Hanya tampilkan tombol Google jika user belum login
+    if (!this.IS_LOGIN) {
+      const gAccounts: accounts = google.accounts;
+      setTimeout(() => {
+        gAccounts.id.initialize({
+          client_id: environment.google_client_id,
+          callback: ({ credential }) => {
+            this.ngZone.run(() => {
+              this.handleGoogleSignIn(credential);
+            });
+          },
+        });
+    
+        // Render tombol Google di element dengan id "button-google"
+        gAccounts.id.renderButton(document.getElementById('button-google') as HTMLElement, {
+          size: 'large',
+          width: 320,
+        });
+  
+        // Tampilkan prompt Google
+        gAccounts.id.prompt();
+      }, 1000); // Delay untuk memastikan tombol sudah tersedia
+    }
+  }
 
+  onGoogleSignIn(): void {
+    google.accounts.id.prompt(); // Menampilkan prompt Google Sign-In
   }
 
   goToPost(){
@@ -58,7 +74,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   handleGoogleSignIn(response: any) {
-    this.userService.googleLoginHandler(response.credential).then(userAuthenticate => {
+    this.userService.googleLoginHandler(response).then(userAuthenticate => {
       this.userService.setCookie(userAuthenticate, "userAuthenticate")
       this.router.navigate(["/profile/me"])
       $("body").css("overflow", "auto");
@@ -82,7 +98,14 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   toggleNavbarMobile(){
-    $("#popup-navbar").slideToggle();
+    $("#popup-navbar-layer").fadeToggle(function(){
+      $("#popup-navbar").slideToggle();
+    })
+  }
+
+  buttonLogout(){
+    this.userService.deleteCookie(false)
+    this.location.back()
   }
 
 }

@@ -31,6 +31,7 @@ export class UtilsService {
   }
 
   formatIndonesianDateFull(date:any){
+    if(date == null) return "-"
     moment.locale('id');  // Atur locale ke Indonesia
     const formattedDate = moment(date).format('D MMMM YYYY');
     return formattedDate;  // Output: '8 September 2024'

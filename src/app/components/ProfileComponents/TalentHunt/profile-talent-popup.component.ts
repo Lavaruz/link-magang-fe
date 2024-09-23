@@ -17,10 +17,10 @@ import $ from "jquery"
             </svg>MENGEDIT VISIBILITAS TALENT HUNT</p>
           <p (click)="closePopup('active-search')" class="close-x cursor-pointer font-second font-medium text-sm text-teal-100">Close x</p>
       </div>
-      <div class="body bg-background noise lg:bg-body h-[92vh] lg:h-[350px] overflow-y-scroll">
+      <div class="body bg-background noise lg:bg-body h-[85vh] lg:h-[350px] overflow-y-scroll">
         <div class="divide-y divide-header pb-12 lg:pb-0">
             <div class="p-5">
-                <button type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-main font-medium font-second text-base">
+                <button (click)="closePopup('active-search')" type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-main font-medium font-second text-base">
                     <i class="uil uil-arrow-left"></i> Kembali ke Profil
                 </button>
                 <p class="font-bold text-lg text-main mb-1">Visibilitas Talent Hunt</p>

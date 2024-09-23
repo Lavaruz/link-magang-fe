@@ -19,9 +19,9 @@ import { UtilsService } from '../../../services/utils.service';
               <div id="on-experiences" class="flex flex-col pb-4 pt-3">
                 @for(experience of userData.experiences.slice(0,LIMIT); track experience.id; let idx = $index){
                   <div class="experience w-full py-3">
-                    <div class="lg:flex justify-between items-start">
+                    <div class="lg:flex justify-between items-start mb-4">
                         <div class="">
-                            <div class="flex items-center gap-4 mb-1">
+                            <div class="flex items-center gap-2 mb-1">
                               <p class="text-sm bg-main/60 px-2 w-max text-white">{{ experience.exp_type }}</p>
                               <span *ngIf="idx == 0" class="text-sm bg-orange-500 px-2 w-max text-white">Aktif</span>
                             </div>
@@ -51,7 +51,14 @@ import { UtilsService } from '../../../services/utils.service';
                     </div>
 
                     <!-- BODY -->
-                    <div class="my-3 mb-6" [innerHTML]="experience.exp_description"></div>
+                    <div *ngIf="experience.exp_description.length > 0" class="mb-6 paragraph flex gap-2">
+                      <p>{{ isExpanded[idx] 
+                            ? experience.exp_description 
+                            : (experience.exp_description | slice: 0:100) + '...' }}
+                            <button class="text-sm text-main font-medium" *ngIf="experience.exp_description.length > 100 && !isExpanded[idx]" (click)="toggleDescription(idx)">
+                              Read More
+                            </button></p>
+                    </div>
                     <hr *ngIf="idx+1 !== userData.experiences.length">
                 </div>
               }
@@ -68,19 +75,27 @@ import { UtilsService } from '../../../services/utils.service';
     </div>
   `,
 })
-export class ProfileExperiencesComponent {
+export class ProfileExperiencesComponent implements OnInit{
   @Input() userData!:UserInterface
   @Input() experiencesData!:ExperienceInterface[]
   @Input() openPopup:any
+  isExpanded: boolean[] = [];
 
   utilsService = inject(UtilsService)
   LIMIT = 2
+
+  ngOnInit(): void {
+    this.isExpanded = this.userData.experiences.map(() => false);
+  }
 
   showAllData(){
     this.LIMIT = 99
   }
   absNumber(input:any){
     return Math.abs(input)
+  }
+  toggleDescription(idx: number) {
+    this.isExpanded[idx] = !this.isExpanded[idx];
   }
 
 }

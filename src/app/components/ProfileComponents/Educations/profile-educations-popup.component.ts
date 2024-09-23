@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
 
           <!-- ADDING NEW EDUCATION -->
 
-          <div *ngIf="isCreate == true" id="adding-new-education" class="additional-popup">
+          <div *ngIf="isCreate == true" id="adding-new-education" class="additional-popup w-[99vw] lg:w-full">
               <form id="form-add-education" class="relative" [formGroup]="formEducations" (submit)="submitAddEducation()">
                   <div class="pb-40 lg:pb-5 p-5 divide-header divide-y flex flex-col gap-4">
                       <div class="flex flex-col gap-4 py-4 lg:py-0">
@@ -99,7 +99,7 @@ import { CommonModule } from '@angular/common';
 
           <!-- EDITING EDUCATION -->
 
-          <div *ngIf="isEdit == true" id="editing-education" class="additional-popup-edit">
+          <div *ngIf="isEdit == true" id="editing-education" class="additional-popup-edit w-[99vw] lg:w-full">
               <form id="form-editing-education" class="relative" [formGroup]="formEducations" (submit)="submitEditEducation(editId)">
                   <div class="pb-40 lg:pb-5 p-5 divide-gray-300 divide-y flex flex-col gap-4">
                       <div class="flex flex-col gap-4 py-4 lg:py-0">
@@ -195,11 +195,11 @@ import { CommonModule } from '@angular/common';
                               </button>
                           </div>
                           <div id="popup-body-educations" class="flex flex-col gap-4 pt-4 pb-20">
-                              @for(education of userData.educations; track education.id){
+                              @for(education of userData.educations; track education.id; let idx = $index){
                                 <div class="card-education bg-white p-5 py-4 rounded-lg border border-main">
                                     <div class="relative flex gap-4">
                                         <div class="w-full">
-                                            <div class="head lg:flex justify-between">
+                                            <div class="head lg:flex justify-between mb-4">
                                                 <div class="">
                                                     <div class="flex items-center gap-2">
                                                         <p class="text-white bg-main/60 py-[2px] px-2 inline cursor-default text-xs font-second font-medium">{{education.edu_type.toUpperCase()}}</p>
@@ -213,7 +213,14 @@ import { CommonModule } from '@angular/common';
                                                     <p class="text-xs font-semibold text-[#A5A5A5]">{{utilService.calculateMonthDifference(education.edu_startdate, education.edu_enddate).toUpperCase()}}</p>
                                                 </div>
                                             </div>
-                                            <p class="mt-3 content">{{education.edu_description}}</p>
+                                            <div *ngIf="education.edu_description.length > 0" class="mb-6 paragraph flex gap-2">
+                                                <p>{{ isExpanded[idx] 
+                                                    ? education.edu_description 
+                                                    : (education.edu_description | slice: 0:100) + '...' }}
+                                                    <button class="text-sm text-main font-medium" *ngIf="education.edu_description.length > 100 && !isExpanded[idx]" (click)="toggleDescription(idx)">
+                                                    Read More
+                                                    </button></p>
+                                            </div>
                                         </div>
                                         <div class="absolute lg:static right-0 flex lg:flex-col flex-row-reverse gap-4 lg:gap-2">
                                             <svg (click)="clickEditEducation(education); isEdit = true; isDisplay = false" title="Edit Pengalaman" class="cursor-pointer update-education-button" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -249,6 +256,8 @@ export class ProfileEducationsPopupComponent {
     isCreate = false
     isDisplay = true
     editId:any
+    isExpanded: boolean[] = [];
+
 
     formEducations = new FormGroup({
         edu_type: new FormControl(""),
@@ -264,6 +273,11 @@ export class ProfileEducationsPopupComponent {
     })
 
     ngOnInit(): void {
+        this.isExpanded = this.userData.educations.map(() => false);
+    }
+
+    toggleDescription(idx: number) {
+        this.isExpanded[idx] = !this.isExpanded[idx];
     }
 
     clickEditEducation(education:any){

@@ -1,24 +1,24 @@
 <app-admin-navbar></app-admin-navbar>
 
 <main class="noise">
-    <div class="px-[5%] lg:px-0">
+    <div class="px-0">
         
-        <div class="grid grid-cols-10 bg-main">
+        <div class="grid lg:grid-cols-10 bg-main">
             
-            <app-admin-sidebar class="col-span-2"></app-admin-sidebar>
+            <app-admin-sidebar class="hidden lg:block lg:col-span-2"></app-admin-sidebar>
 
-            <div class="col-span-8 overflow-y-scroll bg-white rounded-tl-[2rem]">
+            <div class="lg:col-span-8 overflow-y-scroll bg-white rounded-tl-[2rem]">
                 <!-- <a href="" class="block w-max py-4 ms-auto text-red-500 justify-self-end font-bold">Logout <i class="uil uil-arrow-right"></i></a> -->
                 <p class="text-2xl font-bold text-black/80 mt-8 px-8">Lowongan di Posting</p>
                 <div class="flex items-center justify-between px-8 mt-6">
                     <div class="flex items-center gap-6">
-                        <a href="" class="py-4 font-bold text-main">External</a>
-                        <a href="" class="py-4 font-medium text-black/60">Partner</a>
-                        <a href="" class="py-4 font-medium text-black/60">Member</a>
+                        <a routerLink="." class="py-4 font-bold text-main">External</a>
+                        <a class="py-4 font-medium text-black/60 cursor-not-allowed">Partner</a>
+                        <a class="py-4 font-medium text-black/60 cursor-not-allowed">Member</a>
                     </div>
                     <div class="flex items-center gap-4">
                         <a href="/admin/posts/create" class="bg-main text-white font-medium rounded-md text-sm px-4 py-2">Buat Lowongan</a>
-                        <button disabled class="disabled:opacity-50 bg-red-500 text-white font-medium rounded-md text-sm px-4 py-2">Hapus</button>
+                        <button [disabled]="CHECKED_VALUE.length == 0" (click)="deletePost()" class="disabled:opacity-50 bg-red-500 text-white font-medium rounded-md text-sm px-4 py-2">Hapus</button>
                     </div>
                 </div>
 
@@ -35,7 +35,7 @@
                                 <th>Tipe</th>
                                 <th>Tanggal Upload</th>
                                 <th></th>
-                                <th><input type="checkbox" name=""></th>
+                                <th><input type="checkbox" id="checkAll" name="checkAll"></th>
                             </tr>
                         </thead>
                     </table>

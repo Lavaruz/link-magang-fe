@@ -10,13 +10,13 @@ import { CommonModule } from '@angular/common';
   template: `
     <div class="basic-info rounded-2xl overflow-hidden shadow-md border-2 border-main">
         <div class="lg:w-100 bg-main flex items-center justify-between px-5 py-3">
-            <p class="text-white flex items-center gap-2"><i class="uil uil-info-circle"></i> INFORMASI BASIC</p>
+            <p class="text-white flex items-center gap-2"><i class="uil uil-info-circle"></i> PROFIL SINGKAT</p>
             <button (click)="openPopup('basic')" id="edit-basic-info" class="cursor-pointer text-white text-sm font-second flex items-center gap-2">Edit</button>
         </div>
         <div class="lg:w-100 p-5 pb-6 bg-white noise lg:rounded-none border-2 lg:border-0 border-header">
             <div class="lg:flex lg:items-start lg:gap-5">
                 <div class="w-[88px] h-[88px] min-w-[88px] min-h-[88px] rounded-full overflow-hidden mx-auto lg:mx-0">
-                    <img id="basic-profile-pic" [src]="userData.profile_picture" onerror="src='assets/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
+                    <img id="basic-profile-pic" src="{{userData.profile_picture}}" onerror="src='assets/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
                 </div>
                 <div class="w-full">
                     <div class="mb-4 text-center lg:text-left">
@@ -46,7 +46,7 @@ import { CommonModule } from '@angular/common';
                             <p id="basic-domicile" class="text-second/80 font-second font-medium text-sm">{{userData.domicile || "-"}}</p>
                         </div>
                         <div class="">
-                            <span class="text-thrid/60 font-medium text-sm">PREFERENSI PEKERJAAN</span>
+                            <span class="text-thrid/60 font-medium text-sm">PREFERENSI KERJA</span>
                             <p id="basic-pref-status" class="text-second/80 font-second font-medium text-sm">{{userData.work_pref_status}}</p>
                         </div>
                     </div>
@@ -56,9 +56,14 @@ import { CommonModule } from '@angular/common';
     </div>
   `
 })
-export class ProfileBasicInformationComponent {
+export class ProfileBasicInformationComponent implements OnInit {
   @Input() userData!:UserInterface
   @Input() openPopup:any  
 
   utilsService = inject(UtilsService)
+
+  ngOnInit(): void {
+      console.log(this.userData);
+      
+  }
 }

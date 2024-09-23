@@ -32,7 +32,7 @@ export class ProfileTalentComponent implements OnInit {
   }
 
   checkIsCanActivateTalentHunt(){
-    if(this.userData.educations.length == 0 || this.userData.experiences.length == 0 || !this.userData.profile_picture || !this.userData.attachments?.atc_resume || this.userData.skills.length == 0){
+    if(this.userData.educations.length == 0 || !this.userData.profile_picture || !this.userData.attachments?.atc_resume || this.userData.skills.length == 0){
       return false
     }
     return true

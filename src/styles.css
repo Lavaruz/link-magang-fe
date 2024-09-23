@@ -35,7 +35,9 @@ html {
 }
 
 
-
+.paragraph{
+  white-space: pre-wrap;
+}
 
 /* SCROLL BAR */
 html::-webkit-scrollbar, div::-webkit-scrollbar {

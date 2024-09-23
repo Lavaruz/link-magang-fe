@@ -22,6 +22,7 @@ export class AdminPostsComponent implements OnInit{
   postService = inject(PostsService)
 
   POSTS_DATA:any
+  CHECKED_VALUE:any = []
   DONE_LOADING = false
   QUERY = {
     limit: 999,
@@ -38,6 +39,15 @@ export class AdminPostsComponent implements OnInit{
 
   ngAfterViewInit(){
     $("footer").remove()
+  }
+
+
+  deletePost(){
+    this.postService.DeletePosts(this.CHECKED_VALUE.join(";")).then(() => {
+      location.reload()
+    }).catch(err => {
+      console.error(err);
+    })
   }
 
 
@@ -115,8 +125,54 @@ export class AdminPostsComponent implements OnInit{
           orderable: false,
         },
       ],
-      pageLength: 10,               // Number of posts per page
-      order: [[ 0, "asc" ]] 
+      pageLength: 10,
+      order: [[ 0, "asc" ]],
+      initComplete: () => {
+        this.handleCheckboxSelection();
+        this.setupCheckAll();
+      }
+    });
+  }
+
+  handleCheckboxSelection() {
+    $('#myTable').on('change', '.checkbox-delete', (event: any) => {
+      const checkbox = event.target;
+      const value = checkbox.value;
+      
+      if (checkbox.checked) {
+        // Tambahkan ke array CHECKED_VALUE jika dicentang
+        this.CHECKED_VALUE.push(value);
+      } else {
+        // Hapus dari array CHECKED_VALUE jika tidak dicentang
+        this.CHECKED_VALUE = this.CHECKED_VALUE.filter((item: any) => item !== value);
+      }
+      console.log(this.CHECKED_VALUE); // Debug: tampilkan daftar nilai yang dicentang
+    });
+  }
+
+  setupCheckAll() {
+    $('#checkAll').on('change', (event: any) => {
+      const isChecked = event.target.checked;
+      
+      if (isChecked) {
+        // Centang semua checkbox item
+        $('#myTable .checkbox-delete').prop('checked', true);
+        
+        // Tambahkan semua nilai checkbox ke CHECKED_VALUE
+        $('#myTable .checkbox-delete').each((index: any, checkbox: any) => {
+          const value = checkbox.value;
+          if (!this.CHECKED_VALUE.includes(value)) {
+            this.CHECKED_VALUE.push(value);
+          }
+        });
+      } else {
+        // Hapus centang semua checkbox item
+        $('#myTable .checkbox-delete').prop('checked', false);
+
+        // Kosongkan CHECKED_VALUE
+        this.CHECKED_VALUE = [];
+      }
+      console.log(this.CHECKED_VALUE); // Debug: tampilkan daftar nilai yang dicentang
     });
   }
 

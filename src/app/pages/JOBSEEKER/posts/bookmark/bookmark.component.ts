@@ -4,6 +4,8 @@ import { RouterLink } from '@angular/router';
 import { PostNavbarComponent } from '../../../../components/post-navbar/post-navbar.component';
 import { UserService } from '../../../../services/user.service';
 import { CommonModule } from '@angular/common';
+import { Title } from '@angular/platform-browser';
+import { GoogleAnalyticsServiceService } from '../../../../services/google-analytics.service.service';
 
 @Component({
   selector: 'app-bookmark',
@@ -13,12 +15,15 @@ import { CommonModule } from '@angular/common';
 })
 export class BookmarkComponent implements OnInit {
   userService = inject(UserService)
+  titleService = inject(Title)
+  googleAnalytics = inject(GoogleAnalyticsServiceService)
 
   POSTS_DATA:any
   DONE_LOADING = false
   IS_LOGIN = false
 
   ngOnInit(): void {
+    this.titleService.setTitle("Internshit - Lowongan Tersimpan");
     this.POSTS_DATA = []
     this.IS_LOGIN = this.userService.checkAuth()
     this.DONE_LOADING = true

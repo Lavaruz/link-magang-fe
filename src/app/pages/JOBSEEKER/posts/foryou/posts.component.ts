@@ -6,6 +6,8 @@ import { UserService } from '../../../../services/user.service';
 import { PostsService } from '../../../../services/posts.service';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
+import { GoogleAnalyticsServiceService } from '../../../../services/google-analytics.service.service';
 
 @Component({
   selector: 'app-posts',
@@ -15,10 +17,12 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 })
 export class PostsForYouComponent implements OnInit {
 
+  titleService = inject(Title)
   userService = inject(UserService)
   postService = inject(PostsService)
   aRoute = inject(ActivatedRoute)
   router = inject(Router)
+  googleAnalytics = inject(GoogleAnalyticsServiceService)
 
   FORM_SEARCH:FormGroup = new FormGroup("")
 
@@ -37,6 +41,7 @@ export class PostsForYouComponent implements OnInit {
   QUERY:any
 
   ngOnInit(): void {
+    this.titleService.setTitle("Internshit - Lowongan Khusus Buat Kamu");
     this.aRoute.queryParams.subscribe(params => {
       this.DONE_LOADING = false
       this.FORM_SEARCH = new FormGroup({
@@ -51,23 +56,26 @@ export class PostsForYouComponent implements OnInit {
 
       this.IS_LOGIN = this.userService.checkAuth()
       
-      if(this.IS_LOGIN){
+      if(this.IS_LOGIN == true){
         this.postService.GetAllMatchPosts(this.QUERY).then(postsData => {
           this.POSTS_DATA = postsData.datas
+          
           this.POST_PAGE = postsData.page
           this.POST_COUNT = postsData.total_entries
 
-          this.SHOW_MORE_BUTTON = this.POST_PAGE * this.POST_LIMIT < this.POST_COUNT    
+          this.SHOW_MORE_BUTTON = this.POST_PAGE * this.POST_LIMIT < this.POST_COUNT   
+          console.log(this.IS_LOGIN);
+           
           this.DONE_LOADING = true
         })
-      }else{
+      }else if(this.IS_LOGIN == false){
         this.DONE_LOADING = true
       }
     })
   }
 
   savePost(){
-    alert("SAVED")
+    alert("Dalam development, ditunggu ya")
   }
 
   addPage(){
@@ -153,6 +161,37 @@ export class PostsForYouComponent implements OnInit {
     } else {
         return `beberapa minggu lalu`;
     } 
+  }
+
+  timeAgoNumber(dateString: any) {
+    const date: any = new Date(dateString);
+    const now: any = new Date();
+  
+    // Menghilangkan perbedaan waktu agar hanya tanggal yang dibandingkan
+    date.setHours(0, 0, 0, 0);
+    now.setHours(0, 0, 0, 0);
+  
+    const diffInMilliseconds = now - date;
+  
+    // Konversi milidetik ke hari yang benar
+    const diffInDays = Math.floor(diffInMilliseconds / (1000 * 60 * 60 * 24));
+  
+    return diffInDays
+  }
+
+  hideAllPopup(evt:any, e:any){
+    const $this = $(evt)
+
+    if(e.target.id == "popup-home"){
+      $this.children().each(function(){
+        if($(this).is(":visible")){
+          $(this).slideToggle(function(){
+            $this.fadeOut(function(){})
+            $("body").css("overflow", "auto")
+          }) 
+        }
+      })
+    }
   }
 
   getPlatformImage(platform:any){
