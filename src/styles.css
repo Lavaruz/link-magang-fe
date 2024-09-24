@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .noise{
-    background-image: url("./assets/img/noise-dark.png");
+    background-image: url("./assets/img/noise-dark.webp");
 }
 
 html {

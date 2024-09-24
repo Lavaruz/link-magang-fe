@@ -313,21 +313,21 @@ export class ExploreComponent implements OnInit {
   getPlatformImage(platform:any){
     switch (platform) {
       case 'Glints':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Glints.png" alt="Glints">';
+          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Glints.webp" alt="Glints">';
       case 'Linkedin':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Linkedin.png" alt="LinkedIn">';
+          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Linkedin.webp" alt="LinkedIn">';
       case 'Kalibrr':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Kalibrr.png" alt="Kalibrr">';
+          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Kalibrr.webp" alt="Kalibrr">';
       case 'Jobstreet':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Jobstreet.png" alt="JobStreet">';
+          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Jobstreet.webp" alt="JobStreet">';
       case 'Indeed':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Indeed.png" alt="Indeed">';
+          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Indeed.webp" alt="Indeed">';
       case 'Dealls':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Dealls.png" alt="Dealls">';
+          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Dealls.webp" alt="Dealls">';
       case 'Kitalulus':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Kitalulus.png" alt="Kitalulus">';
+          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Kitalulus.webp" alt="Kitalulus">';
       default:
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Other.png" alt="Default">';
+          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Other.webp" alt="Default">';
     }
   }
 

@@ -137,7 +137,7 @@ import $ from "jquery"
                             <button #avatar [ngClass]="{'bg-main': selectedPicture === picture}" type="button" class="button-select-avatar aspect-square border-2 shadow-md border-main rounded-full overflow-hidden">
                                 <img [src]="requestService.getURL() + picture" alt="profile-pic" class="w-full h-full object-cover">
                             </button>
-                            <p class="text-main font-bold">{{picture.split("/img/ProfilePic/").pop().replace(".png", "")}}</p>
+                            <p class="text-main font-bold">{{picture.split("/img/ProfilePic/").pop().replace(".webp", "")}}</p>
                         </div>
                       }
                   </div>
