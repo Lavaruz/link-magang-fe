@@ -85,7 +85,7 @@ export class ExploreComponent implements OnInit {
     })
   }
 
-  savePost(){
+  savePost(evt:Event){
     alert("Dalam development, ditunggu ya")
   }
 

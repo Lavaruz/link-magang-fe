@@ -1,5 +1,2 @@
 - limit dan page di talent hunt masih temp solution
-- ke profile ganti routerlink aja udah
 - tambahin profile visit walaupun blm login
-- email ketika baru daftar
-- size desktop profile blm sama sama yang lain

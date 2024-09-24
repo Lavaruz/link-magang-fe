@@ -35,7 +35,7 @@
 <div id="popup-navbar-layer" class="hidden fixed top-0 bottom-0 left-0 right-0 bg-black/50 z-10 flex items-end lg:items-center justify-center h-100"></div>
 <div id="popup-navbar" class="hidden w-full bg-white border-b-2 shadow-md noise rounded-b-2xl pb-12 px-[5%] fixed z-[999] backdrop-blur-md">
     <div class="">
-        <a *ngIf="DONE_LOADING_NAVBAR" id="navbar-profile-mobile" href="/profile/me" class="my-4 w-full border flex text-center items-center gap-4 bg-main shadow-md py-4 noise rounded-lg px-4">
+        <a *ngIf="DONE_LOADING_NAVBAR" id="navbar-profile-mobile" routerLink="/profile/me" class="my-4 w-full border flex text-center items-center gap-4 bg-main shadow-md py-4 noise rounded-lg px-4">
             <div class="overflow-hidden border-2 rounded-full w-9 h-9 bg-white flex items-center justify-center">
                 <img [src]="USER_NAVBAR.profile_picture" onerror="src='assets/img/no-profile.jpg'" alt="">
             </div>
@@ -82,7 +82,7 @@
                 <button id="button-google" class="mx-auto mt-4"></button>
             </div>
 
-            <p class="text-xs mt-4 text-center">Dengan melanjutkan, anda menyetujui <a target="_blank" href="/terms-of-service" class="text-main">Terms of Service</a> dan <a target="_blank" class="text-main" href="/privacy-policy">Privacy Policy</a> kami</p>
+            <p class="text-xs mt-4 text-center">Dengan melanjutkan, anda menyetujui <a target="_blank" routerLink="/terms-of-service" class="text-main">Terms of Service</a> dan <a target="_blank" class="text-main" routerLink="/privacy-policy">Privacy Policy</a> kami</p>
         </div>
 
         <button (click)="closeLoginPanel()" class="rounded-full w-10 h-10 flex items-center justify-center absolute top-0 right-0">
