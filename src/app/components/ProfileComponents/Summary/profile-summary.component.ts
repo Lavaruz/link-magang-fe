@@ -27,13 +27,8 @@ import { UserInterface } from '../../../interface/user.interface';
     </div>
   `,
 })
-export class ProfileSummaryComponent implements OnInit {
+export class ProfileSummaryComponent {
   @Input() userData!: UserInterface
   @Input() openPopup: any
-
-  ngOnInit(): void {
-    console.log(this.userData);
-    
-  }
 
 }

@@ -285,8 +285,6 @@ export class TalentHuntComponent implements OnInit {
       $("#popup-user").slideToggle()
       $("body").css("overflow", "hidden")
       this.userService.getUserById(id).then(userData => {
-        console.log(userData);
-        
         this.isExpandedEdu = userData.educations.map(() => false);
         this.isExpandedExp = userData.educations.map(() => false);
         this.ACTIVE_USER_DETAIL = userData

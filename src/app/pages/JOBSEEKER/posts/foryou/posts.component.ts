@@ -64,8 +64,6 @@ export class PostsForYouComponent implements OnInit {
           this.POST_COUNT = postsData.total_entries
 
           this.SHOW_MORE_BUTTON = this.POST_PAGE * this.POST_LIMIT < this.POST_COUNT   
-          console.log(this.IS_LOGIN);
-           
           this.DONE_LOADING = true
         })
       }else if(this.IS_LOGIN == false){

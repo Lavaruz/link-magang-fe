@@ -55,8 +55,6 @@ export class AdminPostsComponent implements OnInit{
     let table = new DataTable('#myTable', {
       serverSide: true,
       ajax: (data:any, callback, settings) => {
-        console.log(data);
-        
         var limit = data.length; // Limit dari DataTables
         var start = data.start;
         var search = data.search.value
@@ -65,8 +63,6 @@ export class AdminPostsComponent implements OnInit{
           method: 'GET',
           success: (response) => {
               response = this.requestService.decryptData(response)
-              console.log(response);
-              
               callback({
                   draw: data.draw,
                   recordsTotal: response.total_entries, // Total data
@@ -146,7 +142,6 @@ export class AdminPostsComponent implements OnInit{
         // Hapus dari array CHECKED_VALUE jika tidak dicentang
         this.CHECKED_VALUE = this.CHECKED_VALUE.filter((item: any) => item !== value);
       }
-      console.log(this.CHECKED_VALUE); // Debug: tampilkan daftar nilai yang dicentang
     });
   }
 
@@ -172,7 +167,6 @@ export class AdminPostsComponent implements OnInit{
         // Kosongkan CHECKED_VALUE
         this.CHECKED_VALUE = [];
       }
-      console.log(this.CHECKED_VALUE); // Debug: tampilkan daftar nilai yang dicentang
     });
   }
 

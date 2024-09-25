@@ -45,7 +45,6 @@ export class AdminUsersComponent {
     let table = new DataTable('#myTable', {
       serverSide: true,
       ajax: (data:any, callback:any, settings:any) => {
-        console.log(data);
         
         var limit = data.length; // Limit dari DataTables
         var start = data.start;
@@ -55,8 +54,6 @@ export class AdminUsersComponent {
           method: 'GET',
           success: (response) => {
               response = this.requestService.decryptData(response)
-              console.log(response);
-              
               callback({
                   draw: data.draw,
                   recordsTotal: response.total_entries, // Total data

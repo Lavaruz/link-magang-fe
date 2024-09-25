@@ -250,8 +250,6 @@ export class ExploreComponent implements OnInit {
       $("body").css("overflow", "hidden")
       this.postService.GetPostById(id).then(postData => {
         this.POST_DATAS_DETAIL = postData
-        console.log(this.POST_DATAS_DETAIL);
-        
         this.DONE_LOADING_DETAIL = true
       })
     }).css("display", "flex")

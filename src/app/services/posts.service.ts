@@ -55,8 +55,6 @@ export class PostsService {
 
   async DeletePosts(postIds:any) {
     try {
-      console.log(`/api/v1/posts?ids=${postIds}`);
-      
       const postData:any = await this.requestServices.deleteEncryptedRequest(`/api/v1/posts?ids=${postIds}`);
       return postData
     } catch (error) {

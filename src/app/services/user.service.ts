@@ -39,7 +39,6 @@ export class UserService {
       this.authValue = '';
       this.userData = {};
       this.cookieData = {};
-      console.log('cookie deleted');
       resolve();
     })
     .then(() =>{

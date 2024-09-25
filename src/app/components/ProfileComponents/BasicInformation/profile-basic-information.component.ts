@@ -56,14 +56,10 @@ import { CommonModule } from '@angular/common';
     </div>
   `
 })
-export class ProfileBasicInformationComponent implements OnInit {
+export class ProfileBasicInformationComponent {
   @Input() userData!:UserInterface
   @Input() openPopup:any  
 
   utilsService = inject(UtilsService)
 
-  ngOnInit(): void {
-      console.log(this.userData);
-      
-  }
 }
