@@ -9,7 +9,7 @@ import { UserInterface } from '../../../interface/user.interface';
   template: `
     <div class="profile-summary rounded-2xl overflow-hidden shadow-md border-2 border-main">
         <div class="w-100 bg-main flex items-center justify-between px-5 py-3">
-            <p class="text-white flex items-center gap-2"><i class="uil uil-user"></i> TENTANG SAYA</p>
+            <h1 class="text-white flex items-center gap-2"><i class="uil uil-user"></i> TENTANG SAYA</h1>
             <p (click)="openPopup('summary')" id="edit-profile-summary" class="cursor-pointer text-white text-sm font-second flex items-center gap-2">Edit</p>
         </div>
         <div id="profile-summary" class="w-full p-5 pb-6 noise bg-white border-2 lg:border-0 border-header lg:rounded-b-2xl">

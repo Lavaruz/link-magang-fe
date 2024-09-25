@@ -1,9 +1,7 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './pages/JOBSEEKER/home/home.component';
 import { TermsOfServicesComponent } from './pages/GENERAL/terms-of-services/terms-of-services.component';
 import { PrivacyPolicyComponent } from './pages/GENERAL/privacy-policy/privacy-policy.component';
 import { ProfileComponent } from './pages/JOBSEEKER/profile/profile.component';
-import { CommunityComponent } from './pages/JOBSEEKER/community/community.component';
 import { PostsForYouComponent } from './pages/JOBSEEKER/posts/foryou/posts.component';
 import { ExploreComponent } from './pages/JOBSEEKER/posts/explore/explore.component';
 import { BookmarkComponent } from './pages/JOBSEEKER/posts/bookmark/bookmark.component';
@@ -33,7 +31,6 @@ export const routes: Routes = [
         ]
     },
     { path: "talent", component: TalentHuntComponent },
-    { path: "community", component: CommunityComponent },
     { path: "terms-of-service", component: TermsOfServicesComponent },
     { path: "privacy-policy", component: PrivacyPolicyComponent },
     { 

@@ -14,12 +14,12 @@ import { UserInterface } from '../../../interface/user.interface';
         </div>
         <p class="font-second text-sm font-semibold text-black/80 mt-3 mb-4">Buat semua orang lebih mudah mengenali tentang kamu!</p>
         <div id="" class="socials flex items-center gap-4 text-thrid/80 text-2xl">
-            <a id="" *ngIf="userData.socials.twitter" [href]="userData.socials.twitter" target="_blank"><i class="uil uil-twitter"></i></a>
-            <a id="" *ngIf="userData.socials.instagram" [href]="userData.socials.instagram" target="_blank"><i class="uil uil-instagram-alt"></i></a>
-            <a id="" *ngIf="userData.socials.linkedin" [href]="userData.socials.linkedin" target="_blank"><i class="uil uil-linkedin"></i></a>
-            <a id="" *ngIf="userData.socials.behance" [href]="userData.socials.behance" target="_blank"><i class="uil uil-behance"></i></a>
-            <a id="" *ngIf="userData.socials.github" [href]="userData.socials.github" target="_blank"><i class="uil uil-github"></i></a>
-            <a id="" *ngIf="userData.socials.youtube" [href]="userData.socials.youtube" target="_blank"><i class="uil uil-youtube"></i></a>
+            <a id="" *ngIf="userData.socials.twitter" [href]="userData.socials.twitter" target="_blank" rel="noopener"><i class="uil uil-twitter"></i></a>
+            <a id="" *ngIf="userData.socials.instagram" [href]="userData.socials.instagram" target="_blank" rel="noopener"><i class="uil uil-instagram-alt"></i></a>
+            <a id="" *ngIf="userData.socials.linkedin" [href]="userData.socials.linkedin" target="_blank" rel="noopener"><i class="uil uil-linkedin"></i></a>
+            <a id="" *ngIf="userData.socials.behance" [href]="userData.socials.behance" target="_blank" rel="noopener"><i class="uil uil-behance"></i></a>
+            <a id="" *ngIf="userData.socials.github" [href]="userData.socials.github" target="_blank" rel="noopener"><i class="uil uil-github"></i></a>
+            <a id="" *ngIf="userData.socials.youtube" [href]="userData.socials.youtube" target="_blank" rel="noopener"><i class="uil uil-youtube"></i></a>
         </div>
     </div>
   `,

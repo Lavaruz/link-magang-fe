@@ -5,7 +5,7 @@
         <app-post-navbar></app-post-navbar>
 
         <div class="py-8">
-            <p class="text-xl lg:text-3xl font-bold text-black/80">Jelajahi Lowongan Kamu</p>
+            <h1 class="text-xl lg:text-3xl font-bold text-black/80">Jelajahi Lowongan Kamu</h1>
             <p class="mt-1 text-black/80">Mencari magang? Temukan dan lamar lowongan magang terbaru kami hari ini!</p>
         </div>
 
@@ -103,9 +103,9 @@
                     <button type="button" (click)="openFilterMobile()" class="lg:hidden bg-white border-2 rounded-md hover:shadow-lg duration-300 px-2.5 py-1"><i class="uil uil-sliders-v-alt rotate-90"></i></button>
                 </form>
 
-                <span class="text-gray-700 dark:text-gray-400 font-medium text-black/60">
+                <h4 class="text-gray-700 dark:text-gray-400 font-medium text-black/60">
                     Menampilkan {{POST_DATAS.length}} lowongan dari {{POST_COUNT}}
-                </span>
+                </h4>
                 @if(POST_DATAS.length > 0){
                     <div id="cards" class="mt-4 grid lg:grid-cols-2 gap-6 mb-14">
                         @for (post of POST_DATAS; track post.id) {
@@ -114,7 +114,7 @@
                                     <!-- <button class="text-xs bg-orange-500 text-white px-2 py-1 rounded mb-2">{{post.type}}</button> -->
                                     <!-- TITLE -->
                                     <div class="flex justify-between items-center">
-                                        <p class="font-medium text-black mb-2 flex items-center gap-2"><span class="text-red-500 text-sm" *ngIf="timeAgoNumber(post.post_date) <= 2">Hot🔥</span>{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
+                                        <h3 class="font-medium text-black mb-2 flex items-center gap-2"><span class="text-red-500 text-sm" *ngIf="timeAgoNumber(post.post_date) <= 2">Hot🔥</span>{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</h3>
                                         <svg (click)="savePost($event)" class="hover:fill-main hover:scale-[1.1]" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
                                             <path d="M 12.8125 2 C 12.335938 2.089844 11.992188 2.511719 12 3 L 12 47 C 11.996094 47.359375 12.1875 47.691406 12.496094 47.871094 C 12.804688 48.054688 13.1875 48.054688 13.5 47.875 L 25 41.15625 L 36.5 47.875 C 36.8125 48.054688 37.195313 48.054688 37.503906 47.871094 C 37.8125 47.691406 38.003906 47.359375 38 47 L 38 3 C 38 2.449219 37.550781 2 37 2 L 13 2 C 12.96875 2 12.9375 2 12.90625 2 C 12.875 2 12.84375 2 12.8125 2 Z M 14 4 L 36 4 L 36 45.25 L 25.5 39.125 C 25.191406 38.945313 24.808594 38.945313 24.5 39.125 L 14 45.25 Z"></path>
                                         </svg>
@@ -154,7 +154,7 @@
                     </button>
                 }@else {
                     <div class="flex flex-col items-center justify-center min-h-[50vh] text-sm">
-                        <img width="100px" src="assets/img/Logo.webp" alt="">
+                        <img width="100px" src="assets/img/Logo.webp" alt="logo">
                         <div class="mt-3 text-center">
                             <p class="font-medium text-lg">Wahh lowongan ini belum ada buat sekarang</p>
                             <p class="text-sm text-black/80">Ayo cari lowongan lain!</p>
@@ -187,7 +187,7 @@
                 <p class="flex gap-2 items-center text-black/70"><i class="uil uil-building"></i><span id="popup-company">{{POST_DATAS_DETAIL.company}}</span></p>
                 <p class="flex gap-2 items-center text-black/70 mt-1"><i class="uil uil-map-marker-alt"></i> <span id="popup-location">{{POST_DATAS_DETAIL.location}}</span></p>
                 <div class="flex gap-4 items-center mt-4 ">
-                    <a id="popup-link" [href]="POST_DATAS_DETAIL.link" target="_blank" class="w-max px-8 block py-2.5 self-start rounded-lg text-sm font-medium bg-orange-500 text-white shadow-md hover:scale-[1.01]"><i class="uil uil-external-link-alt"></i> Buka di <span id="popup-platform">{{POST_DATAS_DETAIL.platform}}</span></a>
+                    <a id="popup-link" [href]="POST_DATAS_DETAIL.link" target="_blank" rel="noopener" class="w-max px-8 block py-2.5 self-start rounded-lg text-sm font-medium bg-orange-500 text-white shadow-md hover:scale-[1.01]"><i class="uil uil-external-link-alt"></i> Buka di <span id="popup-platform">{{POST_DATAS_DETAIL.platform}}</span></a>
                     <!-- <button id="close-detail-job" class="px-8 hidden lg:block text-main font-medium">Close</button> -->
                 </div>
             </div>

@@ -28,7 +28,7 @@ import $ from "jquery"
                 <p class="text-red-500 text-xs font-second font-medium mt-2">*Visbilitas akan menjadi nonaktif, setiap kamu melakukan update profile</p>
             </div>
               <div class="my-2 px-5 pb-8">
-                  <img src="assets/img/showphone.webp" width="70%" class="mx-auto" alt="">
+                  <img src="assets/img/showphone.webp" width="70%" class="mx-auto" alt="show-phone">
                   <div class="flex flex-col mt-4">
                       <label class="relative block inline-flex cursor-pointer">
                           <input (change)="updateShowPhone(switchPhone)" #switchPhone [checked]="userData.config.show_phone" id="show-phone" name="show_phone" type="checkbox" value="" class="sr-only peer">

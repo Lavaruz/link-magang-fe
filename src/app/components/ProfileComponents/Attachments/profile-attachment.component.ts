@@ -18,7 +18,7 @@ import { UserInterface } from '../../../interface/user.interface';
                 <p class="flex items-center gap-2 text-black/80">CURRICULUM VITAE*</p>
                 <div class="porto flex items-center bg-background rounded-lg border border-main justify-between p-3 mt-2">
                     <div class="truncate w-[70vw] lg:w-full">
-                        <a [href]="userData.attachments.atc_resume" target="_blank" class="font-second text-sm text-main flex items-center gap-2 truncate"><i class="uil uil-link-h text-main"></i>{{userData.attachments.atc_resume || "-"}}</a>
+                        <a [href]="userData.attachments.atc_resume" target="_blank" rel="noopener" class="font-second text-sm text-main flex items-center gap-2 truncate"><i class="uil uil-link-h text-main"></i>{{userData.attachments.atc_resume || "-"}}</a>
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@ import { UserInterface } from '../../../interface/user.interface';
                 <div class="porto flex items-center bg-background border border-main rounded-lg justify-between p-3 mt-2">
                     <div class="flex items-center gap-2 w-full">
                         <div class="truncate w-[70vw] lg:w-full">
-                            <a target="_blank" [href]="userData.attachments.atc_portfolio" class="font-second text-sm text-main flex items-center gap-2 text-ellipsis">
+                            <a target="_blank" rel="noopener" [href]="userData.attachments.atc_portfolio" class="font-second text-sm text-main flex items-center gap-2 text-ellipsis">
                                 <i class="uil uil-link-h text-main"></i>
                                 {{ userData.attachments.atc_portfolio || "-" }}
                             </a>
