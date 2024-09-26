@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from './../../environments/environment';
-import CryptoJS from "crypto-js"
+import CryptoJS from "crypto-es"
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({

@@ -1,6 +1,8 @@
 User-agent: *
 Disallow: /admin/
 Disallow: /api/
+Disallow: /img/
+Disallow: /assets/
 Allow: /
 
 Sitemap: https://internshits.com/sitemap.xml

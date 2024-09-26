@@ -1,9 +1,16 @@
-<nav class="backdrop-blur-md bg-white sticky top-0 z-20 noise py-2 lg:py-1">
+<nav class="bg-white sticky top-0 z-20 py-2 lg:py-1">
     <div class="lg:w-[1150px] w-full mx-auto flex items-center justify-between px-[5%] lg:px-0">
         <div class="flex gap-14 items-center">
-            <a [routerLink]="IS_LOGIN ? '/posts/foryou' : '/posts/explore'" class="cursor-pointer font-bold text-2xl text-main flex items-center gap-2 tracking-wide flex items-center"><img alt="Logo Internshit" src="assets/img/Favicon.webp" class="w-[70px]" alt=""></a>
+            <a [routerLink]="IS_LOGIN ? '/posts/foryou' : '/posts/explore'" class="cursor-pointer font-bold text-2xl text-main flex items-center gap-2 tracking-wide flex items-center">
+                <img loading="lazy" alt="Logo Internshit" src="assets/img/Favicon.webp" class="w-[70px]" alt="">
+            </a>
             <div class="hidden lg:flex items-center gap-10">
-                <a [routerLink]="IS_LOGIN ? '/posts/foryou' : '/posts/explore'" routerLinkActive="selected" [routerLinkActiveOptions]="{ exact: false }" class="cursor-pointer text-sm font-medium text-thrid hover:text-main">Lowongan</a>
+                <a [routerLink]="IS_LOGIN ? '/posts/foryou' : '/posts/explore'" 
+                   routerLinkActive="selected"
+                   [routerLinkActiveOptions]="{ exact: false }"
+                   class="cursor-pointer text-sm font-medium text-thrid hover:text-main">
+                    Lowongan
+                </a>
                 <a routerLink="/talent" routerLinkActive="selected" class="text-sm font-medium text-thrid hover:text-main">Talent Hunt</a>
             </div>
         </div>
