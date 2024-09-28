@@ -6,6 +6,7 @@ import { UserService } from '../../../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { GoogleAnalyticsServiceService } from '../../../../services/google-analytics.service.service';
+import $ from "jquery"
 
 @Component({
   selector: 'app-bookmark',

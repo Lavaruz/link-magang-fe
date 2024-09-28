@@ -66,6 +66,14 @@
                                         }
                                     }
                                 </div>
+                                <div (change)="changeLocation(inputLocation)" #inputLocation *ngIf="DONE_LOADING_SIDEBAR == false" class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                                    @for(data of [1,2,3,4,5,6,7,8,9,10]; track data){
+                                        <div class="flex items-center gap-2 text-sm animate-pulse">
+                                            <div class="h-4 w-4 bg-gray-300 rounded"></div>
+                                            <div class="h-4 w-24 bg-gray-300 rounded"></div>
+                                        </div>
+                                    }
+                                </div>
                             </div>
 
                             <hr>
@@ -94,77 +102,115 @@
 
 
             <!-- JOBS -->
-            <div *ngIf="DONE_LOADING == true" class="lg:col-span-6">
+            <div class="lg:col-span-6">
                 <form [formGroup]="FORM_SEARCH" (submit)="submitFormSearch()" class="flex gap-2 mb-6">
                     <div class="relative w-full">
                         <input type="text" formControlName="search" class="duration-200 hover:shadow-lg block w-full lg:p-4 p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white/80 focus:ring-main focus:border-main dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-main dark:focus:border-main" placeholder="Cari lowongan atau keyword..." />
-                        <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-2 lg:px-4 py-1 lg:py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><i class="uil uil-search"></i></button>
+                        <button aria-label="cari lowongan" type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-main hover:bg-main/80 focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm px-2 lg:px-4 py-1 lg:py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"><i class="uil uil-search"></i></button>
                     </div>
-                    <button type="button" (click)="openFilterMobile()" class="lg:hidden bg-white border-2 rounded-md hover:shadow-lg duration-300 px-2.5 py-1"><i class="uil uil-sliders-v-alt rotate-90"></i></button>
+                    <button aria-label="buka filter" type="button" (click)="openFilterMobile()" class="lg:hidden bg-white border-2 rounded-md hover:shadow-lg duration-300 px-2.5 py-1"><i class="uil uil-sliders-v-alt rotate-90"></i></button>
                 </form>
 
-                <h4 class="text-gray-700 dark:text-gray-400 font-medium text-black/60">
+                <p class="text-gray-700 dark:text-gray-400 font-medium text-black/60">
                     Menampilkan {{POST_DATAS.length}} lowongan dari {{POST_COUNT}}
-                </h4>
-                @if(POST_DATAS.length > 0){
-                    <div id="cards" class="mt-4 grid lg:grid-cols-2 gap-6 mb-14">
-                        @for (post of POST_DATAS; track post.id) {
-                            <div (click)="openPostDetail(post.id)" class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border hover:border-main bg-white p-4 rounded-xl flex flex-col justify-between">
-                                <div class="">
-                                    <!-- <button class="text-xs bg-orange-500 text-white px-2 py-1 rounded mb-2">{{post.type}}</button> -->
-                                    <!-- TITLE -->
-                                    <div class="flex justify-between items-center">
-                                        <h3 class="font-medium text-black mb-2 flex items-center gap-2"><span class="text-red-500 text-sm" *ngIf="timeAgoNumber(post.post_date) <= 2">Hot🔥</span>{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</h3>
-                                        <svg (click)="savePost($event)" class="hover:fill-main hover:scale-[1.1]" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
-                                            <path d="M 12.8125 2 C 12.335938 2.089844 11.992188 2.511719 12 3 L 12 47 C 11.996094 47.359375 12.1875 47.691406 12.496094 47.871094 C 12.804688 48.054688 13.1875 48.054688 13.5 47.875 L 25 41.15625 L 36.5 47.875 C 36.8125 48.054688 37.195313 48.054688 37.503906 47.871094 C 37.8125 47.691406 38.003906 47.359375 38 47 L 38 3 C 38 2.449219 37.550781 2 37 2 L 13 2 C 12.96875 2 12.9375 2 12.90625 2 C 12.875 2 12.84375 2 12.8125 2 Z M 14 4 L 36 4 L 36 45.25 L 25.5 39.125 C 25.191406 38.945313 24.808594 38.945313 24.5 39.125 L 14 45.25 Z"></path>
-                                        </svg>
-                                    </div>
-                                    <!-- SKILLS -->
-                                    <div class="flex gap-2 flex-wrap" *ngIf="post.skills && post.skills.length > 0">
-                                        <ng-container *ngFor="let skill of getActiveSkills(post.skills)">
-                                            <button class="text-xs bg-main text-white px-2 py-1 rounded">
-                                            {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
+                </p>
+                
+                <div *ngIf="DONE_LOADING == true" class="">
+                    @if(POST_DATAS.length > 0){
+                        <div id="cards" class="mt-4 grid lg:grid-cols-2 gap-6 mb-14">
+                            @for (post of POST_DATAS; track post.id) {
+                                <div (click)="openPostDetail(post.id)" class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border hover:border-main bg-white p-4 rounded-xl flex flex-col justify-between">
+                                    <div class="">
+                                        <!-- <button class="text-xs bg-orange-500 text-white px-2 py-1 rounded mb-2">{{post.type}}</button> -->
+                                        <!-- TITLE -->
+                                        <div class="flex justify-between items-center">
+                                            <p class="font-medium text-black mb-2 flex items-center gap-2"><span class="text-red-500 text-sm" *ngIf="timeAgoNumber(post.post_date) <= 2">Hot🔥</span>{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
+                                            <svg (click)="savePost($event)" class="hover:fill-main hover:scale-[1.1]" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                                                <path d="M 12.8125 2 C 12.335938 2.089844 11.992188 2.511719 12 3 L 12 47 C 11.996094 47.359375 12.1875 47.691406 12.496094 47.871094 C 12.804688 48.054688 13.1875 48.054688 13.5 47.875 L 25 41.15625 L 36.5 47.875 C 36.8125 48.054688 37.195313 48.054688 37.503906 47.871094 C 37.8125 47.691406 38.003906 47.359375 38 47 L 38 3 C 38 2.449219 37.550781 2 37 2 L 13 2 C 12.96875 2 12.9375 2 12.90625 2 C 12.875 2 12.84375 2 12.8125 2 Z M 14 4 L 36 4 L 36 45.25 L 25.5 39.125 C 25.191406 38.945313 24.808594 38.945313 24.5 39.125 L 14 45.25 Z"></path>
+                                            </svg>
+                                        </div>
+                                        <!-- SKILLS -->
+                                        <div class="flex gap-2 flex-wrap" *ngIf="post.skills && post.skills.length > 0">
+                                            <ng-container *ngFor="let skill of getActiveSkills(post.skills)">
+                                                <button class="text-xs bg-main text-white px-2 py-1 rounded">
+                                                {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
+                                                </button>
+                                            </ng-container>
+                                            <button *ngIf="getRemainingSkills(post.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
+                                                +{{ getRemainingSkills(post.skills).length }}
                                             </button>
-                                        </ng-container>
-                                        <button *ngIf="getRemainingSkills(post.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
-                                            +{{ getRemainingSkills(post.skills).length }}
-                                        </button>
+                                        </div>
+                                        <!-- ADDITIONAL INFO -->
+                                        <p class="text-sm flex items-center gap-2 mt-4 font-medium text-black/70"><i class="uil uil-building"></i>{{post.company.length > 38 ? post.company.substring(0,38) + ".." : post.company}} • {{post.type}}</p>
+                                        <p class="text-sm flex items-center gap-2 mt-1"><i class="uil uil-location-point"></i>{{post.location}}</p>
                                     </div>
-                                    <!-- ADDITIONAL INFO -->
-                                    <p class="text-sm flex items-center gap-2 mt-4 font-medium text-black/70"><i class="uil uil-building"></i>{{post.company.length > 38 ? post.company.substring(0,38) + ".." : post.company}} • {{post.type}}</p>
-                                    <p class="text-sm flex items-center gap-2 mt-1"><i class="uil uil-location-point"></i>{{post.location}}</p>
-                                </div>
-                                <div class="">
-                                    <hr class="my-2">
-                                    <div class="flex items-center justify-between gap-3 mt-4">
-                                        <div class=""></div>
-                                        <div class="flex items-center gap-2">
-                                            <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgoNumber(post.post_date) <= 2 ? "terbaru di " : "muncul di "}}</span></p>
-                                            <div [innerHTML]="getPlatformImage(post.platform)"></div>
-                                            <p *ngIf="timeAgoNumber(post.post_date) > 2" class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgo(post.post_date)}}</span></p>
+                                    <div class="">
+                                        <hr class="my-2">
+                                        <div class="flex items-center justify-between gap-3 mt-4">
+                                            <div class=""></div>
+                                            <div class="flex items-center gap-2">
+                                                <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgoNumber(post.post_date) <= 2 ? "terbaru di " : "muncul di "}}</span></p>
+                                                <div [innerHTML]="getPlatformImage(post.platform)"></div>
+                                                <p *ngIf="timeAgoNumber(post.post_date) > 2" class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgo(post.post_date)}}</span></p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            }
+                        </div>
+                        <button type="button" (click)="addPage()" *ngIf="SHOW_MORE_BUTTON == true" [disabled]="IS_BUTTON_LOADING == true" class="disabled:opacity-50 shadow-lg hover:scale-[1.01] duration-200 bg-main px-8 py-3 rounded-full text-white w-max block m-auto font-medium flex items-center gap-2">
+                            <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == false">Lebih Banyak <i class="uil uil-angle-down text-xl"></i></span>
+                            <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == true">Loading..</span>
+                        </button>
+                    }@else {
+                        <div class="flex flex-col items-center justify-center min-h-[50vh] text-sm">
+                            <img width="100px" src="assets/img/Logo.webp" alt="logo">
+                            <div class="mt-3 text-center">
+                                <p class="font-medium text-lg">Wahh lowongan ini belum ada buat sekarang</p>
+                                <p class="text-sm text-black/80">Ayo cari lowongan lain!</p>
                             </div>
-                        }
-                    </div>
-                    <button type="button" (click)="addPage()" *ngIf="SHOW_MORE_BUTTON == true" [disabled]="IS_BUTTON_LOADING == true" class="disabled:opacity-50 shadow-lg hover:scale-[1.01] duration-200 bg-main px-8 py-3 rounded-full text-white w-max block m-auto font-medium flex items-center gap-2">
-                        <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == false">Lebih Banyak <i class="uil uil-angle-down text-xl"></i></span>
-                        <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == true">Loading..</span>
-                    </button>
-                }@else {
-                    <div class="flex flex-col items-center justify-center min-h-[50vh] text-sm">
-                        <img width="100px" src="assets/img/Logo.webp" alt="logo">
-                        <div class="mt-3 text-center">
-                            <p class="font-medium text-lg">Wahh lowongan ini belum ada buat sekarang</p>
-                            <p class="text-sm text-black/80">Ayo cari lowongan lain!</p>
+                        </div>
+                    }
+                </div>
+                <div *ngIf="DONE_LOADING == false" class="mt-4 grid lg:grid-cols-2 gap-6 mb-14">
+                    
+                    
+                    <div *ngFor="let post of [1,2,3,4]" class="animate-pulse">
+                        <div class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border bg-white p-4 rounded-xl flex flex-col justify-between">
+                            <div class="">
+                                <!-- TITLE SKELETON -->
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="h-6 bg-gray-300 rounded w-3/4"></div>
+                                    <div class="h-6 w-6 bg-gray-300 rounded"></div>
+                                </div>
+                                <!-- SKILLS SKELETON -->
+                                <div class="flex gap-2 flex-wrap">
+                                    <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                    <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                    <div class="h-4 bg-gray-300 rounded w-1/6"></div>
+                                </div>
+                                <!-- ADDITIONAL INFO SKELETON -->
+                                <div class="mt-4">
+                                    <div class="h-4 bg-gray-300 rounded w-2/3 mb-1"></div>
+                                    <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <hr class="my-2">
+                                <!-- FOOTER SKELETON -->
+                                <div class="flex items-center justify-between gap-3 mt-4">
+                                    <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="h-6 w-6 bg-gray-300 rounded-full"></div>
+                                        <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                }
-            </div>
-            <div class="col-span-6 flex flex-col gap-2 items-center justify-center min-h-[40vh]" *ngIf="DONE_LOADING == false">
-                <span class="loader"></span>
-                <p class="text-sm">Menjelajahi lowongan..</p>
+
+                </div>
+
             </div>
         </div>
     </div>
@@ -172,8 +218,8 @@
 
 <div (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/50 flex items-end lg:items-center justify-end lg:justify-center z-30" id="popup-home">
     
-    <div id="popup-detail-job" class="hidden popup lg:w-1/2 bg-background noise rounded-t-2xl lg:rounded-xl overflow-hidden">
-        <div *ngIf="DONE_LOADING_DETAIL == true" class="h-[70vh] lg:h-[500px] overflow-y-scroll lg:px-8 p-5 pb-20 py-8 relative">
+    <div id="popup-detail-job" class="hidden popup lg:w-1/2 bg-background noise rounded-t-2xl lg:rounded-none overflow-hidden">
+        <div *ngIf="DONE_LOADING_DETAIL == true" class="h-[70vh] lg:h-screen overflow-y-scroll lg:px-8 p-5 pb-20 py-8 relative">
             <button (click)="closePopupDetail()" type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-main font-medium text-base">
                 <i class="uil uil-arrow-left"></i> Kembali ke Beranda
             </button>

@@ -34,7 +34,7 @@
                                             <div class="">
                                                 <!-- TITLE -->
                                                 <div class="flex justify-between items-center">
-                                                    <h3 class="font-medium text-black mb-2 flex items-center gap-2"><span class="text-red-500 text-sm" *ngIf="timeAgoNumber(post.post_date) <= 2">Hot🔥</span>{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</h3>
+                                                    <p class="font-medium text-black mb-2 flex items-center gap-2"><span class="text-red-500 text-sm" *ngIf="timeAgoNumber(post.post_date) <= 2">Hot🔥</span>{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
                                                     <svg (click)="savePost()" class="hover:fill-main hover:scale-[1.1]" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
                                                         <path d="M 12.8125 2 C 12.335938 2.089844 11.992188 2.511719 12 3 L 12 47 C 11.996094 47.359375 12.1875 47.691406 12.496094 47.871094 C 12.804688 48.054688 13.1875 48.054688 13.5 47.875 L 25 41.15625 L 36.5 47.875 C 36.8125 48.054688 37.195313 48.054688 37.503906 47.871094 C 37.8125 47.691406 38.003906 47.359375 38 47 L 38 3 C 38 2.449219 37.550781 2 37 2 L 13 2 C 12.96875 2 12.9375 2 12.90625 2 C 12.875 2 12.84375 2 12.8125 2 Z M 14 4 L 36 4 L 36 45.25 L 25.5 39.125 C 25.191406 38.945313 24.808594 38.945313 24.5 39.125 L 14 45.25 Z"></path>
                                                     </svg>
@@ -51,7 +51,7 @@
                                                     </button>
                                                 </div>
                                                 <!-- ADDITIONAL INFO -->
-                                                <h4 class="text-sm flex items-center gap-2 mt-4 font-medium text-black/70"><i class="uil uil-building"></i>{{post.company.length > 38 ? post.company.substring(0,38) + ".." : post.company}} • {{post.type}}</h4>
+                                                <p class="text-sm flex items-center gap-2 mt-4 font-medium text-black/70"><i class="uil uil-building"></i>{{post.company.length > 38 ? post.company.substring(0,38) + ".." : post.company}} • {{post.type}}</p>
                                                 <p class="text-sm flex items-center gap-2 mt-1"><i class="uil uil-location-point"></i>{{post.location}}</p>
                                             </div>
                                             <div class="">
@@ -69,20 +69,54 @@
                                     } 
                                 </div>
                                 <button (click)="addPage()" *ngIf="SHOW_MORE_BUTTON == true" [disabled]="IS_BUTTON_LOADING == true" class="disabled:opacity-50 shadow-lg hover:scale-[1.01] duration-200 bg-main px-8 py-3 rounded-full text-white w-max block m-auto font-medium flex items-center gap-2">
-                                    <h3 class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == false">Lebih Banyak <i class="uil uil-angle-down text-xl"></i></h3>
-                                    <h3 class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == true">Loading..</h3>
+                                    <p class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == false">Lebih Banyak <i class="uil uil-angle-down text-xl"></i></p>
+                                    <p class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == true">Loading..</p>
                                 </button>
                             }@else if (POSTS_DATA.length == 0) {
                                 <div class="flex flex-col items-center justify-center min-h-[50vh] text-center">
-                                    <h4 class="font-medium text-lg">Belum ada lowongan yang cocok buat kamu nih</h4>
+                                    <p class="font-medium text-lg">Belum ada lowongan yang cocok buat kamu nih</p>
                                     <p class="text-sm text-black/80">Tambahkan keahlian agar kami bisa merekomendasikan lowongan yang kamu banget.</p>
                                     <button routerLink="/profile/me" class="bg-main text-white px-4 py-2 rounded-md mt-4">Tambahkan Keahlian <i class="uil uil-arrow-right"></i></button>
                                 </div>
                             }
                     </div>
-                    <div class="col-span-6 flex flex-col gap-2 items-center justify-center min-h-[40vh]" *ngIf="DONE_LOADING == false">
-                        <span class="loader"></span>
-                        <p class="text-sm">Menjelajahi lowongan..</p>
+                    <div *ngIf="DONE_LOADING == false" class="mt-4 grid lg:grid-cols-3 gap-6 mb-14">
+                        <div *ngFor="let post of [1,2,3,4,5,6]" class="animate-pulse">
+                            <div class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border bg-white p-4 rounded-xl flex flex-col justify-between">
+                                <div class="">
+                                    <!-- TITLE SKELETON -->
+                                    <div class="flex justify-between items-center mb-2">
+                                        <div class="h-6 bg-gray-300 rounded w-3/4"></div>
+                                        <div class="h-6 w-6 bg-gray-300 rounded"></div>
+                                    </div>
+                                    <!-- SKILLS SKELETON -->
+                                    <div class="flex gap-2 flex-wrap">
+                                        <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                        <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                        <div class="h-4 bg-gray-300 rounded w-1/6"></div>
+                                        <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                        <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                                    </div>
+                                    <!-- ADDITIONAL INFO SKELETON -->
+                                    <div class="mt-4">
+                                        <div class="h-4 bg-gray-300 rounded w-2/3 mb-1"></div>
+                                        <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <hr class="my-2">
+                                    <!-- FOOTER SKELETON -->
+                                    <div class="flex items-center justify-between gap-3 mt-4">
+                                        <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                        <div class="flex items-center gap-2">
+                                            <div class="h-6 w-6 bg-gray-300 rounded-full"></div>
+                                            <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
                     </div>
                 }@else if(IS_LOGIN == false) {
                     <div class="flex flex-col items-center justify-center min-h-[50vh] text-center">
@@ -107,7 +141,7 @@
             <!-- MAIN INFO -->
             <div class="w-full">
                 <div class="grid lg:grid-cols-3 items-start">
-                    <h2 id="popup-title" class="col-span-2 text-2xl font-bold text-main mb-4 flex items-center gap-2"><span *ngIf="timeAgoNumber(POST_DATAS_DETAIL.post_date) <= 5" class="text-sm font-medium rounded text-red-500 px-2 py-0.5">Hot🔥</span>{{POST_DATAS_DETAIL.title}}</h2>
+                    <p id="popup-title" class="col-span-2 text-2xl font-bold text-main mb-4 flex items-center gap-2"><span *ngIf="timeAgoNumber(POST_DATAS_DETAIL.post_date) <= 5" class="text-sm font-medium rounded text-red-500 px-2 py-0.5">Hot🔥</span>{{POST_DATAS_DETAIL.title}}</p>
                     <button (click)="closePopupDetail()" id="close-detail-job" class="hidden lg:block justify-self-end font-medium text-2xl"><i class="uil uil-multiply"></i></button>
                 </div>
                 <p class="flex gap-2 items-center text-black/70"><i class="uil uil-building"></i><span id="popup-company">{{POST_DATAS_DETAIL.company}}</span></p>
@@ -121,7 +155,7 @@
             
             <div id="skills-need" class="justify-self-start">
                 <hr class="my-4">
-                <h4 class="font-medium text-black/80">Keahlian yang dibutuhkan</h4>
+                <p class="font-medium text-black/80">Keahlian yang dibutuhkan</p>
                 <div id="skills" class="flex gap-3 mt-4 flex-wrap flex-row">
                     @for (skill of POST_DATAS_DETAIL.skills; track skill.id) {
                         <button class="text-sm bg-main text-white px-4 py-2 rounded-md">

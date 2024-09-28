@@ -69,7 +69,7 @@ export class ExploreComponent implements OnInit {
           this.DONE_LOADING_SIDEBAR = true
           
           setTimeout(() => {
-            this.checkSelectedCheckboxes(params["type"])
+            this.checkSelectedCheckboxes(params["type"] || "")
             this.checkSelectedCheckboxes(params["locations"] || "")
             this.checkSelectedCheckboxes(params["skills"] || "")
           },500)
@@ -160,7 +160,7 @@ export class ExploreComponent implements OnInit {
 
 
 
-  checkSelectedCheckboxes(jobtype:any) {
+  checkSelectedCheckboxes(jobtype:string) {
     const optionArray = jobtype.split(';');
     optionArray.forEach((option:any) => {
       const checkbox = document.querySelector(`input[name="${option}"]`) as HTMLInputElement;

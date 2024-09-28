@@ -9,12 +9,12 @@ declare var gtag: Function;
 export class GoogleAnalyticsServiceService {
 
   constructor() {
-    const body = <HTMLDivElement>document.body;
+    const head = <HTMLDivElement>document.head;
     const script = document.createElement('script');
     script.src = 'https://www.googletagmanager.com/gtag/js?id=G-DJ4YFB14B3';
     script.async = true;
     script.defer = true;
-    body.prepend(script);
+    head.append(script);
 
     const gtagScript = document.createElement('script');
     gtagScript.textContent = `
@@ -23,6 +23,6 @@ export class GoogleAnalyticsServiceService {
       gtag('js', new Date());
       gtag('config', 'G-DJ4YFB14B3');
     `;
-    body.prepend(gtagScript);
+    head.append(gtagScript);
   }
 }
