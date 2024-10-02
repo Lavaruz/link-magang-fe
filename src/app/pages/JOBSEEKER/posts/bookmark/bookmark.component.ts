@@ -5,7 +5,6 @@ import { PostNavbarComponent } from '../../../../components/post-navbar/post-nav
 import { UserService } from '../../../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
-import { GoogleAnalyticsServiceService } from '../../../../services/google-analytics.service.service';
 import $ from "jquery"
 
 @Component({
@@ -17,7 +16,6 @@ import $ from "jquery"
 export class BookmarkComponent implements OnInit {
   userService = inject(UserService)
   titleService = inject(Title)
-  googleAnalytics = inject(GoogleAnalyticsServiceService)
 
   POSTS_DATA:any
   DONE_LOADING = false

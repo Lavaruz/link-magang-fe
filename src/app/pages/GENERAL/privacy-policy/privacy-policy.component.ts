@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { GoogleAnalyticsServiceService } from '../../../services/google-analytics.service.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-privacy-policy',
@@ -8,6 +7,5 @@ import { GoogleAnalyticsServiceService } from '../../../services/google-analytic
   templateUrl: './privacy-policy.component.html',
 })
 export class PrivacyPolicyComponent {
-  googleAnalytics = inject(GoogleAnalyticsServiceService)
 
 }

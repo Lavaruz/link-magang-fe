@@ -3,19 +3,18 @@ import { NavbarComponent } from '../../../../components/navbar/navbar.component'
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PostNavbarComponent } from '../../../../components/post-navbar/post-navbar.component';
 import { PostsService } from '../../../../services/posts.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import $ from "jquery"
 import { UserService } from '../../../../services/user.service';
 import { Title } from '@angular/platform-browser';
-import { GoogleAnalyticsServiceService } from '../../../../services/google-analytics.service.service';
 
 declare var google: any;
 
 @Component({
   selector: 'app-explore',
   standalone: true,
-  imports: [NavbarComponent, RouterLink, PostNavbarComponent, CommonModule, ReactiveFormsModule],
+  imports: [NgOptimizedImage, NavbarComponent, RouterLink, PostNavbarComponent, CommonModule, ReactiveFormsModule],
   templateUrl: './explore.component.html'
 })
 export class ExploreComponent implements OnInit {
@@ -24,16 +23,20 @@ export class ExploreComponent implements OnInit {
   aRoute = inject(ActivatedRoute)
   router = inject(Router)
   titleService = inject(Title)
-  googleAnalytics = inject(GoogleAnalyticsServiceService)
 
   FORM_SEARCH:FormGroup = new FormGroup("")
 
   SHOW_MORE_BUTTON = false
+  SHOW_LOGIN_BUTTON = false
+
   POST_PAGE = 1
   POST_LIMIT = 4
   POST_DATAS:any = []
   POST_DATAS_DETAIL:any
   POST_COUNT = 0
+
+  IS_LOGIN = false
+  LOGIN_COUNT = 0
 
   LOCATION_DATAS:any
   SKILL_DATAS:any
@@ -47,7 +50,11 @@ export class ExploreComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle("Internshit - Jelajahi Lowongan Magang");
+    this.IS_LOGIN = this.userService.checkAuth()
+
     this.aRoute.queryParams.subscribe(params => {
+      this.LOGIN_COUNT = 0
+      this.SHOW_LOGIN_BUTTON = false
       this.DONE_LOADING = false
       this.POST_PAGE = parseFloat(params["page"]) || 1
       this.QUERY = {
@@ -144,6 +151,17 @@ export class ExploreComponent implements OnInit {
   addPage(){
     this.IS_BUTTON_LOADING = true
     this.POST_PAGE++
+
+    if(this.IS_LOGIN == false){
+      this.LOGIN_COUNT++
+      if(this.LOGIN_COUNT >= 2){
+        this.IS_BUTTON_LOADING = false
+        this.SHOW_MORE_BUTTON = false
+        this.SHOW_LOGIN_BUTTON = true
+        return
+      }
+    }
+
     this.QUERY["page"] = this.POST_PAGE
     this.SHOW_MORE_BUTTON = this.POST_LIMIT * this.POST_PAGE < this.POST_COUNT ? true : false
 
@@ -228,38 +246,35 @@ export class ExploreComponent implements OnInit {
     if(e.target.id == "popup-home"){
       $this.children().each(function(){
         if($(this).is(":visible")){
-          $(this).slideToggle(function(){
-            $this.fadeOut(function(){})
-            $("body").css("overflow", "auto")
-          }) 
+          $this.fadeOut("fast")
+          $(this).slideToggle("fast") 
+          $("body").css("overflow", "auto")
         }
       })
     }
   }
+
   openFilterMobile(){
-    $("#popup-home").fadeIn(() => {
-      $("#popup-filter").slideToggle()
-      $("body").css("overflow", "hidden")
-    }).css("display", "flex")
+    $("#popup-home").fadeIn("fast").css("display", "flex")
+    $("#popup-filter").slideToggle("fast")
+    $("body").css("overflow", "hidden")
   }
 
   openPostDetail(id:any){
     this.DONE_LOADING_DETAIL = false
-    $("#popup-home").fadeIn(() => {
-      $("#popup-detail-job").slideToggle()
-      $("body").css("overflow", "hidden")
-      this.postService.GetPostById(id).then(postData => {
-        this.POST_DATAS_DETAIL = postData
-        this.DONE_LOADING_DETAIL = true
-      })
-    }).css("display", "flex")
+    $("#popup-home").fadeIn("fast").css("display", "flex")
+    $("#popup-detail-job").slideToggle("fast")
+    $("body").css("overflow", "hidden")
+    this.postService.GetPostById(id).then(postData => {
+      this.POST_DATAS_DETAIL = postData
+      this.DONE_LOADING_DETAIL = true
+    })
   }
 
   closePopupDetail(){
-    $("#popup-detail-job").slideToggle(function(){
-      $("#popup-home").fadeOut(function(){})
-      $("body").css("overflow", "auto")
-    })
+    $("#popup-home").fadeOut("fast")
+    $("#popup-detail-job").slideToggle("fast")
+    $("body").css("overflow", "auto")
   }
 
   getActiveSkills(skills: { skill: string }[]): { skill: string }[] {
@@ -308,25 +323,40 @@ export class ExploreComponent implements OnInit {
     return diffInDays
   }
 
-  getPlatformImage(platform:any){
+  getPlatformImageUrl(platform: any): string {
     switch (platform) {
       case 'Glints':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Glints.webp" alt="Glints">';
+        return 'assets/img/Glints.webp';
       case 'Linkedin':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Linkedin.webp" alt="LinkedIn">';
+        return 'assets/img/Linkedin.webp';
       case 'Kalibrr':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Kalibrr.webp" alt="Kalibrr">';
+        return 'assets/img/Kalibrr.webp';
       case 'Jobstreet':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Jobstreet.webp" alt="JobStreet">';
+        return 'assets/img/Jobstreet.webp';
       case 'Indeed':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Indeed.webp" alt="Indeed">';
+        return 'assets/img/Indeed.webp';
       case 'Dealls':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Dealls.webp" alt="Dealls">';
+        return 'assets/img/Dealls.webp';
       case 'Kitalulus':
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Kitalulus.webp" alt="Kitalulus">';
+        return 'assets/img/Kitalulus.webp';
       default:
-          return '<img class="w-5 h-5 rounded-lg" src="assets/img/Other.webp" alt="Default">';
+        return 'assets/img/Other.webp';
     }
+  }  
+
+  openLoginPanel(){
+    $("#popup-layer-navbar").fadeIn(function() {
+      $("#popup-login").slideToggle("fast");
+      $("body").css("overflow", "hidden");
+    }).css("display", "flex");
+  }
+
+  closeLoginPanel(){
+    $("#popup-login").slideToggle(function() {
+      $("#popup-layer-navbar").fadeOut(function() {
+          $("body").css("overflow", "auto");
+      });
+    });
   }
 
 }

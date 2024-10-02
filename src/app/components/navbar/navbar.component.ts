@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, NgZone, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { CommonModule, NgIf, Location } from '@angular/common';
+import { CommonModule, NgIf, Location, NgOptimizedImage } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserInterface } from '../../interface/user.interface';
 import $ from "jquery"
@@ -12,7 +12,7 @@ declare var google: any;
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgIf, RouterLink,RouterLinkActive, CommonModule],
+  imports: [NgIf, RouterLink,RouterLinkActive, CommonModule, NgOptimizedImage],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
@@ -62,7 +62,11 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   onGoogleSignIn(): void {
-    google.accounts.id.prompt(); // Menampilkan prompt Google Sign-In
+    $("#popup-navbar-layer").fadeIn(function(){
+      $("#popup-login").slideToggle();
+      $("body").css("overflow", "hidden");
+    }).css("display", "flex");
+    // google.accounts.id.prompt(); // Menampilkan prompt Google Sign-In
   }
 
   goToPost(){
@@ -100,6 +104,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   toggleNavbarMobile(){
     $("#popup-navbar-layer").fadeToggle(function(){
       $("#popup-navbar").slideToggle();
+      // $("#popup-login").slideToggle();
     })
   }
 

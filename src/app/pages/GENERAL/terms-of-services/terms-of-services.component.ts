@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { GoogleAnalyticsServiceService } from '../../../services/google-analytics.service.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-terms-of-services',
@@ -8,6 +7,5 @@ import { GoogleAnalyticsServiceService } from '../../../services/google-analytic
   templateUrl: './terms-of-services.component.html',
 })
 export class TermsOfServicesComponent {
-  googleAnalytics = inject(GoogleAnalyticsServiceService)
 
 }

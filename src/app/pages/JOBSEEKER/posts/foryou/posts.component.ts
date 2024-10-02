@@ -4,16 +4,15 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PostNavbarComponent } from '../../../../components/post-navbar/post-navbar.component';
 import { UserService } from '../../../../services/user.service';
 import { PostsService } from '../../../../services/posts.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
-import { GoogleAnalyticsServiceService } from '../../../../services/google-analytics.service.service';
 import $ from "jquery"
 
 @Component({
   selector: 'app-posts',
   standalone: true,
-  imports: [NavbarComponent, RouterLink, PostNavbarComponent, CommonModule, ReactiveFormsModule],
+  imports: [NavbarComponent, RouterLink, PostNavbarComponent, CommonModule, ReactiveFormsModule, NgOptimizedImage],
   templateUrl: './posts.component.html',
 })
 export class PostsForYouComponent implements OnInit {
@@ -23,7 +22,6 @@ export class PostsForYouComponent implements OnInit {
   postService = inject(PostsService)
   aRoute = inject(ActivatedRoute)
   router = inject(Router)
-  googleAnalytics = inject(GoogleAnalyticsServiceService)
 
   FORM_SEARCH:FormGroup = new FormGroup("")
 
@@ -117,21 +115,20 @@ export class PostsForYouComponent implements OnInit {
 
   openPostDetail(id:any){
     this.DONE_LOADING_DETAIL = false
-    $("#popup-home").fadeIn(() => {
-      $("#popup-detail-job").slideToggle()
-      $("body").css("overflow", "hidden")
-      this.postService.GetPostById(id).then(postData => {
-        this.POST_DATAS_DETAIL = postData
-        this.DONE_LOADING_DETAIL = true
-      })
-    }).css("display", "flex")
+    $("#popup-home").fadeIn().css("display", "flex")
+    $("#popup-detail-job").slideToggle("fast")
+    $("body").css("overflow", "hidden")
+    this.postService.GetPostById(id).then(postData => {
+      this.POST_DATAS_DETAIL = postData
+      this.DONE_LOADING_DETAIL = true
+    })
+    
   }
 
   closePopupDetail(){
-    $("#popup-detail-job").slideToggle(function(){
-      $("#popup-home").fadeOut(function(){})
-      $("body").css("overflow", "auto")
-    })
+    $("#popup-detail-job").slideToggle("fast")
+    $("#popup-home").fadeOut("fast")
+    $("body").css("overflow", "auto")
   }
 
   getActiveSkills(skills: { skill: string }[]): { skill: string }[] {
@@ -184,39 +181,38 @@ export class PostsForYouComponent implements OnInit {
     if(e.target.id == "popup-home"){
       $this.children().each(function(){
         if($(this).is(":visible")){
-          $(this).slideToggle(function(){
-            $this.fadeOut(function(){})
-            $("body").css("overflow", "auto")
-          }) 
+          $(this).slideToggle("fast") 
+          $this.fadeOut("fast")
+          $("body").css("overflow", "auto")
         }
       })
     }
   }
 
-  getPlatformImage(platform:any){
+  getPlatformImageUrl(platform: any): string {
     switch (platform) {
       case 'Glints':
-          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Glints.webp" alt="Glints">';
+        return 'assets/img/Glints.webp';
       case 'Linkedin':
-          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Linkedin.webp" alt="LinkedIn">';
+        return 'assets/img/Linkedin.webp';
       case 'Kalibrr':
-          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Kalibrr.webp" alt="Kalibrr">';
+        return 'assets/img/Kalibrr.webp';
       case 'Jobstreet':
-          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Jobstreet.webp" alt="JobStreet">';
+        return 'assets/img/Jobstreet.webp';
       case 'Indeed':
-          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Indeed.webp" alt="Indeed">';
+        return 'assets/img/Indeed.webp';
       case 'Dealls':
-          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Dealls.webp" alt="Dealls">';
+        return 'assets/img/Dealls.webp';
       case 'Kitalulus':
-          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Kitalulus.webp" alt="Kitalulus">';
+        return 'assets/img/Kitalulus.webp';
       default:
-          return '<img class="w-4 h-4 lg:w-5 lg:h-5 rounded-lg" src="assets/img/Other.webp" alt="Default">';
+        return 'assets/img/Other.webp';
     }
-  }
+  }  
 
   openLoginPanel(){
     $("#popup-layer-navbar").fadeIn(function() {
-      $("#popup-login").slideToggle();
+      $("#popup-login").slideToggle("fast");
       $("body").css("overflow", "hidden");
     }).css("display", "flex");
   }

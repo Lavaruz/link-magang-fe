@@ -60,6 +60,11 @@ html::-webkit-scrollbar-thumb:hover, div::-webkit-scrollbar-thumb:hover {
 background: #555;
 }
 
+#popup-detail-job.show {
+  display: block; /* Tampilkan elemen */
+  transform: translateX(0); /* Geser ke posisi normal */
+}
+
 .no-scroll{
 overflow: hidden;
 }

@@ -1,12 +1,12 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { UserInterface } from '../../../interface/user.interface';
 import { UtilsService } from '../../../services/utils.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-profile-basic-information',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgOptimizedImage],
   template: `
     <div class="basic-info rounded-2xl overflow-hidden shadow-md border-2 border-main">
         <div class="lg:w-100 bg-main flex items-center justify-between px-5 py-3">
@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
         <div class="lg:w-100 p-5 pb-6 bg-white noise lg:rounded-none border-2 lg:border-0 border-header">
             <div class="lg:flex lg:items-start lg:gap-5">
                 <div class="w-[88px] h-[88px] min-w-[88px] min-h-[88px] rounded-full overflow-hidden mx-auto lg:mx-0">
-                    <img id="basic-profile-pic" src="{{userData.profile_picture}}" onerror="src='assets/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
+                    <img width="88" height="88" ngSrc="{{userData.profile_picture}}" onerror="ngSrc='assets/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
                 </div>
                 <div class="w-full">
                     <div class="mb-4 text-center lg:text-left">

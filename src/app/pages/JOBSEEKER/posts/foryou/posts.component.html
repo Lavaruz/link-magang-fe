@@ -60,7 +60,8 @@
                                                     <span class="text-[10px] lg:text-xs font-medium px-2 py-0.5 bg-orange-500 text-white">Kamu banget</span>
                                                     <div class="flex items-center lg:gap-2 gap-1">
                                                         <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgoNumber(post.post_date) <= 2 ? "terbaru di " : "muncul di "}}</span></p>
-                                                <div [innerHTML]="getPlatformImage(post.platform)"></div>
+                                                <!-- <div [innerHTML]="getPlatformImage(post.platform)"></div> -->
+                                                <img class="rounded-lg" width="20" height="20" priority [ngSrc]="getPlatformImageUrl(post.platform)" alt="{{post.platform}}">
                                                 <p *ngIf="timeAgoNumber(post.post_date) > 2" class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgo(post.post_date)}}</span></p>
                                                     </div>
                                                 </div>
@@ -130,24 +131,26 @@
     </div>
 </main>
 
-<div (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/50 flex items-end lg:items-center justify-end lg:justify-center z-30" id="popup-home">
+<div (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/50 flex items-end lg:items-center justify-end z-30" id="popup-home">
     
-    <div id="popup-detail-job" class="hidden popup lg:w-1/2 bg-background noise rounded-t-2xl lg:rounded-xl overflow-hidden">
-        <div *ngIf="DONE_LOADING_DETAIL == true" class="h-[70vh] lg:h-[500px] overflow-y-scroll lg:px-8 p-5 pb-20 py-8 relative">
+    <div id="popup-detail-job" class="hidden popup lg:w-1/2 bg-background rounded-t-2xl lg:rounded-none overflow-hidden">
+        <div *ngIf="DONE_LOADING_DETAIL == true" class="h-[70vh] lg:h-screen overflow-y-scroll lg:px-10 p-5 pb-20 py-8 relative">
             <button (click)="closePopupDetail()" type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-main font-medium text-base">
                 <i class="uil uil-arrow-left"></i> Kembali ke Beranda
             </button>
 
             <!-- MAIN INFO -->
             <div class="w-full">
-                <div class="grid lg:grid-cols-3 items-start">
-                    <p id="popup-title" class="col-span-2 text-2xl font-bold text-main mb-4 flex items-center gap-2"><span *ngIf="timeAgoNumber(POST_DATAS_DETAIL.post_date) <= 5" class="text-sm font-medium rounded text-red-500 px-2 py-0.5">Hot🔥</span>{{POST_DATAS_DETAIL.title}}</p>
-                    <button (click)="closePopupDetail()" id="close-detail-job" class="hidden lg:block justify-self-end font-medium text-2xl"><i class="uil uil-multiply"></i></button>
+                <div class="flex items-center mb-2 gap-4">
+                    <span *ngIf="timeAgoNumber(POST_DATAS_DETAIL.post_date) <= 5" class="text-sm font-medium rounded px-4 bg-red-500 text-white py-0.5">Hot</span>
+                    <!-- <span *ngIf="timeAgoNumber(POST_DATAS_DETAIL.post_date) <= 5" class="text-sm font-medium rounded px-4 bg-orange-500 text-white py-0.5">Kamu Banget</span> -->
                 </div>
-                <p class="flex gap-2 items-center text-black/70"><i class="uil uil-building"></i><span id="popup-company">{{POST_DATAS_DETAIL.company}}</span></p>
-                <p class="flex gap-2 items-center text-black/70 mt-1"><i class="uil uil-map-marker-alt"></i> <span id="popup-location">{{POST_DATAS_DETAIL.location}}</span></p>
-                <div class="flex gap-4 items-center mt-4 ">
-                    <a id="popup-link" [href]="POST_DATAS_DETAIL.link" target="_blank" rel="noopener" class="w-max px-8 block py-2.5 self-start rounded-lg text-sm font-medium bg-orange-500 text-white shadow-md hover:scale-[1.01]"><i class="uil uil-external-link-alt"></i> Buka di <span id="popup-platform">{{POST_DATAS_DETAIL.platform}}</span></a>
+
+                <p id="popup-title" class="text-3xl font-bold text-main mb-4 flex items-center gap-2">{{POST_DATAS_DETAIL.title}}</p>
+                <p class="flex gap-2 items-center text-black/70"><i class="uil uil-building text-xl"></i><span class="font-medium" id="popup-company">{{POST_DATAS_DETAIL.company}}</span></p>
+                <p class="flex gap-2 items-center text-black/70 mt-1"><i class="uil uil-map-marker-alt text-xl"></i> <span class="font-medium" id="popup-location">{{POST_DATAS_DETAIL.location}}</span></p>
+                <div class="flex gap-4 items-center mt-6">
+                    <a id="popup-link" [href]="POST_DATAS_DETAIL.link" target="_blank" rel="noopener" class="w-max px-8 block py-2.5 self-start rounded-full text-sm font-medium bg-orange-500 text-white shadow-md hover:scale-[1.01]"><i class="uil uil-external-link-alt"></i> Buka di <span id="popup-platform">{{POST_DATAS_DETAIL.platform}}</span></a>
                     <!-- <button id="close-detail-job" class="px-8 hidden lg:block text-main font-medium">Close</button> -->
                 </div>
             </div>
@@ -165,14 +168,14 @@
                 </div>
             </div>
             
-            <hr class="my-4">
+            <hr class="my-6 border-gray-300">
 
             <div class="">
                 <div id="popup-overview" class="mt-4 text-black/70 no-tailwind" [innerHTML]="POST_DATAS_DETAIL.overview"></div>
             </div>
 
         </div>
-        <div *ngIf="DONE_LOADING_DETAIL == false" class="h-[70vh] lg:h-[500px] flex items-center justify-center w-full">
+        <div *ngIf="DONE_LOADING_DETAIL == false" class="h-[70vh] lg:h-screen flex items-center justify-center w-full">
             <span class="loader"></span>
             <p class="text-sm">Menyusun loker..</p>
         </div>

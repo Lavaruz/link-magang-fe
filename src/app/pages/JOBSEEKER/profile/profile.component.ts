@@ -3,7 +3,7 @@ import { UserService } from '../../../services/user.service';
 import { CommonModule, Location, NgIf } from '@angular/common';
 import { UserInterface } from '../../../interface/user.interface';
 import $ from "jquery"
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // IMPORT COMPONENTS
 import { ProfileBasicInformationComponent } from '../../../components/ProfileComponents/BasicInformation/profile-basic-information.component';
@@ -27,7 +27,6 @@ import { ProfileTalentComponent } from '../../../components/ProfileComponents/Ta
 import { ProfileTalentPopupComponent } from '../../../components/ProfileComponents/TalentHunt/profile-talent-popup.component';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { GoogleAnalyticsServiceService } from '../../../services/google-analytics.service.service';
 
 @Component({
   selector: 'app-profile',
@@ -50,7 +49,6 @@ export class ProfileComponent implements OnInit {
   userService: UserService = inject(UserService);
   router = inject(Router)
   titleService = inject(Title)
-  googleAnalytics = inject(GoogleAnalyticsServiceService)
 
   FORM_BASIC:FormGroup = new FormGroup("")
   FORM_SUMMARY:FormGroup = new FormGroup("")

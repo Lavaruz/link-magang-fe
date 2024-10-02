@@ -117,7 +117,7 @@
                 
                 <div *ngIf="DONE_LOADING == true" class="">
                     @if(POST_DATAS.length > 0){
-                        <div id="cards" class="mt-4 grid lg:grid-cols-2 gap-6 mb-14">
+                        <div id="cards" class="mt-4 grid lg:grid-cols-2 gap-6">
                             @for (post of POST_DATAS; track post.id) {
                                 <div (click)="openPostDetail(post.id)" class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border hover:border-main bg-white p-4 rounded-xl flex flex-col justify-between">
                                     <div class="">
@@ -150,7 +150,8 @@
                                             <div class=""></div>
                                             <div class="flex items-center gap-2">
                                                 <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgoNumber(post.post_date) <= 2 ? "terbaru di " : "muncul di "}}</span></p>
-                                                <div [innerHTML]="getPlatformImage(post.platform)"></div>
+                                                <!-- <div [innerHTML]="getPlatformImage(post.platform)"></div> -->
+                                                <img class="rounded-lg" width="20" height="20" priority [ngSrc]="getPlatformImageUrl(post.platform)" alt="{{post.platform}}">
                                                 <p *ngIf="timeAgoNumber(post.post_date) > 2" class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgo(post.post_date)}}</span></p>
                                             </div>
                                         </div>
@@ -158,13 +159,62 @@
                                 </div>
                             }
                         </div>
-                        <button type="button" (click)="addPage()" *ngIf="SHOW_MORE_BUTTON == true" [disabled]="IS_BUTTON_LOADING == true" class="disabled:opacity-50 shadow-lg hover:scale-[1.01] duration-200 bg-main px-8 py-3 rounded-full text-white w-max block m-auto font-medium flex items-center gap-2">
+                        <button type="button" (click)="addPage()" *ngIf="SHOW_MORE_BUTTON == true" [disabled]="IS_BUTTON_LOADING == true" class="mt-14 disabled:opacity-50 shadow-lg hover:scale-[1.01] duration-200 bg-main px-8 py-3 rounded-full text-white w-max block m-auto font-medium flex items-center gap-2">
                             <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == false">Lebih Banyak <i class="uil uil-angle-down text-xl"></i></span>
                             <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == true">Loading..</span>
                         </button>
+                        <div *ngIf="SHOW_LOGIN_BUTTON" class="relative mt-6">
+                            <div class="blur-sm grid lg:grid-cols-2 gap-6 w-full">
+                                <div *ngFor="let post of [1,2]" class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border hover:border-main bg-white p-4 rounded-xl flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex justify-between items-center">
+                                            <p class="font-medium text-black mb-2 flex items-center gap-2">
+                                                <span class="text-red-500 text-sm">Hot🔥</span>
+                                                {{ POST_DATAS[post].title }}
+                                            </p>
+                                            <svg (click)="savePost($event)" class="hover:fill-main hover:scale-[1.1]" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                                                <path d="M 12.8125 2 C 12.335938 2.089844 11.992188 2.511719 12 3 L 12 47 C 11.996094 47.359375 12.1875 47.691406 12.496094 47.871094 C 12.804688 48.054688 13.1875 48.054688 13.5 47.875 L 25 41.15625 L 36.5 47.875 C 36.8125 48.054688 37.195313 48.054688 37.503906 47.871094 C 37.8125 47.691406 38.003906 47.359375 38 47 L 38 3 C 38 2.449219 37.550781 2 37 2 L 13 2 C 12.96875 2 12.9375 2 12.90625 2 C 12.875 2 12.84375 2 12.8125 2 Z M 14 4 L 36 4 L 36 45.25 L 25.5 39.125 C 25.191406 38.945313 24.808594 38.945313 24.5 39.125 L 14 45.25 Z"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="flex gap-2 flex-wrap">
+                                            <button class="text-xs bg-main text-white px-2 py-1 rounded">Fullstack Developer</button>
+                                            <button class="text-xs bg-main text-white px-2 py-1 rounded">NodeJS</button>
+                                            <button class="text-xs bg-main text-white px-2 py-1 rounded">Mysql</button>
+                                            <button class="text-xs bg-main text-white px-2 py-1 rounded">Backend Development</button>
+                                            <button class="text-xs bg-main text-white px-2 py-1 rounded">+2</button>
+                                        </div>
+                                        <p class="text-sm flex items-center gap-2 mt-4 font-medium text-black/70">
+                                            <i class="uil uil-building"></i>{{ POST_DATAS[post].company }} • Pekerjaan Penuh Waktu
+                                        </p>
+                                        <p class="text-sm flex items-center gap-2 mt-1">
+                                            <i class="uil uil-location-point"></i>{{ POST_DATAS[post].location }}, Indonesia
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <hr class="my-2">
+                                        <div class="flex items-center justify-between gap-3 mt-4">
+                                            <div class=""></div>
+                                            <div class="flex items-center gap-2">
+                                                <p class="text-sm flex items-center gap-2">
+                                                    <span class="text-[11px] font-medium">terbaru di </span>
+                                                </p>
+                                                <img class="rounded-lg" width="20" height="20" priority src="assets/img/Linkedin.png" alt="Platform">
+                                                <p class="text-sm flex items-center gap-2">
+                                                    <span class="text-[11px] font-medium">3 jam yang lalu</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-main/70 rounded-xl absolute top-0 right-0 left-0 bottom-0 flex items-center justify-center flex-col">
+                                <p class="font-medium text-white">Login untuk melihat lebih banyak lowongan dan mendapat rekomendasi yang sesuai</p>
+                                <button (click)="openLoginPanel()" class="bg-white text-main px-4 py-2 rounded-md font-medium mt-4">Login Sekarang</button>
+                            </div>
+                        </div>
                     }@else {
                         <div class="flex flex-col items-center justify-center min-h-[50vh] text-sm">
-                            <img width="100px" src="assets/img/Logo.webp" alt="logo">
+                            <img width="100px" priority ngSrc="assets/img/Logo.webp" alt="logo">
                             <div class="mt-3 text-center">
                                 <p class="font-medium text-lg">Wahh lowongan ini belum ada buat sekarang</p>
                                 <p class="text-sm text-black/80">Ayo cari lowongan lain!</p>
@@ -216,24 +266,26 @@
     </div>
 </main>
 
-<div (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/50 flex items-end lg:items-center justify-end lg:justify-center z-30" id="popup-home">
+<div (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/50 flex items-end lg:items-center justify-end z-30" id="popup-home">
     
-    <div id="popup-detail-job" class="hidden popup lg:w-1/2 bg-background noise rounded-t-2xl lg:rounded-none overflow-hidden">
-        <div *ngIf="DONE_LOADING_DETAIL == true" class="h-[70vh] lg:h-screen overflow-y-scroll lg:px-8 p-5 pb-20 py-8 relative">
+    <div id="popup-detail-job" class="hidden popup lg:w-1/2 bg-background rounded-t-2xl lg:rounded-none overflow-hidden">
+        <div *ngIf="DONE_LOADING_DETAIL == true" class="h-[70vh] lg:h-screen overflow-y-scroll lg:px-10 p-5 pb-20 py-8 relative">
             <button (click)="closePopupDetail()" type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-main font-medium text-base">
                 <i class="uil uil-arrow-left"></i> Kembali ke Beranda
             </button>
 
             <!-- MAIN INFO -->
             <div class="w-full">
-                <div class="grid lg:grid-cols-3 items-start">
-                    <p id="popup-title" class="col-span-2 text-2xl font-bold text-main mb-4 flex items-center gap-2"><span *ngIf="timeAgoNumber(POST_DATAS_DETAIL.post_date) <= 5" class="text-sm font-medium rounded text-red-500 px-2 py-0.5">Hot🔥</span>{{POST_DATAS_DETAIL.title}}</p>
-                    <button (click)="closePopupDetail()" id="close-detail-job" class="hidden lg:block justify-self-end font-medium text-2xl"><i class="uil uil-multiply"></i></button>
+                <div class="flex items-center mb-2 gap-4">
+                    <span *ngIf="timeAgoNumber(POST_DATAS_DETAIL.post_date) <= 5" class="text-sm font-medium rounded px-4 bg-red-500 text-white py-0.5">Hot</span>
+                    <!-- <span *ngIf="timeAgoNumber(POST_DATAS_DETAIL.post_date) <= 5" class="text-sm font-medium rounded px-4 bg-orange-500 text-white py-0.5">Kamu Banget</span> -->
                 </div>
-                <p class="flex gap-2 items-center text-black/70"><i class="uil uil-building"></i><span id="popup-company">{{POST_DATAS_DETAIL.company}}</span></p>
-                <p class="flex gap-2 items-center text-black/70 mt-1"><i class="uil uil-map-marker-alt"></i> <span id="popup-location">{{POST_DATAS_DETAIL.location}}</span></p>
-                <div class="flex gap-4 items-center mt-4 ">
-                    <a id="popup-link" [href]="POST_DATAS_DETAIL.link" target="_blank" rel="noopener" class="w-max px-8 block py-2.5 self-start rounded-lg text-sm font-medium bg-orange-500 text-white shadow-md hover:scale-[1.01]"><i class="uil uil-external-link-alt"></i> Buka di <span id="popup-platform">{{POST_DATAS_DETAIL.platform}}</span></a>
+
+                <p id="popup-title" class="text-3xl font-bold text-main mb-4 flex items-center gap-2">{{POST_DATAS_DETAIL.title}}</p>
+                <p class="flex gap-2 items-center text-black/70"><i class="uil uil-building text-xl"></i><span class="font-medium" id="popup-company">{{POST_DATAS_DETAIL.company}}</span></p>
+                <p class="flex gap-2 items-center text-black/70 mt-1"><i class="uil uil-map-marker-alt text-xl"></i> <span class="font-medium" id="popup-location">{{POST_DATAS_DETAIL.location}}</span></p>
+                <div class="flex gap-4 items-center mt-6">
+                    <a id="popup-link" [href]="POST_DATAS_DETAIL.link" target="_blank" rel="noopener" class="w-max px-8 block py-2.5 self-start rounded-full text-sm font-medium bg-orange-500 text-white shadow-md hover:scale-[1.01]"><i class="uil uil-external-link-alt"></i> Buka di <span id="popup-platform">{{POST_DATAS_DETAIL.platform}}</span></a>
                     <!-- <button id="close-detail-job" class="px-8 hidden lg:block text-main font-medium">Close</button> -->
                 </div>
             </div>
@@ -251,14 +303,14 @@
                 </div>
             </div>
             
-            <hr class="my-4">
+            <hr class="my-6 border-gray-300">
 
             <div class="">
                 <div id="popup-overview" class="mt-4 text-black/70 no-tailwind" [innerHTML]="POST_DATAS_DETAIL.overview"></div>
             </div>
 
         </div>
-        <div *ngIf="DONE_LOADING_DETAIL == false" class="h-[70vh] lg:h-[500px] flex items-center justify-center w-full">
+        <div *ngIf="DONE_LOADING_DETAIL == false" class="h-[70vh] lg:h-screen flex items-center justify-center w-full">
             <span class="loader"></span>
             <p class="text-sm">Menyusun loker..</p>
         </div>
