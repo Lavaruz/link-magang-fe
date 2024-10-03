@@ -18,6 +18,7 @@ declare var google: any;
 export class NavbarComponent implements OnInit, AfterViewInit {
 
   router = inject(Router)
+  BURGER_OPEN = false
 
   IS_LOGIN:any
   USER_NAVBAR!: UserInterface
@@ -54,6 +55,10 @@ export class NavbarComponent implements OnInit, AfterViewInit {
           size: 'large',
           width: 320,
         });
+        gAccounts.id.renderButton(document.getElementById('button-google-mobile') as HTMLElement, {
+          type: "standard",
+          size: "large"
+        });
   
         // Tampilkan prompt Google
         gAccounts.id.prompt();
@@ -62,8 +67,11 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   onGoogleSignIn(): void {
-    $("#popup-navbar-layer").fadeIn(function(){
-      $("#popup-login").slideToggle();
+    $("#popup-navbar").slideToggle("fast");
+    $("#popup-navbar-layer").fadeOut("fast")
+
+    $("#popup-layer-navbar").fadeIn("fast", function() {
+      $("#popup-login").slideToggle("fast");
       $("body").css("overflow", "hidden");
     }).css("display", "flex");
     // google.accounts.id.prompt(); // Menampilkan prompt Google Sign-In
@@ -87,8 +95,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
 
   openLoginPanel(){
-    $("#popup-layer-navbar").fadeIn(function() {
-      $("#popup-login").slideToggle();
+    $("#popup-layer-navbar").fadeIn("fast", function() {
+      $("#popup-login").slideToggle("fast");
       $("body").css("overflow", "hidden");
     }).css("display", "flex");
   }
@@ -102,15 +110,34 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   toggleNavbarMobile(){
-    $("#popup-navbar-layer").fadeToggle(function(){
-      $("#popup-navbar").slideToggle();
-      // $("#popup-login").slideToggle();
+    // $("#navbar-burger").toggleClass("uil-bars uil-times")
+    $("#popup-navbar-layer").fadeToggle("fast", function(){
+      $("#popup-navbar").slideToggle("fast");
     })
   }
 
   buttonLogout(){
     this.userService.deleteCookie(false)
     this.location.back()
+  }
+
+
+
+  hideAllPopup(evt:any, e:any){
+    const $this = $(evt)
+
+    console.log($this);
+    
+
+    if(e.target.id == "popup-navbar-layer"){
+      $this.children().each(function(){
+        if($(this).is(":visible")){
+          $(this).slideToggle("fast") 
+          $this.fadeOut("fast")
+          $("body").css("overflow", "auto")
+        }
+      })
+    }
   }
 
 }

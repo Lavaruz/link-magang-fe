@@ -208,7 +208,7 @@
                                 </div>
                             </div>
                             <div class="bg-main/70 rounded-xl absolute top-0 right-0 left-0 bottom-0 flex items-center justify-center flex-col">
-                                <p class="font-medium text-white">Login untuk melihat lebih banyak lowongan dan mendapat rekomendasi yang sesuai</p>
+                                <p class="font-medium text-white text-center">Login untuk melihat lebih banyak lowongan dan mendapat rekomendasi yang sesuai</p>
                                 <button (click)="openLoginPanel()" class="bg-white text-main px-4 py-2 rounded-md font-medium mt-4">Login Sekarang</button>
                             </div>
                         </div>
@@ -381,9 +381,9 @@
                     <div class="">
                         <button type="button" (click)="expandSidebar(sidebarSkillsMobile)" #sidebarSkillsMobile class="w-full flex items-center justify-between py-2">
                             <p>Keahlian</p>
-                            <i class="uil uil-angle-left"></i>
+                            <i class="uil uil-angle-down"></i>
                         </button>
-                        <div (change)="changeSkill(inputSkillsMobile)" #inputSkillsMobile *ngIf="DONE_LOADING_SIDEBAR == true" class="hidden mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
+                        <div (change)="changeSkill(inputSkillsMobile)" #inputSkillsMobile *ngIf="DONE_LOADING_SIDEBAR == true" class="mt-1 flex flex-col gap-2 overflow-y-scroll max-h-[150px]">
                             @if(SKILL_DATAS.length > 0){
                                 @for(data of SKILL_DATAS; track data.id){
                                     <div class="flex items-center gap-2 text-sm">

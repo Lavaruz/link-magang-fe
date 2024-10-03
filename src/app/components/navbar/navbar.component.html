@@ -33,17 +33,17 @@
         </div>
 
         <!-- ON MOBILE -->
-        <i (click)="toggleNavbarMobile()" class="uil uil-bars font-bold text-2xl lg:hidden cursor-pointer"></i>
+        <i id="navbar-burger" (click)="toggleNavbarMobile()" class="uil uil-bars font-bold text-2xl lg:hidden cursor-pointer"></i>
     </div>
 </nav>
 
 
-<div id="popup-navbar-layer" class="hidden fixed top-0 bottom-0 left-0 right-0 bg-black/50 z-10 flex items-end lg:items-center justify-center h-100"></div>
+<div id="popup-navbar-layer"  (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 left-0 right-0 bg-black/50 z-10 flex items-end lg:items-center justify-center h-100"></div>
 <div id="popup-navbar" class="hidden w-full bg-white border-b-2 shadow-md noise rounded-b-2xl pb-12 px-[5%] fixed z-[999] backdrop-blur-md">
     <div class="">
         <a *ngIf="DONE_LOADING_NAVBAR" id="navbar-profile-mobile" routerLink="/profile/me" class="my-4 w-full border flex text-center items-center gap-4 bg-main shadow-md py-4 noise rounded-lg px-4">
             <div class="overflow-hidden border-2 rounded-full w-9 h-9 bg-white flex items-center justify-center">
-                <img ngSrc="{{USER_NAVBAR.profile_picture}}" onerror="ngSrc='assets/img/no-profile.jpg'" alt="Profil Pic">
+                <img ngSrc="{{USER_NAVBAR.profile_picture}}" width="35" height="35" onerror="ngSrc='assets/img/no-profile.jpg'" alt="Profil Pic">
             </div>
             <div class="">
                 <p class="navbar-fullname font-medium text-white">{{USER_NAVBAR.firstname}} {{USER_NAVBAR.lastname}}</p>
@@ -66,31 +66,37 @@
                 <i class="uil uil-signout text-xl text-red-500"></i>
                 Keluar dari akun ini
             </button>
-            <button *ngIf="IS_LOGIN == false" (click)="onGoogleSignIn()" class="mt-6 w-full py-3 flex items-center gap-2 text-main font-medium rounded-lg justify-center font-second text-sm">
+            <!-- <button *ngIf="IS_LOGIN == false" (click)="loginMobile" class="mt-6 w-full py-3 flex items-center gap-2 text-main font-medium rounded-lg justify-center font-second text-sm">
                 <i class="uil uil-signout text-xl text-main"></i>
                 Masuk ke internshit
-            </button>
+            </button> -->
+            <div *ngIf="IS_LOGIN == false" class="flex flex-col items-center justify-center mt-6">
+                <p class="text-sm font-medium mb-4 text-black/80">>>> Masuk ke Internshit <<<</p>
+                <div class="w-max" #loginMobile id="button-google-mobile"></div>
+            </div>
         </div>
     </div>
 </div>
 
-<div id="popup-login" class="hidden w-full lg:w-1/3 bg-background noise rounded-t-2xl lg:rounded-2xl border-2 border-main fixed z-[999] py-8 px-[5%] lg:px-12 absolute bottom-0">
-    <div class="text-center flex flex-col items-center justify-center gap-4">
-        <img width="60" height="60" ngSrc="assets/img/Logo.webp" alt="Logo Internshit">
-        <p class="text-3xl font-medium text-main">Selamat datang di <br>Internshit</p>
-    </div>
-    <hr class="my-4">
-    <div id="no-authorized" class="">
-        <p class="text-sm text-black/70 text-center">Akses lebih banyak fitur keren, dan personalisasi lowongan dengan melengkapi profil kamu</p>
-        
-        <div class="w-full flex justify-center">
-            <button id="button-google" class="mx-auto mt-4"></button>
+<div id="popup-layer-navbar" class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/60 z-30 flex items-end lg:items-center justify-center">
+    <div id="popup-login" class="hidden w-full lg:w-1/3 bg-white noise rounded-t-xl lg:rounded-2xl border-2 border-main py-8 px-[5%] lg:px-12 relative">
+        <div class="text-center flex flex-col items-center justify-center gap-4">
+            <img ngSrc="assets/img/Logo.webp" width="60" height="60" priority alt="Logo Internshit">
+            <p class="text-3xl font-medium text-main">Selamat datang di <br>Internshit</p>
+        </div>
+        <hr class="my-4">
+        <div id="no-authorized" class="">
+            <p class="text-sm text-black/70 text-center">Akses lebih banyak fitur keren, dan personalisasi lowongan dengan melengkapi profil kamu</p>
+            
+            <div class="w-full flex justify-center">
+                <button id="button-google" class="mx-auto mt-4"></button>
+            </div>
+
+            <p class="text-xs mt-4 text-center">Dengan melanjutkan, anda menyetujui <a target="_blank" rel="noopener" routerLink="/terms-of-service" class="text-main">Terms of Service</a> dan <a target="_blank" rel="noopener" class="text-main" routerLink="/privacy-policy">Privacy Policy</a> kami</p>
         </div>
 
-        <p class="text-xs mt-4 text-center">Dengan melanjutkan, anda menyetujui <a target="_blank" rel="noopener" routerLink="/terms-of-service" class="text-main">Terms of Service</a> dan <a target="_blank" rel="noopener" class="text-main" routerLink="/privacy-policy">Privacy Policy</a> kami</p>
+        <button (click)="closeLoginPanel()" class="rounded-full w-10 h-10 flex items-center justify-center absolute top-0 right-0">
+            <i class="uil uil-times text-xl"></i>
+        </button>
     </div>
-
-    <button (click)="closeLoginPanel()" class="rounded-full w-10 h-10 flex items-center justify-center absolute top-0 right-0">
-        <i class="uil uil-times text-xl"></i>
-    </button>
 </div>
