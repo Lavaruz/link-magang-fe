@@ -279,8 +279,8 @@ export class TalentHuntComponent implements OnInit {
   openUserCard(id:any){
     this.DONE_LOADING_DETAIL = false
     
-    $("#popup-home").fadeIn(() => {
-      $("#popup-user").slideToggle()
+    $("#popup-home").fadeIn("fast",() => {
+      $("#popup-user").slideToggle("fast")
       $("body").css("overflow", "hidden")
       this.userService.getUserById(id).then(userData => {
         this.isExpandedEdu = userData.educations.map(() => false);
@@ -291,14 +291,14 @@ export class TalentHuntComponent implements OnInit {
     }).css("display", "flex")
   }
   closePopupDetail(){
-    $("#popup-user").slideToggle(function(){
-      $("#popup-home").fadeOut(function(){})
+    $("#popup-user").slideToggle("fast",function(){
+      $("#popup-home").fadeOut("fast",function(){})
       $("body").css("overflow", "auto")
     })
   }
   openFilterMobile(){
-    $("#popup-home").fadeIn(() => {
-      $("#popup-filter").slideToggle()
+    $("#popup-home").fadeIn("fast",() => {
+      $("#popup-filter").slideToggle("fast")
       $("body").css("overflow", "hidden")
     }).css("display", "flex")
   }
@@ -308,8 +308,8 @@ export class TalentHuntComponent implements OnInit {
     if(e.target.id == "popup-home"){
       $this.children().each(function(){
         if($(this).is(":visible")){
-          $(this).slideToggle(function(){
-            $this.fadeOut(function(){})
+          $(this).slideToggle("fast",function(){
+            $this.fadeOut("fast",function(){})
             $("body").css("overflow", "auto")
           }) 
         }
@@ -317,15 +317,15 @@ export class TalentHuntComponent implements OnInit {
     }
   }
   openLoginPanel(){
-    $("#popup-layer-navbar").fadeIn(function() {
-      $("#popup-login").slideToggle();
+    $("#popup-layer-navbar").fadeIn("fast",function() {
+      $("#popup-login").slideToggle("fast");
       $("body").css("overflow", "hidden");
     }).css("display", "flex");
   }
 
   closeLoginPanel(){
-    $("#popup-login").slideToggle(function() {
-      $("#popup-layer-navbar").fadeOut(function() {
+    $("#popup-login").slideToggle("fast",function() {
+      $("#popup-layer-navbar").fadeOut("fast",function() {
           $("body").css("overflow", "auto");
       });
     });

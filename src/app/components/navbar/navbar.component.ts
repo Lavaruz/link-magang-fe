@@ -53,7 +53,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
         // Render tombol Google di element dengan id "button-google"
         gAccounts.id.renderButton(document.getElementById('button-google') as HTMLElement, {
           size: 'large',
-          width: 320,
+          // width: 320,
         });
         gAccounts.id.renderButton(document.getElementById('button-google-mobile') as HTMLElement, {
           type: "standard",
@@ -102,8 +102,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   }
 
   closeLoginPanel(){
-    $("#popup-login").slideToggle(function() {
-      $("#popup-layer-navbar").fadeOut(function() {
+    $("#popup-login").slideToggle("fast", function() {
+      $("#popup-layer-navbar").fadeOut("fast", function() {
           $("body").css("overflow", "auto");
       });
     });
@@ -129,7 +129,7 @@ export class NavbarComponent implements OnInit, AfterViewInit {
     console.log($this);
     
 
-    if(e.target.id == "popup-navbar-layer"){
+    if(e.target.id == "popup-layer-navbar"){
       $this.children().each(function(){
         if($(this).is(":visible")){
           $(this).slideToggle("fast") 
