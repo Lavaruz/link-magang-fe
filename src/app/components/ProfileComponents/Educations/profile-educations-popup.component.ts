@@ -213,7 +213,7 @@ import { CommonModule } from '@angular/common';
                                                     <p class="text-xs font-semibold text-[#A5A5A5]">{{utilService.calculateMonthDifference(education.edu_startdate, education.edu_enddate).toUpperCase()}}</p>
                                                 </div>
                                             </div>
-                                            <div *ngIf="education.edu_description.length > 0" class="mb-6 paragraph flex gap-2">
+                                            <div *ngIf="education.edu_description" class="mb-6 paragraph flex gap-2">
                                                 <p>{{ isExpanded[idx] 
                                                     ? education.edu_description 
                                                     : (education.edu_description | slice: 0:100) + '...' }}

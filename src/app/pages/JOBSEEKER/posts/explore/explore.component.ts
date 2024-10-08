@@ -8,6 +8,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import $ from "jquery"
 import { UserService } from '../../../../services/user.service';
 import { Title } from '@angular/platform-browser';
+import { UtilsService } from '../../../../services/utils.service';
+import { environment } from '../../../../../environments/environment';
 
 declare var google: any;
 
@@ -20,6 +22,7 @@ declare var google: any;
 export class ExploreComponent implements OnInit {
   postService = inject(PostsService)
   userService = inject(UserService)
+  ultilService = inject(UtilsService)
   aRoute = inject(ActivatedRoute)
   router = inject(Router)
   titleService = inject(Title)
@@ -32,11 +35,13 @@ export class ExploreComponent implements OnInit {
   POST_PAGE = 1
   POST_LIMIT = 4
   POST_DATAS:any = []
+  POST_DATAS_PARTNER:any = []
   POST_DATAS_DETAIL:any
   POST_COUNT = 0
 
   IS_LOGIN = false
   LOGIN_COUNT = 0
+  USER_DATAS:any = {}
 
   LOCATION_DATAS:any
   SKILL_DATAS:any
@@ -88,8 +93,29 @@ export class ExploreComponent implements OnInit {
         search: new FormControl(params["search"]),
       })
       this.callGetPost()
+      if(this.IS_LOGIN){
+        this.userService.getUserData().then(userData => {
+          this.USER_DATAS = userData
+        })
+      }
+      // this.postService.GetAllPostsPartner(this.QUERY).then((postData:any) => {
+      //   this.POST_DATAS_PARTNER = postData.datas
+      // })
       
     })
+  }
+
+  copyToClipboard(id:any) {
+    navigator.clipboard.writeText(`${window.location.host}/posts/${id}`).then(() => {
+      alert('URL berhasil disalin ke clipboard!');
+    }).catch(err => {
+      console.error('Gagal menyalin URL: ', err);
+    });
+  }
+
+  hasMatchingSkills(userSkills: any[] = [], postSkills: any[] = []): boolean {
+    const userSkillSet = new Set(userSkills.map(skill => skill.skill));
+    return postSkills.some(skill => userSkillSet.has(skill.skill));
   }
 
   savePost(evt:Event){
@@ -139,12 +165,12 @@ export class ExploreComponent implements OnInit {
       }
     )
 
-    this.postService.GetAllPosts(this.QUERY).then(postData => {
-      this.POST_DATAS = postData.datas
-      this.POST_LIMIT = postData.limit
-      this.POST_PAGE = postData.page  
-      this.SHOW_MORE_BUTTON = false
-    })
+    // this.postService.GetAllPostsInternal(this.QUERY).then(postData => {
+    //   this.POST_DATAS = postData.datas
+    //   this.POST_LIMIT = postData.limit
+    //   this.POST_PAGE = postData.page  
+    //   this.SHOW_MORE_BUTTON = false
+    // })
   }
 
 
@@ -165,7 +191,7 @@ export class ExploreComponent implements OnInit {
     this.QUERY["page"] = this.POST_PAGE
     this.SHOW_MORE_BUTTON = this.POST_LIMIT * this.POST_PAGE < this.POST_COUNT ? true : false
 
-    this.postService.GetAllPosts(this.QUERY).then(postData => {
+    this.postService.GetAllPostsInternal(this.QUERY).then(postData => {
       this.POST_DATAS.push(...postData.datas)
       this.IS_BUTTON_LOADING = false
     })

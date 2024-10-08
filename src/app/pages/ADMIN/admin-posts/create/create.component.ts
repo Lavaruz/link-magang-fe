@@ -23,6 +23,9 @@ export class AdminPostCreateComponent implements OnInit {
   postService = inject(PostsService)
   http = inject(HttpClient)
 
+  selectedOption: string = 'Internal';
+  selectedFile: File | null = null;
+
   LOCATIONS:any = []
   OUR_LOCATIONS:any
 
@@ -81,13 +84,26 @@ export class AdminPostCreateComponent implements OnInit {
     ]
   };
 
+  onFileChange(event: any) {
+    if (event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
+  }
+
+  onSelectChange(event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    this.selectedOption = selectElement.value;
+  }
+
   ngOnInit(): void {
     this.FORM_CREATE_POST = new FormGroup({
+      category: new FormControl(this.selectedOption),
       title: new FormControl(""),
       company: new FormControl(""),
       platform: new FormControl("Glints"),
       type: new FormControl("Internship"),
       post_date: new FormControl(this.getTodayDate()),
+      end_date: new FormControl(this.getTodayDate(3)),
       link: new FormControl(""),
       overview: new FormControl(""),
       skills: new FormControl(""),
@@ -118,30 +134,53 @@ export class AdminPostCreateComponent implements OnInit {
       return
     }
 
-    this.LOADING_POST_DATA = true
-    const formData = this.FORM_CREATE_POST.value
-    formData.skills = this.activeSkills.join(";")
-    formData.post_date = moment(this.FORM_CREATE_POST.value["post_date"]).format('MM/DD/YYYY');
+    const formData = new FormData();
 
-    let isHaveLocation = this.OUR_LOCATIONS.some((location:any) => location.location.toLowerCase() == formData.location.toLowerCase() )
+    this.LOADING_POST_DATA = true
+    const formDataGroup = this.FORM_CREATE_POST.value
+    formDataGroup.skills = this.activeSkills.join(";")
+    formDataGroup.post_date = moment(this.FORM_CREATE_POST.value["post_date"]).format('MM/DD/YYYY');
+
+    Object.keys(formDataGroup).forEach(key => {
+      formData.append(key, formDataGroup[key]);
+    });
+
+    if (this.selectedOption == "Partner" && this.selectedFile) {
+      formData.append('company_logo', this.selectedFile, this.selectedFile.name);
+    }
+
+    let isHaveLocation = this.OUR_LOCATIONS.some((location:any) => location.location.toLowerCase() == formDataGroup.location.toLowerCase() )
     if(isHaveLocation == false){
-      this.userService.AddNewLocation({location: formData.location}).then(() => {
+      this.userService.AddNewLocation({location: formDataGroup.location}).then(() => {
         this.postService.CreateNewPost(formData).then(postedData => {
-          this.LOADING_POST_DATA = false
-          location.reload()
+          try {
+            if(postedData && postedData?.status !== 400){
+              this.LOADING_POST_DATA = false
+              location.reload()
+            }else{
+              alert(postedData.error.message)
+            }
+          } catch (error:any) {
+            console.error(error);
+            alert("ERROR")
+          }
         })
       })
     }else{
       this.postService.CreateNewPost(formData).then(postedData => {
-        this.LOADING_POST_DATA = false
-        location.reload()
+        try {
+          if(postedData && postedData?.status !== 400){
+            this.LOADING_POST_DATA = false
+            location.reload()
+          }else{
+            alert(postedData.error.message)
+          }
+        } catch (error:any) {
+          console.log(error);
+          alert("ERROR")          
+        }
       })
     }
-    
-    
-    
-    
-    
   }
 
   setSkillsToActive(skill: any, event: any) {
@@ -166,11 +205,11 @@ export class AdminPostCreateComponent implements OnInit {
     return skill ? skill.skill : '';
   }
 
-  getTodayDate() {
+  getTodayDate(plus = 0) {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0'); // Add leading zero
-    const day = String(today.getDate()).padStart(2, '0'); // Add leading zero
+    const day = String(today.getDate() + plus).padStart(2, '0'); // Add leading zero
     return `${year}-${month}-${day}`; // Return formatted date
   }
 

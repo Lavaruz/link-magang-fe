@@ -51,7 +51,7 @@ import { UtilsService } from '../../../services/utils.service';
                     </div>
 
                     <!-- BODY -->
-                    <div *ngIf="experience.exp_description.length > 0" class="mb-6 paragraph flex gap-2">
+                    <div *ngIf="experience.exp_description" class="mb-6 paragraph flex gap-2">
                       <p>{{ isExpanded[idx] 
                             ? experience.exp_description 
                             : (experience.exp_description | slice: 0:100) + '...' }}

@@ -193,94 +193,96 @@
 
 
             <div *ngIf="DONE_LOADING == true" class="">
-                <div id="cards" class="grid lg:grid-cols-2 gap-6 mt-8">
-                    <!-- Ketika posisinya login maka ini akan menjadi kartu user -->
-                    @if(USER_DATA){
-                        <div (click)="openUserCard(USER_DATA.id)" class="card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
-                            <div class="w-full">
-                                <div class="flex items-center gap-2 pb-2.5">
-                                    <div class="w-[70px] max-w-[70px] h-[70px] min-w-[70px] min-h-[70px] rounded-full overflow-hidden mx-auto lg:mx-0">
-                                        <img id="basic-profile-pic" [src]="USER_DATA.profile_picture" onerror="src='assets/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
-                                    </div>
-                                    <div class="mb-2 w-full truncate">
-                                        <p id="basic-fullname" class="font-bold text-lg lg:text-xl text-main flex items-center gap-1"><span class="text-blue-500" *ngIf="USER_DATA.sex == 'Male'"><i class="uil uil-mars"></i></span><span class="text-red-500" *ngIf="USER_DATA.sex == 'Female'"><i class="uil uil-venus"></i></span>{{USER_DATA.firstname}} {{USER_DATA.lastname  ? USER_DATA.lastname : ""}}</p>
-                                        <p class="basic-current-position text-sm text-thrid/60 font-medium mb-1">{{USER_DATA.headline}}</p>
-                                        @if(USER_DATA.active_search == true){
-                                            <span class="text-xs bg-orange-500 px-4 py-0.5 rounded text-white font-medium"> Aktif</span>
-                                        }@else {
-                                            <span title="Aktifkan visibilitas di profil kamu" class="text-xs bg-red-500 px-3 py-0.5 rounded text-white font-medium"><i class="uil uil-info-circle"></i> Tidak aktif</span>
-                                        }
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="flex flex-col justify-between h-max">
-                                    <div class="flex gap-2 mt-3 flex-wrap">
-                                        <div class="flex gap-2 flex-wrap" *ngIf="USER_DATA.skills && USER_DATA.skills.length > 0">
-                                            <ng-container *ngFor="let skill of getActiveSkills(USER_DATA.skills)">
-                                                <button class="text-xs bg-main text-white px-2 py-1 rounded">
-                                                {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
-                                                </button>
-                                            </ng-container>
-                                            <button *ngIf="getRemainingSkills(USER_DATA.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
-                                                +{{ getRemainingSkills(USER_DATA.skills).length }}
-                                            </button>
+                <div id="cards" class="">
+                    <div class="grid lg:grid-cols-2 gap-6 mt-8">
+                        <!-- Ketika posisinya login maka ini akan menjadi kartu user -->
+                        @if(USER_DATA){
+                            <div (click)="openUserCard(USER_DATA.id)" class="card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
+                                <div class="w-full">
+                                    <div class="flex items-center gap-2 pb-2.5">
+                                        <div class="w-[70px] max-w-[70px] h-[70px] min-w-[70px] min-h-[70px] rounded-full overflow-hidden mx-auto lg:mx-0">
+                                            <img id="basic-profile-pic" [src]="USER_DATA.profile_picture" onerror="src='assets/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="mb-2 w-full truncate">
+                                            <p id="basic-fullname" class="font-bold text-lg lg:text-xl text-main flex items-center gap-1"><span class="text-blue-500" *ngIf="USER_DATA.sex == 'Male'"><i class="uil uil-mars"></i></span><span class="text-red-500" *ngIf="USER_DATA.sex == 'Female'"><i class="uil uil-venus"></i></span>{{USER_DATA.firstname}} {{USER_DATA.lastname  ? USER_DATA.lastname : ""}}</p>
+                                            <p class="basic-current-position text-sm text-thrid/60 font-medium mb-1">{{USER_DATA.headline}}</p>
+                                            @if(USER_DATA.active_search == true){
+                                                <span class="text-xs bg-orange-500 px-4 py-0.5 rounded text-white font-medium"> Aktif</span>
+                                            }@else {
+                                                <span title="Aktifkan visibilitas di profil kamu" class="text-xs bg-red-500 px-3 py-0.5 rounded text-white font-medium"><i class="uil uil-info-circle"></i> Tidak aktif</span>
+                                            }
                                         </div>
                                     </div>
-                                    <div class="pt-2 justify-self-end">
-                                        <p class="text-sm flex items-center mt-2"><i class="uil uil-university"></i><span class="ms-2">{{USER_DATA.educations.length > 0 ? USER_DATA.educations[0].edu_type + " • " + USER_DATA.educations[0].edu_program + " • " + USER_DATA.educations[0].edu_institution : "Pendidikan belum ditambahkan"}}</span></p>
-                                        <p class="text-sm flex items-center mt-2"><i class="uil uil-bag-alt"></i><span class="ms-2">{{USER_DATA.experiences.length > 0 ? USER_DATA.experiences[0].exp_position + " • " + USER_DATA.experiences[0].exp_orgname : "Pengalaman belum ditambahkan"}}</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    @if(ACTIVE_USER.length > 0){
-                        @for(user of ACTIVE_USER; track user.id){
-                            <div (click)="openUserCard(user.id)" class="group card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
-                                <div class="w-full flex flex-col justify-between">
-                                    <div class="">
-                                        <div class="flex items-center gap-2 pb-2.5">
-                                            <div class="w-[70px] max-w-[70px] h-[70px] min-w-[70px] min-h-[70px] rounded-full overflow-hidden mx-auto lg:mx-0">
-                                                <img id="basic-profile-pic" [src]="user.profile_picture" onerror="src='/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
-                                            </div>
-                                            <div class="mb-2 w-full truncate group-hover:truncate-none">
-                                                <p class="basic-fullname font-bold text-lg lg:text-xl text-main flex items-center gap-1 lg:w-full w-[50vw]"><span class="text-blue-500" *ngIf="user.sex == 'Male'"><i class="uil uil-mars"></i></span><span class="text-red-500" *ngIf="user.sex == 'Female'"><i class="uil uil-venus"></i></span>{{user.firstname}} {{user.lastname  ? user.lastname : ""}}</p>
-                                                <p class="basic-current-position text-sm text-thrid/60 font-medium mb-1 lg:w-full w-[50vw]">{{user.headline}}</p>
-                                            </div>
-                                        </div>
-                                        <hr>
+                                    <hr>
+                                    <div class="flex flex-col justify-between h-max">
                                         <div class="flex gap-2 mt-3 flex-wrap">
-                                            <div class="flex gap-2 flex-wrap" *ngIf="user.skills && user.skills.length > 0">
-                                                <ng-container *ngFor="let skill of getActiveSkills(user.skills)">
+                                            <div class="flex gap-2 flex-wrap" *ngIf="USER_DATA.skills && USER_DATA.skills.length > 0">
+                                                <ng-container *ngFor="let skill of getActiveSkills(USER_DATA.skills)">
                                                     <button class="text-xs bg-main text-white px-2 py-1 rounded">
-                                                    {{ skill.skill.length >= 15 ? skill.skill.substring(0, 15) + '..' : skill.skill }}
+                                                    {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
                                                     </button>
                                                 </ng-container>
-                                                <button *ngIf="getRemainingSkills(user.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
-                                                    +{{ getRemainingSkills(user.skills).length }}
+                                                <button *ngIf="getRemainingSkills(USER_DATA.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
+                                                    +{{ getRemainingSkills(USER_DATA.skills).length }}
                                                 </button>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="pt-2 justify-self-end">
-                                        <p class="text-sm flex items-center mt-2"><i class="uil uil-university"></i><span class="ms-2">{{user.educations.length > 0 ? user.educations[0].edu_type + " • " + user.educations[0].edu_program + " • " + user.educations[0].edu_institution : "Pendidikan belum ditambahkan"}}</span></p>
-                                        <p class="text-sm flex items-center mt-2"><i class="uil uil-bag-alt"></i><span class="ms-2">{{user.experiences.length > 0 ? user.experiences[0].exp_position + " • " + user.experiences[0].exp_orgname : "Pengalaman belum ditambahkan"}}</span></p>
+                                        <div class="pt-2 justify-self-end">
+                                            <p class="text-sm flex items-center mt-2"><i class="uil uil-university"></i><span class="ms-2">{{USER_DATA.educations.length > 0 ? USER_DATA.educations[0].edu_type + " • " + USER_DATA.educations[0].edu_program + " • " + USER_DATA.educations[0].edu_institution : "Pendidikan belum ditambahkan"}}</span></p>
+                                            <p class="text-sm flex items-center mt-2"><i class="uil uil-bag-alt"></i><span class="ms-2">{{USER_DATA.experiences.length > 0 ? USER_DATA.experiences[0].exp_position + " • " + USER_DATA.experiences[0].exp_orgname : "Pengalaman belum ditambahkan"}}</span></p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         }
-                    }@else if(ACTIVE_USER.length == 0 && !USER_DATA) {
-                        <div class="col-span-2 flex flex-col items-center justify-center min-h-[50vh] text-center">
-                            <p class="font-medium text-lg">Wah talent yang kamu cari belum ada</p>
-                            <p class="text-sm text-black/80">Ayo cari talent dengan kualifikasi lain, banyak loh talent yang berkualitas disini</p>
-                            <button (click)="resetFilter()" class="bg-main text-white px-4 py-2 rounded-md mt-4">Cari Talent Lain <i class="uil uil-arrow-right"></i></button>
-                        </div>
-                    }
+                        @if(ACTIVE_USER.length > 0){
+                            @for(user of ACTIVE_USER; track user.id){
+                                <div (click)="openUserCard(user.id)" class="group card-user flex flex-col lg:flex-row gap-5 rounded-2xl border hover:border-main p-5 bg-white shadow-lg hover:scale-[1.005] duration-100 cursor-pointer">
+                                    <div class="w-full flex flex-col justify-between">
+                                        <div class="">
+                                            <div class="flex items-center gap-2 pb-2.5">
+                                                <div class="w-[70px] max-w-[70px] h-[70px] min-w-[70px] min-h-[70px] rounded-full overflow-hidden mx-auto lg:mx-0">
+                                                    <img id="basic-profile-pic" [src]="user.profile_picture" onerror="src='/img/no-profile.jpg'" alt="profile-picture" class="w-full h-full object-cover">
+                                                </div>
+                                                <div class="mb-2 w-full truncate group-hover:truncate-none">
+                                                    <p class="basic-fullname font-bold text-lg lg:text-xl text-main flex items-center gap-1 lg:w-full w-[50vw]"><span class="text-blue-500" *ngIf="user.sex == 'Male'"><i class="uil uil-mars"></i></span><span class="text-red-500" *ngIf="user.sex == 'Female'"><i class="uil uil-venus"></i></span>{{user.firstname}} {{user.lastname  ? user.lastname : ""}}</p>
+                                                    <p class="basic-current-position text-sm text-thrid/60 font-medium mb-1 lg:w-full w-[50vw]">{{user.headline}}</p>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="flex gap-2 mt-3 flex-wrap">
+                                                <div class="flex gap-2 flex-wrap" *ngIf="user.skills && user.skills.length > 0">
+                                                    <ng-container *ngFor="let skill of getActiveSkills(user.skills)">
+                                                        <button class="text-xs bg-main text-white px-2 py-1 rounded">
+                                                        {{ skill.skill.length >= 15 ? skill.skill.substring(0, 15) + '..' : skill.skill }}
+                                                        </button>
+                                                    </ng-container>
+                                                    <button *ngIf="getRemainingSkills(user.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
+                                                        +{{ getRemainingSkills(user.skills).length }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="pt-2 justify-self-end">
+                                            <p class="text-sm flex items-center mt-2"><i class="uil uil-university"></i><span class="ms-2">{{user.educations.length > 0 ? user.educations[0].edu_type + " • " + user.educations[0].edu_program + " • " + user.educations[0].edu_institution : "Pendidikan belum ditambahkan"}}</span></p>
+                                            <p class="text-sm flex items-center mt-2"><i class="uil uil-bag-alt"></i><span class="ms-2">{{user.experiences.length > 0 ? user.experiences[0].exp_position + " • " + user.experiences[0].exp_orgname : "Pengalaman belum ditambahkan"}}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }@else if(ACTIVE_USER.length == 0 && !USER_DATA) {
+                            <div class="col-span-2 flex flex-col items-center justify-center min-h-[50vh] text-center">
+                                <p class="font-medium text-lg">Wah talent yang kamu cari belum ada</p>
+                                <p class="text-sm text-black/80">Ayo cari talent dengan kualifikasi lain, banyak loh talent yang berkualitas disini</p>
+                                <button (click)="resetFilter()" class="bg-main text-white px-4 py-2 rounded-md mt-4">Cari Talent Lain <i class="uil uil-arrow-right"></i></button>
+                            </div>
+                        }
+                    </div>
+                    <button type="button" (click)="addPage()" *ngIf="SHOW_MORE_BUTTON == true" [disabled]="IS_BUTTON_LOADING == true" class="mt-16 disabled:opacity-50 shadow-lg hover:scale-[1.01] duration-200 bg-main px-8 py-3 rounded-full text-white w-max block m-auto font-medium flex items-center gap-2">
+                        <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == false">Lebih Banyak <i class="uil uil-angle-down text-xl"></i></span>
+                        <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == true">Loading..</span>
+                    </button>
                 </div>
-                <button type="button" (click)="addPage()" *ngIf="SHOW_MORE_BUTTON == true" [disabled]="IS_BUTTON_LOADING == true" class="mt-16 disabled:opacity-50 shadow-lg hover:scale-[1.01] duration-200 bg-main px-8 py-3 rounded-full text-white w-max block m-auto font-medium flex items-center gap-2">
-                    <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == false">Lebih Banyak <i class="uil uil-angle-down text-xl"></i></span>
-                    <span class="flex items-center gap-2" *ngIf="IS_BUTTON_LOADING == true">Loading..</span>
-                </button>
             </div>
 
             <div class="grid lg:grid-cols-2 gap-6 mt-8" *ngIf="DONE_LOADING == false">
@@ -356,11 +358,11 @@
                 </div>
                 <div class="lg:justify-self-end mt-8 lg:mt-0 flex divide-x divide-gray-400 items-center justify-center w-full lg:w-max">
                     <div class="text-center px-4">
-                        <p id="popup-work-pref" class="font-semibold leading-tight text-lg text-black/80">WFO</p>
+                        <p id="popup-work-pref" class="font-semibold leading-tight text-lg text-black/80">{{ACTIVE_USER_DETAIL.work_pref_status}}</p>
                         <small class="text-black/60">Preferensi Pekerjaan</small>
                     </div>
                     <div class="text-center px-4">
-                        <p id="popup-domicile" class="font-semibold leading-tight text-lg text-black/80">Citayam</p>
+                        <p id="popup-domicile" class="font-semibold leading-tight text-lg text-black/80">{{ACTIVE_USER_DETAIL.domicile}}</p>
                         <small class="text-black/60">Domisili</small>
                     </div>
                 </div>

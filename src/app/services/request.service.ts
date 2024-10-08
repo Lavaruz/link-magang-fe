@@ -42,7 +42,7 @@ export class RequestService {
       'Authorization': this.getAuthentication(),
       // 'responseType': 'json'
     }
-      
+
     if(options == null)
       list_headers['Content-Type'] = 'application/json';
     else {
@@ -60,7 +60,6 @@ export class RequestService {
     } else{
       httpOptions = list_headers;
     }
-
       return httpOptions;
   }
 
@@ -79,12 +78,12 @@ export class RequestService {
   encryptData(data:any) {
     if(environment.secure == false) return data;
     
-    if(typeof data == 'object') {
-      data = JSON.stringify(data);
-    } else if(data instanceof FormData) {
+    if(data instanceof FormData) {
       data = this.HandleFormData(data);
       return data
-    }
+    }else if(typeof data == 'object') {
+      data = JSON.stringify(data);
+    } 
 
     return {d: CryptoJS.AES.encrypt(data, environment.AES_KEY.toString()).toString()};
   }
@@ -108,9 +107,9 @@ export class RequestService {
     });
   }
 
-  postEncryptedRequest(url: string = "", post_data: any, option:any={}) {
+  postEncryptedRequest(url: string = "", post_data: any, options:any={httpOptions: {}}) {
     const toURL = `${this.rootURL}${url}`;
-    const httpOptions = this.getHeaders(option)
+    const httpOptions = this.getHeaders({options: options.httpOptions})
     post_data = this.encryptData(post_data)
 
     return new Promise((resolve, reject) => {

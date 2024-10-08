@@ -17,6 +17,23 @@ export class PostsService {
     }
   }
 
+  async GetAllPostsInternal(QUERY: any) {
+    try {
+      const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts/internal?limit=${QUERY.limit}&page=${QUERY.page}&search=${QUERY.search}&type=${QUERY.type}&locations=${QUERY.locations}&skills=${QUERY.skills}`);
+      return postData
+    } catch (error) {
+      console.error('Error on Get Membership Price:', error);
+    }
+  }
+  async GetAllPostsPartner(QUERY: any) {
+    try {
+      const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts/partner?limit=${QUERY.limit}&page=${QUERY.page}&search=${QUERY.search}&type=${QUERY.type}&locations=${QUERY.locations}&skills=${QUERY.skills}`);
+      return postData
+    } catch (error) {
+      console.error('Error on Get Membership Price:', error);
+    }
+  }
+
   async GetAllMatchPosts(QUERY: any) {
     try {
       const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts/match?limit=${QUERY.limit}&page=${QUERY.page}&search=${QUERY.search}`);
@@ -46,10 +63,10 @@ export class PostsService {
 
   async CreateNewPost(newPostData:any) {
     try {
-      const postData:any = await this.requestServices.postEncryptedRequest(`/api/v1/posts`, newPostData);
+      const postData:any = await this.requestServices.postEncryptedRequest(`/api/v1/posts`, newPostData, { httpOptions: {} });
       return postData
     } catch (error) {
-      console.error('Error on Get Membership Price:', error);
+      return error
     }
   }
 
@@ -58,7 +75,7 @@ export class PostsService {
       const postData:any = await this.requestServices.deleteEncryptedRequest(`/api/v1/posts?ids=${postIds}`);
       return postData
     } catch (error) {
-      console.error('Error on Get Membership Price:', error);
+      return error
     }
   }
 }

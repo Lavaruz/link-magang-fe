@@ -12,6 +12,7 @@ import { AdminUsersComponent } from './pages/ADMIN/admin-users/admin-users.compo
 import { AdminAdditionalsComponent } from './pages/ADMIN/admin-additionals/admin-additionals.component';
 import { AdminPostCreateComponent } from './pages/ADMIN/admin-posts/create/create.component';
 import { AdminPostEditComponent } from './pages/ADMIN/admin-posts/edit/edit.component';
+import { DetailComponent } from './pages/JOBSEEKER/posts/detail/detail.component';
 
 export const routes: Routes = [
     { path: "", redirectTo:"posts/explore", pathMatch: "full" },
@@ -22,6 +23,7 @@ export const routes: Routes = [
             {path:"foryou", component: PostsForYouComponent},
             {path:"explore", component: ExploreComponent},
             {path:"bookmark", component: BookmarkComponent},
+            {path:":id", component: DetailComponent},
         ]
     },
     { 

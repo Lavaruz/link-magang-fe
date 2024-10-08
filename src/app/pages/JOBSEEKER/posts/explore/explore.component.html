@@ -110,10 +110,12 @@
                     </div>
                     <button aria-label="buka filter" type="button" (click)="openFilterMobile()" class="lg:hidden bg-white border-2 rounded-md hover:shadow-lg duration-300 px-2.5 py-1"><i class="uil uil-sliders-v-alt rotate-90"></i></button>
                 </form>
+                
 
                 <p class="text-gray-700 dark:text-gray-400 font-medium text-black/60">
-                    Menampilkan {{POST_DATAS.length}} lowongan dari {{POST_COUNT}}
+                    Menampilkan {{POST_DATAS.length + POST_DATAS_PARTNER.length}} lowongan dari {{POST_COUNT}}
                 </p>
+
                 
                 <div *ngIf="DONE_LOADING == true" class="">
                     @if(POST_DATAS.length > 0){
@@ -123,11 +125,12 @@
                                     <div class="">
                                         <!-- <button class="text-xs bg-orange-500 text-white px-2 py-1 rounded mb-2">{{post.type}}</button> -->
                                         <!-- TITLE -->
-                                        <div class="flex justify-between items-center">
-                                            <p class="font-medium text-black mb-2 flex items-center gap-2"><span class="text-red-500 text-sm" *ngIf="timeAgoNumber(post.post_date) <= 2">Hot🔥</span>{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
-                                            <svg (click)="savePost($event)" class="hover:fill-main hover:scale-[1.1]" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                                        <div class="flex justify-between items-center mb-3">
+                                            <p class="font-medium text-black flex items-center gap-2"><span class="text-red-500 text-sm" *ngIf="timeAgoNumber(post.post_date) <= 2">Hot🔥</span>{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
+                                            <svg *ngIf="post.category == 'Internal'" (click)="savePost($event)" class="hover:fill-main hover:scale-[1.1]" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
                                                 <path d="M 12.8125 2 C 12.335938 2.089844 11.992188 2.511719 12 3 L 12 47 C 11.996094 47.359375 12.1875 47.691406 12.496094 47.871094 C 12.804688 48.054688 13.1875 48.054688 13.5 47.875 L 25 41.15625 L 36.5 47.875 C 36.8125 48.054688 37.195313 48.054688 37.503906 47.871094 C 37.8125 47.691406 38.003906 47.359375 38 47 L 38 3 C 38 2.449219 37.550781 2 37 2 L 13 2 C 12.96875 2 12.9375 2 12.90625 2 C 12.875 2 12.84375 2 12.8125 2 Z M 14 4 L 36 4 L 36 45.25 L 25.5 39.125 C 25.191406 38.945313 24.808594 38.945313 24.5 39.125 L 14 45.25 Z"></path>
                                             </svg>
+                                            <p *ngIf="post.category == 'Partner'" class="text-xs text-orange-500 font-medium">Dipromosikan</p>
                                         </div>
                                         <!-- SKILLS -->
                                         <div class="flex gap-2 flex-wrap" *ngIf="post.skills && post.skills.length > 0">
@@ -141,18 +144,31 @@
                                             </button>
                                         </div>
                                         <!-- ADDITIONAL INFO -->
-                                        <p class="text-sm flex items-center gap-2 mt-4 font-medium text-black/70"><i class="uil uil-building"></i>{{post.company.length > 38 ? post.company.substring(0,38) + ".." : post.company}} • {{post.type}}</p>
-                                        <p class="text-sm flex items-center gap-2 mt-1"><i class="uil uil-location-point"></i>{{post.location}}</p>
+                                        <div class="flex items-center gap-3 mt-4">
+                                            <img *ngIf="post.category == 'Partner'" [ngSrc]="post.company_logo" class="rounded" width="40" height="40" alt="">
+                                            <div class="">
+                                                <p class="text-sm flex items-center gap-2 font-medium text-black/70"><i class="uil uil-building"></i>{{post.company.length > 38 ? post.company.substring(0,38) + ".." : post.company}}</p>
+                                                <p class="text-sm flex items-center gap-2 mt-1"><i class="uil uil-location-point"></i>{{post.location}}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="">
                                         <hr class="my-2">
                                         <div class="flex items-center justify-between gap-3 mt-4">
-                                            <div class=""></div>
-                                            <div class="flex items-center gap-2">
+                                            <ng-container *ngIf="IS_LOGIN && hasMatchingSkills(USER_DATAS.skills, post.skills) as hasSkills; else emptyDiv">
+                                                <span *ngIf="hasSkills" class="text-[10px] lg:text-xs font-medium px-2 py-0.5 bg-orange-500 text-white">Kamu banget</span>
+                                            </ng-container>
+                                            <ng-template #emptyDiv>
+                                                <div></div>
+                                            </ng-template>
+                                            <div *ngIf="post.category == 'Internal'" class="flex items-center gap-2">
                                                 <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgoNumber(post.post_date) <= 2 ? "terbaru di " : "muncul di "}}</span></p>
                                                 <!-- <div [innerHTML]="getPlatformImage(post.platform)"></div> -->
                                                 <img class="rounded-lg" width="20" height="20" priority [ngSrc]="getPlatformImageUrl(post.platform)" alt="{{post.platform}}">
                                                 <p *ngIf="timeAgoNumber(post.post_date) > 2" class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgo(post.post_date)}}</span></p>
+                                            </div>
+                                            <div *ngIf="post.category == 'Partner'" class="flex items-center gap-2">
+                                                <p class="text-xs font-medium">Lamar sebelum <span class="text-red-500">{{ultilService.formatIndonesianDateFull(post.end_date)}}</span></p>
                                             </div>
                                         </div>
                                     </div>
@@ -207,14 +223,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="bg-main/70 rounded-xl absolute top-0 right-0 left-0 bottom-0 flex items-center justify-center flex-col">
+                            <div class="bg-main/70 rounded-xl absolute top-0 right-0 left-0 bottom-0 flex items-center justify-center flex-col px-5">
                                 <p class="font-medium text-white text-center">Login untuk melihat lebih banyak lowongan dan mendapat rekomendasi yang sesuai</p>
                                 <button (click)="openLoginPanel()" class="bg-white text-main px-4 py-2 rounded-md font-medium mt-4">Login Sekarang</button>
                             </div>
                         </div>
                     }@else {
                         <div class="flex flex-col items-center justify-center min-h-[50vh] text-sm">
-                            <img width="100px" priority ngSrc="assets/img/Logo.webp" alt="logo">
+                            <img width="100" height="100" priority ngSrc="assets/img/Logo.webp" alt="logo">
                             <div class="mt-3 text-center">
                                 <p class="font-medium text-lg">Wahh lowongan ini belum ada buat sekarang</p>
                                 <p class="text-sm text-black/80">Ayo cari lowongan lain!</p>
@@ -278,16 +294,19 @@
             <!-- MAIN INFO -->
             <div class="w-full">
                 <div class="flex items-center mb-2 gap-4">
+                    <span *ngIf="POST_DATAS_DETAIL.category == 'Partner'" class="text-sm font-medium rounded px-4 bg-main text-white py-0.5">Partner</span>
                     <span *ngIf="timeAgoNumber(POST_DATAS_DETAIL.post_date) <= 5" class="text-sm font-medium rounded px-4 bg-red-500 text-white py-0.5">Hot</span>
-                    <!-- <span *ngIf="timeAgoNumber(POST_DATAS_DETAIL.post_date) <= 5" class="text-sm font-medium rounded px-4 bg-orange-500 text-white py-0.5">Kamu Banget</span> -->
+                    <ng-container *ngIf="IS_LOGIN && hasMatchingSkills(USER_DATAS.skills, POST_DATAS_DETAIL.skills) as hasSkills;">
+                        <span *ngIf="hasSkills" class="text-sm font-medium rounded px-4 bg-red-500 text-white py-0.5">Kamu banget!</span>
+                    </ng-container>
                 </div>
 
-                <p id="popup-title" class="text-3xl font-bold text-main mb-4 flex items-center gap-2">{{POST_DATAS_DETAIL.title}}</p>
+                <p id="popup-title" class="text-3xl font-bold text-main mb-4">{{POST_DATAS_DETAIL.title}}</p>
                 <p class="flex gap-2 items-center text-black/70"><i class="uil uil-building text-xl"></i><span class="font-medium" id="popup-company">{{POST_DATAS_DETAIL.company}}</span></p>
                 <p class="flex gap-2 items-center text-black/70 mt-1"><i class="uil uil-map-marker-alt text-xl"></i> <span class="font-medium" id="popup-location">{{POST_DATAS_DETAIL.location}}</span></p>
-                <div class="flex gap-4 items-center mt-6">
-                    <a id="popup-link" [href]="POST_DATAS_DETAIL.link" target="_blank" rel="noopener" class="w-max px-8 block py-2.5 self-start rounded-full text-sm font-medium bg-orange-500 text-white shadow-md hover:scale-[1.01]"><i class="uil uil-external-link-alt"></i> Buka di <span id="popup-platform">{{POST_DATAS_DETAIL.platform}}</span></a>
-                    <!-- <button id="close-detail-job" class="px-8 hidden lg:block text-main font-medium">Close</button> -->
+                <div class="flex gap-4 lg:items-center flex-wrap mt-6">
+                    <a id="popup-link" [href]="POST_DATAS_DETAIL.link" target="_blank" rel="noopener" class="w-max px-8 block py-2.5 self-start rounded-full text-sm font-medium bg-orange-500 text-white shadow-md hover:scale-[1.01]"><i class="uil uil-external-link-alt"></i> Buka di <span id="popup-platform">{{POST_DATAS_DETAIL.platform == "Lainnya..." ? "Halaman Recruiter" : POST_DATAS_DETAIL.platform}}</span></a>
+                    <button (click)="copyToClipboard(POST_DATAS_DETAIL.id)" class="w-max text-main font-medium flex items-center gap-2"><i class="uil uil-copy"></i> Salin Lowongan</button>
                 </div>
             </div>
 

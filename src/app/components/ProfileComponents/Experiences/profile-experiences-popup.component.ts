@@ -244,7 +244,7 @@ import { CommonModule } from '@angular/common';
                                                     <p class="text-xs font-semibold text-[#A5A5A5]">{{ utilService.calculateMonthDifference(experience.exp_startdate, experience.exp_enddate ? experience.exp_enddate : utilService.getFormattedDate()).toUpperCase() }}</p>
                                                 </div>
                                             </div>
-                                            <div *ngIf="experience.exp_description.length > 0" class="mb-6 paragraph flex gap-2">
+                                            <div *ngIf="experience.exp_description" class="mb-6 paragraph flex gap-2">
                                                 <p>{{ isExpanded[idx] 
                                                         ? experience.exp_description 
                                                         : (experience.exp_description | slice: 0:100) + '...' }}

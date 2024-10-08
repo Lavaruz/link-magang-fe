@@ -81,7 +81,7 @@ export class TalentHuntComponent implements OnInit {
         return education.edu_institution
       })))
       setTimeout(() => {
-        this.checkSelectedCheckboxes(this.PARAMS["gender"])
+        this.checkSelectedCheckboxes(this.PARAMS["gender"] || "")
         this.checkSelectedCheckboxes(this.PARAMS["work_pref"] || "")
         this.checkSelectedCheckboxes(this.PARAMS["institute"] || "")
         this.checkSelectedCheckboxes(this.PARAMS["edu_type"] || "")
@@ -121,11 +121,11 @@ export class TalentHuntComponent implements OnInit {
     this.IS_BUTTON_LOADING = true
     this.POST_PAGE++
     this.QUERY["page"] = this.POST_PAGE
-    this.SHOW_MORE_BUTTON = this.POST_LIMIT * this.POST_PAGE < this.TOTAL_ENTRIES
-
+    
     this.userService.getAllUserActiveData(this.QUERY).then(activeUser => {
       this.ACTIVE_USER.push(...activeUser.datas)
       this.IS_BUTTON_LOADING = false
+      this.SHOW_MORE_BUTTON = this.POST_LIMIT * this.POST_PAGE < this.TOTAL_ENTRIES
     })
   }
 
@@ -134,6 +134,7 @@ export class TalentHuntComponent implements OnInit {
 
     this.QUERY.search_person = this.FORM_SEARCH.value.search_person
     this.QUERY.page = 1
+    this.POST_PAGE = 1
 
     this.router.navigate(
       [],{

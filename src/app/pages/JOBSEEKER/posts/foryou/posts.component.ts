@@ -8,6 +8,8 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import $ from "jquery"
+import { UtilsService } from '../../../../services/utils.service';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-posts',
@@ -20,6 +22,7 @@ export class PostsForYouComponent implements OnInit {
   titleService = inject(Title)
   userService = inject(UserService)
   postService = inject(PostsService)
+  utilService = inject(UtilsService)
   aRoute = inject(ActivatedRoute)
   router = inject(Router)
 
@@ -69,6 +72,14 @@ export class PostsForYouComponent implements OnInit {
         this.DONE_LOADING = true
       }
     })
+  }
+
+  copyToClipboard(id:any) {
+    navigator.clipboard.writeText(`${window.location.host}/posts/${id}`).then(() => {
+      alert('URL berhasil disalin ke clipboard!');
+    }).catch(err => {
+      console.error('Gagal menyalin URL: ', err);
+    });
   }
 
   savePost(){

@@ -16,12 +16,24 @@
 
                 <div class="px-8">
                     <form [formGroup]="FORM_CREATE_POST" (submit)="submitFormCreate()" id="form-create-post" class="mt-10 min-h-[50vh] bg-white border-2 rounded-[1.5rem] shadow-md py-12 px-5">
-                        <div class="relative w-full lg:w-1/2">
-                            <input formControlName="title" type="text" name="title" id="floating-phone-number" class="block py-2.5 pe-0 w-full text-gray-900 font-medium bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
-                            <label for="floating-phone-number" class="absolute text-sm text-main duration-300 transform -translate-y-6 z-10 scale-75 top-3 origin-[0] peer-placeholder-shown:start-4 peer-focus:start-0 peer-focus:text-main peer-focus:dark:text-main peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Job Position*</label>
+                        <div class="flex gap-4 items-center">
+                            <select (change)="onSelectChange($event)" formControlName="category" class="w-full lg:w-1/6 rounded-lg border-2 border-gray-300 placeholder-black/30">
+                                <option value="Internal" selected>Internal</option>
+                                <option value="Partner">Partner</option>
+                            </select>
+                          
+                            <div class="relative w-full lg:w-1/2">
+                                <input formControlName="title" type="text" id="floating-phone-number" class="block py-2.5 pe-0 w-full text-gray-900 font-medium bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                                <label for="floating-phone-number" class="absolute text-sm text-main duration-300 transform -translate-y-6 z-10 scale-75 top-3 origin-[0] peer-placeholder-shown:start-4 peer-focus:start-0 peer-focus:text-main peer-focus:dark:text-main peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">Job Position*</label>
+                            </div>
                         </div>
-                
+                          
                         <hr class="my-8">
+                          
+                        <div *ngIf="selectedOption === 'Partner'">
+                            <label for="company-logo" class="block text-sm font-medium text-black/70 mb-2">COMPANY LOGO*</label>
+                            <input (change)="onFileChange($event)" accept="image/*" type="file" id="company-logo">
+                        </div>
 
                         <div class="mt-6 flex flex-col gap-6">
 
@@ -31,7 +43,7 @@
                                     <label for="" class="block text-sm font-medium text-black/70 mb-2">COMPANY NAME*</label>
                                     <input formControlName="company" type="text" name="company" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
                                 </div>
-                                <div class="">
+                                <div class="" *ngIf="selectedOption === 'Internal'">
                                     <label for="" class="block text-sm font-medium text-black/70 mb-2">PLATFORM*</label>
                                     <select formControlName="platform" name="platform" type="text" class="w-full lg:w-1/2 rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
                                         <option value="Jobstreet">Jobstreet</option>
@@ -56,9 +68,13 @@
                                         <option value="Part-Time">Part-Time</option>
                                     </select>
                                 </div>
-                                <div class="">
+                                <div *ngIf="selectedOption === 'Internal'" class="">
                                     <label for="" class="block text-sm font-medium text-black/70 mb-2">POST DATE*</label>
                                     <input formControlName="post_date" type="date" name="" id="" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30">
+                                </div>
+                                <div *ngIf="selectedOption === 'Partner'" class="">
+                                    <label for="" class="block text-sm font-medium text-black/70 mb-2">END DATE* - <span class="text-red-500">Free partner hanya boleh 3 hari</span></label>
+                                    <input formControlName="end_date" type="date" name="" id="" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30">
                                 </div>
                             </div>
 
