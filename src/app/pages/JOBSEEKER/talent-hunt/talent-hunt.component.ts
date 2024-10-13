@@ -8,6 +8,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UtilsService } from '../../../services/utils.service';
 import { Title } from '@angular/platform-browser';
+import { GoogleAnalyticsServiceService } from '../../../services/google-analytics.service.service';
 
 @Component({
   selector: 'app-talent-hunt',
@@ -24,6 +25,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class TalentHuntComponent implements OnInit {
 
+  googleAnalytics = inject(GoogleAnalyticsServiceService)
   userService = inject(UserService)
   utilService = inject(UtilsService)
   titleService = inject(Title)

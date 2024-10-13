@@ -141,13 +141,28 @@ export class UserService {
       console.error('Error on Get Membership Price:', error);
     }
   }
-
   async GetAllSkills() {
     try {
       const skillsData = await this.requestService.getEncryptedRequest(`/api/v1/users/skills`);
       return skillsData
     } catch (error) {
       console.error('Error on Get Membership Price:', error);
+    }
+  }
+  async GetAllSavedPost() {
+    try {
+      const savedPost = await this.requestService.getEncryptedRequest(`/api/v1/users/info/saved-post`);
+      return savedPost
+    } catch (error) {
+      console.error('Error on Get All Saved Post:', error);
+    }
+  }
+  async HandleSavedPost(data:any) {
+    try {
+      const savedPost = await this.requestService.postEncryptedRequest(`/api/v1/users/info/saved-post`, data);
+      return savedPost
+    } catch (error) {
+      return console.error('Error on Get All Saved Post:', error);
     }
   }
 
@@ -158,7 +173,6 @@ export class UserService {
     const picturesData = await this.requestService.getEncryptedRequest(`/api/v1/users/pictures`)
     return picturesData
   }
-
   async GetAllSpesificData(route:string){
     const fetchedData = await this.requestService.getEncryptedRequest(`/api/v1/users/info/${route}`)
     return fetchedData

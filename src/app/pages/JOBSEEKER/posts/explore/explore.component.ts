@@ -9,7 +9,7 @@ import $ from "jquery"
 import { UserService } from '../../../../services/user.service';
 import { Title } from '@angular/platform-browser';
 import { UtilsService } from '../../../../services/utils.service';
-import { environment } from '../../../../../environments/environment';
+import { GoogleAnalyticsServiceService } from '../../../../services/google-analytics.service.service';
 
 declare var google: any;
 
@@ -20,6 +20,7 @@ declare var google: any;
   templateUrl: './explore.component.html'
 })
 export class ExploreComponent implements OnInit {
+  googleAnalytics = inject(GoogleAnalyticsServiceService)
   postService = inject(PostsService)
   userService = inject(UserService)
   ultilService = inject(UtilsService)
@@ -35,6 +36,7 @@ export class ExploreComponent implements OnInit {
   POST_PAGE = 1
   POST_LIMIT = 4
   POST_DATAS:any = []
+  POST_DATAS_SAVED:any = []
   POST_DATAS_PARTNER:any = []
   POST_DATAS_DETAIL:any
   POST_COUNT = 0
@@ -96,6 +98,9 @@ export class ExploreComponent implements OnInit {
       if(this.IS_LOGIN){
         this.userService.getUserData().then(userData => {
           this.USER_DATAS = userData
+          this.userService.GetAllSavedPost().then(savedPost => {
+            this.POST_DATAS_SAVED = savedPost.map((saved:any) => saved.id)
+          })
         })
       }
       // this.postService.GetAllPostsPartner(this.QUERY).then((postData:any) => {
@@ -107,7 +112,26 @@ export class ExploreComponent implements OnInit {
 
   copyToClipboard(id:any) {
     navigator.clipboard.writeText(`${window.location.host}/posts/${id}`).then(() => {
-      alert('URL berhasil disalin ke clipboard!');
+      const toastId = `toast-${Date.now()}`;  // ID unik untuk setiap toastr
+
+      // Cek apakah container toastr sudah ada, jika belum buat container
+      if (!$('#toast-container-share').length) {
+          $(document.body).append(`
+              <div id="toast-container-share" class="fixed flex flex-col-reverse gap-3 bottom-5 left-5 space-y-3 z-[999]"></div>
+          `);
+      }
+
+      // Tambahkan toastr baru ke container
+      $('#toast-container-share').prepend(`
+          <div id="${toastId}" class="toast bg-main flex items-center w-full p-4 space-x-4 text-white font-medium divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow" role="alert">
+              <div class="text-sm flex items-center gap-2"><i class="uil uil-check text-xl"></i> URL lowongan berhasil disalin.</div>
+          </div>
+      `);
+
+      // Fade in toastr, lalu fade out setelah 1 detik
+      $(`#${toastId}`).hide().fadeIn(300).delay(1500).fadeOut(500, function() {
+          $(this).remove();  // Hapus toastr setelah fade out selesai
+      });
     }).catch(err => {
       console.error('Gagal menyalin URL: ', err);
     });
@@ -118,8 +142,54 @@ export class ExploreComponent implements OnInit {
     return postSkills.some(skill => userSkillSet.has(skill.skill));
   }
 
-  savePost(evt:Event){
-    alert("Dalam development, ditunggu ya")
+  savePost(evt:Event, isLike:any, id: string){
+    evt.stopPropagation();
+
+    let MSG = ""
+
+    if(this.IS_LOGIN == false){
+      this.openLoginPanel()
+      return
+    }
+
+    let formData = new FormData()
+    // wether post is like or not
+
+    if (isLike) {
+      MSG = "Lowongan berhasil disimpan"
+      this.POST_DATAS_SAVED.push(id); // Menambahkan postId ke array
+    } else {
+      MSG = "Lowongan dihapus dari daftar tersimpan"
+      this.POST_DATAS_SAVED = this.POST_DATAS_SAVED.filter((savedId:any) => savedId !== id);      
+    }
+
+    formData.append("isLike", isLike)
+    formData.append("id", id)
+    this.userService.HandleSavedPost(formData).then(() => {
+      const toastId = `toast-${Date.now()}`;  // ID unik untuk setiap toastr
+
+      // Cek apakah container toastr sudah ada, jika belum buat container
+      if (!$('#toast-container').length) {
+          $(document.body).append(`
+              <div id="toast-container" class="fixed flex flex-col-reverse gap-3 bottom-5 left-5 space-y-3 z-[999]"></div>
+          `);
+      }
+
+      // Tambahkan toastr baru ke container
+      $('#toast-container').prepend(`
+          <div id="${toastId}" class="toast ${isLike ? "bg-main" : "bg-orange-500"} flex items-center w-full p-4 space-x-4 text-white font-medium divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow" role="alert">
+              <div class="text-sm flex items-center gap-2"><i class="uil uil-check text-xl"></i> ${MSG}.</div>
+          </div>
+      `);
+
+      // Fade in toastr, lalu fade out setelah 1 detik
+      $(`#${toastId}`).hide().fadeIn(300).delay(1500).fadeOut(500, function() {
+          $(this).remove();  // Hapus toastr setelah fade out selesai
+      });
+    }).catch(error => {
+      console.error(error)
+      alert("ERROR")
+    })
   }
 
   callGetPost(){

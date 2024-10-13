@@ -6,6 +6,8 @@ import { PostsService } from '../../../../services/posts.service';
 import { UtilsService } from '../../../../services/utils.service';
 import { UserService } from '../../../../services/user.service';
 import { Meta } from '@angular/platform-browser';
+import $ from "jquery"
+import { GoogleAnalyticsServiceService } from '../../../../services/google-analytics.service.service';
 
 @Component({
   selector: 'app-detail',
@@ -14,6 +16,7 @@ import { Meta } from '@angular/platform-browser';
   templateUrl: './detail.component.html'
 })
 export class DetailComponent implements OnInit {
+  googleAnalytics = inject(GoogleAnalyticsServiceService)
   postService = inject(PostsService)
   utilService = inject(UtilsService)
   userService = inject(UserService)
@@ -61,7 +64,26 @@ export class DetailComponent implements OnInit {
 
   copyToClipboard(id:any) {
     navigator.clipboard.writeText(`${window.location.host}/posts/${id}`).then(() => {
-      alert('URL berhasil disalin ke clipboard!');
+      const toastId = `toast-${Date.now()}`;  // ID unik untuk setiap toastr
+
+      // Cek apakah container toastr sudah ada, jika belum buat container
+      if (!$('#toast-container-share').length) {
+          $(document.body).append(`
+              <div id="toast-container-share" class="fixed flex flex-col-reverse gap-3 bottom-5 left-5 space-y-3 z-[999]"></div>
+          `);
+      }
+
+      // Tambahkan toastr baru ke container
+      $('#toast-container-share').prepend(`
+          <div id="${toastId}" class="toast bg-main flex items-center w-full p-4 space-x-4 text-white font-medium divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow" role="alert">
+              <div class="text-sm flex items-center gap-2"><i class="uil uil-check text-xl"></i> URL lowongan berhasil disalin.</div>
+          </div>
+      `);
+
+      // Fade in toastr, lalu fade out setelah 1 detik
+      $(`#${toastId}`).hide().fadeIn(300).delay(1500).fadeOut(500, function() {
+          $(this).remove();  // Hapus toastr setelah fade out selesai
+      });
     }).catch(err => {
       console.error('Gagal menyalin URL: ', err);
     });

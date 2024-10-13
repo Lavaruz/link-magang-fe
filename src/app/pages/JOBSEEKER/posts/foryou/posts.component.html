@@ -2,7 +2,7 @@
 <main class="">
     <div class="min-h-screen lg:w-[1150px] mx-auto py-6 lg:py-10 pb-20 px-[5%] lg:px-0">
         <!-- SUB NAVBAR -->
-        <app-post-navbar></app-post-navbar>
+        <app-post-navbar [savedDataCount]="POST_DATAS_SAVED.length"></app-post-navbar>
 
         <!-- KAMU BGT POST -->
         <div class="mt-6">
@@ -35,8 +35,11 @@
                                                 <!-- TITLE -->
                                                 <div class="flex justify-between items-center mb-3">
                                                     <p class="font-medium text-black flex items-center gap-2"><span class="text-red-500 text-sm" *ngIf="timeAgoNumber(post.post_date) <= 2">Hot🔥</span>{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
-                                                    <svg *ngIf="post.category == 'Internal'" (click)="savePost()" class="hover:fill-main hover:scale-[1.1]" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                                                    <svg *ngIf="post.category == 'Internal' && !POST_DATAS_SAVED.includes(post.id)" (click)="savePost($event, true, post.id)" class="hover:fill-orange-500 hover:scale-[1.1]" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
                                                         <path d="M 12.8125 2 C 12.335938 2.089844 11.992188 2.511719 12 3 L 12 47 C 11.996094 47.359375 12.1875 47.691406 12.496094 47.871094 C 12.804688 48.054688 13.1875 48.054688 13.5 47.875 L 25 41.15625 L 36.5 47.875 C 36.8125 48.054688 37.195313 48.054688 37.503906 47.871094 C 37.8125 47.691406 38.003906 47.359375 38 47 L 38 3 C 38 2.449219 37.550781 2 37 2 L 13 2 C 12.96875 2 12.9375 2 12.90625 2 C 12.875 2 12.84375 2 12.8125 2 Z M 14 4 L 36 4 L 36 45.25 L 25.5 39.125 C 25.191406 38.945313 24.808594 38.945313 24.5 39.125 L 14 45.25 Z"></path>
+                                                    </svg>
+                                                    <svg *ngIf="post.category == 'Internal' && POST_DATAS_SAVED.includes(post.id)" (click)="savePost($event, false, post.id)" class="hover:scale-[1.1] fill-orange-500" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                                                        <path d="M 37 48 C 36.824219 48 36.652344 47.953125 36.496094 47.863281 L 25 41.15625 L 13.503906 47.863281 C 13.195313 48.042969 12.8125 48.046875 12.503906 47.867188 C 12.191406 47.6875 12 47.359375 12 47 L 12 3 C 12 2.449219 12.449219 2 13 2 L 37 2 C 37.554688 2 38 2.449219 38 3 L 38 47 C 38 47.359375 37.808594 47.6875 37.496094 47.867188 C 37.34375 47.957031 37.171875 48 37 48 Z"></path>
                                                     </svg>
                                                     <p *ngIf="post.category == 'Partner'" class="text-xs text-orange-500 font-medium">Dipromosikan</p>
                                                 </div>
@@ -160,7 +163,19 @@
                 <p class="flex gap-2 items-center text-black/70 mt-1"><i class="uil uil-map-marker-alt text-xl"></i> <span class="font-medium" id="popup-location">{{POST_DATAS_DETAIL.location}}</span></p>
                 <div class="flex gap-4 lg:items-center flex-wrap mt-6">
                     <a id="popup-link" [href]="POST_DATAS_DETAIL.link" target="_blank" rel="noopener" class="w-max px-8 block py-2.5 self-start rounded-full text-sm font-medium bg-orange-500 text-white shadow-md hover:scale-[1.01]"><i class="uil uil-external-link-alt"></i> Buka di <span id="popup-platform">{{POST_DATAS_DETAIL.platform == "Lainnya..." ? "Halaman Recruiter" : POST_DATAS_DETAIL.platform}}</span></a>
-                    <button (click)="copyToClipboard(POST_DATAS_DETAIL.id)" class="w-max text-main font-medium flex items-center gap-2"><i class="uil uil-copy"></i> Salin Lowongan</button>
+                    <button (click)="copyToClipboard(POST_DATAS_DETAIL.id)" class="w-10 h-10 flex items-center justify-center rounded-full t bg-main text-white text-xl font-medium gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="18" height="18" class="fill-white hover:scale-[1.1]" viewBox="0 0 50 50">
+                            <path d="M 40 0 C 34.535156 0 30.078125 4.398438 30 9.84375 C 30 9.894531 30 9.949219 30 10 C 30 13.6875 31.996094 16.890625 34.96875 18.625 C 36.445313 19.488281 38.167969 20 40 20 C 45.515625 20 50 15.515625 50 10 C 50 4.484375 45.515625 0 40 0 Z M 28.0625 10.84375 L 17.84375 15.96875 C 20.222656 18.03125 21.785156 21 21.96875 24.34375 L 32.3125 19.15625 C 29.898438 17.128906 28.300781 14.175781 28.0625 10.84375 Z M 10 15 C 4.484375 15 0 19.484375 0 25 C 0 30.515625 4.484375 35 10 35 C 12.050781 35 13.941406 34.375 15.53125 33.3125 C 18.214844 31.519531 20 28.472656 20 25 C 20 21.410156 18.089844 18.265625 15.25 16.5 C 13.71875 15.546875 11.929688 15 10 15 Z M 21.96875 25.65625 C 21.785156 28.996094 20.25 31.996094 17.875 34.0625 L 28.0625 39.15625 C 28.300781 35.824219 29.871094 32.875 32.28125 30.84375 Z M 40 30 C 37.9375 30 36.03125 30.644531 34.4375 31.71875 C 31.769531 33.515625 30 36.542969 30 40 C 30 40.015625 30 40.015625 30 40.03125 C 29.957031 40.035156 29.917969 40.058594 29.875 40.0625 L 30 40.125 C 30.066406 45.582031 34.527344 50 40 50 C 45.515625 50 50 45.515625 50 40 C 50 34.484375 45.515625 30 40 30 Z"></path>
+                        </svg>
+                    </button>
+                    <div class="bg-main w-10 h-10 flex items-center justify-center rounded-full">
+                        <svg *ngIf="!POST_DATAS_SAVED.includes(POST_DATAS_DETAIL.id)" (click)="savePost($event, true, POST_DATAS_DETAIL.id)" class="fill-white hover:scale-[1.1]" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                            <path d="M 12.8125 2 C 12.335938 2.089844 11.992188 2.511719 12 3 L 12 47 C 11.996094 47.359375 12.1875 47.691406 12.496094 47.871094 C 12.804688 48.054688 13.1875 48.054688 13.5 47.875 L 25 41.15625 L 36.5 47.875 C 36.8125 48.054688 37.195313 48.054688 37.503906 47.871094 C 37.8125 47.691406 38.003906 47.359375 38 47 L 38 3 C 38 2.449219 37.550781 2 37 2 L 13 2 C 12.96875 2 12.9375 2 12.90625 2 C 12.875 2 12.84375 2 12.8125 2 Z M 14 4 L 36 4 L 36 45.25 L 25.5 39.125 C 25.191406 38.945313 24.808594 38.945313 24.5 39.125 L 14 45.25 Z"></path>
+                        </svg>
+                        <svg *ngIf="POST_DATAS_SAVED.includes(POST_DATAS_DETAIL.id)" (click)="savePost($event, false, POST_DATAS_DETAIL.id)" class="fill-white hover:scale-[1.1] fill-orange-500" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                            <path d="M 37 48 C 36.824219 48 36.652344 47.953125 36.496094 47.863281 L 25 41.15625 L 13.503906 47.863281 C 13.195313 48.042969 12.8125 48.046875 12.503906 47.867188 C 12.191406 47.6875 12 47.359375 12 47 L 12 3 C 12 2.449219 12.449219 2 13 2 L 37 2 C 37.554688 2 38 2.449219 38 3 L 38 47 C 38 47.359375 37.808594 47.6875 37.496094 47.867188 C 37.34375 47.957031 37.171875 48 37 48 Z"></path>
+                        </svg>
+                    </div>
                 </div>
             </div>
 

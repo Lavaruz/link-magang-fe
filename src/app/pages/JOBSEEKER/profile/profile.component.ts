@@ -27,6 +27,7 @@ import { ProfileTalentComponent } from '../../../components/ProfileComponents/Ta
 import { ProfileTalentPopupComponent } from '../../../components/ProfileComponents/TalentHunt/profile-talent-popup.component';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { GoogleAnalyticsServiceService } from '../../../services/google-analytics.service.service';
 
 @Component({
   selector: 'app-profile',
@@ -46,6 +47,7 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './profile.component.html',
 })
 export class ProfileComponent implements OnInit {
+  googleAnalytics = inject(GoogleAnalyticsServiceService)
   userService: UserService = inject(UserService);
   router = inject(Router)
   titleService = inject(Title)

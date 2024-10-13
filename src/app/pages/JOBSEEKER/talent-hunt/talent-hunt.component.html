@@ -336,10 +336,10 @@
     </div>
 </main>
 
-<div (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/50 flex items-end lg:items-center justify-end lg:justify-center z-30" id="popup-home">
+<div (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/50 flex items-end lg:items-center justify-end z-30" id="popup-home">
 
-    <div id="popup-user" class="hidden popup w-full lg:w-1/2 bg-background noise rounded-2xl relative overflow-hidden">
-        <div *ngIf="DONE_LOADING_DETAIL == true" id="popup-user-s" class="h-[70vh] overflow-y-scroll w-full px-[5%] lg:px-12 py-8">
+    <div id="popup-user" class="hidden popup w-full lg:w-1/2 bg-background noise relative overflow-hidden rounded-t-2xl lg:rounded-none">
+        <div *ngIf="DONE_LOADING_DETAIL == true" id="popup-user-s" class="h-[70vh] lg:h-screen overflow-y-scroll w-full px-[5%] lg:px-12 py-8">
 
             <!-- BASIC INFO -->
             <div class="lg:grid lg:grid-cols-2 justify-between">
@@ -477,7 +477,7 @@
                 <button (click)="closePopupDetail()" class="close-x text-sm text-red-500 font-medium mx-auto w-full py-3 rounded-lg">Tutup data talent</button>
             </div>
         </div>
-        <div *ngIf="DONE_LOADING_DETAIL == false" class="h-[70vh] lg:h-[500px] flex items-center justify-center w-full">
+        <div *ngIf="DONE_LOADING_DETAIL == false" class="h-[70vh] lg:h-screen flex items-center justify-center w-full">
             <span class="loader"></span>
             <p class="text-sm">Menyusun data talent..</p>
         </div>

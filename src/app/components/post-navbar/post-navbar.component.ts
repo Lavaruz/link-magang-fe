@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-post-navbar',
@@ -7,6 +8,10 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   imports: [RouterLinkActive, RouterLink],
   templateUrl: './post-navbar.component.html'
 })
-export class PostNavbarComponent {
+export class PostNavbarComponent implements OnInit {
+  @Input() savedDataCount:any = 0
+  userService = inject(UserService)
 
+  ngOnInit(): void {
+  }
 }

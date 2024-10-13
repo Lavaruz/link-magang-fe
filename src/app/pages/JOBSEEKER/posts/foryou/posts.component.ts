@@ -10,6 +10,7 @@ import { Title } from '@angular/platform-browser';
 import $ from "jquery"
 import { UtilsService } from '../../../../services/utils.service';
 import { environment } from '../../../../../environments/environment';
+import { GoogleAnalyticsServiceService } from '../../../../services/google-analytics.service.service';
 
 @Component({
   selector: 'app-posts',
@@ -24,6 +25,7 @@ export class PostsForYouComponent implements OnInit {
   postService = inject(PostsService)
   utilService = inject(UtilsService)
   aRoute = inject(ActivatedRoute)
+  googleAnalytics = inject(GoogleAnalyticsServiceService)
   router = inject(Router)
 
   FORM_SEARCH:FormGroup = new FormGroup("")
@@ -35,6 +37,7 @@ export class PostsForYouComponent implements OnInit {
   POST_LIMIT = 6
   POST_COUNT = 0
 
+  POST_DATAS_SAVED:any = []
   POSTS_DATA:any = []
   POST_DATAS_DETAIL:any
   DONE_LOADING_DETAIL = false
@@ -65,6 +68,10 @@ export class PostsForYouComponent implements OnInit {
           this.POST_PAGE = postsData.page
           this.POST_COUNT = postsData.total_entries
 
+          this.userService.GetAllSavedPost().then(savedPost => {
+            this.POST_DATAS_SAVED = savedPost.map((saved:any) => saved.id)
+          })
+
           this.SHOW_MORE_BUTTON = this.POST_PAGE * this.POST_LIMIT < this.POST_COUNT   
           this.DONE_LOADING = true
         })
@@ -76,14 +83,79 @@ export class PostsForYouComponent implements OnInit {
 
   copyToClipboard(id:any) {
     navigator.clipboard.writeText(`${window.location.host}/posts/${id}`).then(() => {
-      alert('URL berhasil disalin ke clipboard!');
+      const toastId = `toast-${Date.now()}`;  // ID unik untuk setiap toastr
+
+      // Cek apakah container toastr sudah ada, jika belum buat container
+      if (!$('#toast-container-share').length) {
+          $(document.body).append(`
+              <div id="toast-container-share" class="fixed flex flex-col-reverse gap-3 bottom-5 left-5 space-y-3 z-[999]"></div>
+          `);
+      }
+
+      // Tambahkan toastr baru ke container
+      $('#toast-container-share').prepend(`
+          <div id="${toastId}" class="toast bg-main flex items-center w-full p-4 space-x-4 text-white font-medium divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow" role="alert">
+              <div class="text-sm flex items-center gap-2"><i class="uil uil-check text-xl"></i> URL lowongan berhasil disalin.</div>
+          </div>
+      `);
+
+      // Fade in toastr, lalu fade out setelah 1 detik
+      $(`#${toastId}`).hide().fadeIn(300).delay(1500).fadeOut(500, function() {
+          $(this).remove();  // Hapus toastr setelah fade out selesai
+      });
     }).catch(err => {
       console.error('Gagal menyalin URL: ', err);
     });
   }
 
-  savePost(){
-    alert("Dalam development, ditunggu ya")
+  savePost(evt:Event, isLike:any, id: string){
+    evt.stopPropagation();
+
+    let MSG = ""
+
+    if(this.IS_LOGIN == false){
+      this.openLoginPanel()
+      return
+    }
+    
+    let formData = new FormData()
+    // wether post is like or not
+
+    if (isLike) {
+      MSG = "Lowongan berhasil disimpan"
+      this.POST_DATAS_SAVED.push(id); // Menambahkan postId ke array
+    } else {
+      MSG = "Lowongan dihapus dari daftar tersimpan"
+      this.POST_DATAS_SAVED = this.POST_DATAS_SAVED.filter((savedId:any) => savedId !== id);
+    }
+
+    formData.append("isLike", isLike)
+    formData.append("id", id)
+    this.userService.HandleSavedPost(formData).then(() => {
+      const toastId = `toast-${Date.now()}`;  // ID unik untuk setiap toastr
+
+      // Cek apakah container toastr sudah ada, jika belum buat container
+      if (!$('#toast-container').length) {
+          $(document.body).append(`
+              <div id="toast-container" class="fixed flex flex-col-reverse gap-3 bottom-5 left-5 space-y-3 z-[999]"></div>
+          `);
+      }
+
+      // Tambahkan toastr baru ke container
+      $('#toast-container').prepend(`
+          <div id="${toastId}" class="toast ${isLike ? "bg-main" : "bg-orange-500"} flex items-center w-full p-4 space-x-4 text-white font-medium divide-x rtl:divide-x-reverse divide-gray-200 rounded-lg shadow" role="alert">
+              <div class="text-sm flex items-center gap-2"><i class="uil uil-check text-xl"></i> ${MSG}.</div>
+          </div>
+      `);
+
+      // Fade in toastr, lalu fade out setelah 1 detik
+      $(`#${toastId}`).hide().fadeIn(300).delay(1500).fadeOut(500, function() {
+          $(this).remove();  // Hapus toastr setelah fade out selesai
+      });
+    }).catch(error => {
+      console.error(error)
+      alert("ERROR")
+    })
   }
 
   addPage(){

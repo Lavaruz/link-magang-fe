@@ -2,11 +2,70 @@
 <main class="">
     <div class="min-h-screen lg:w-[1150px] mx-auto py-6 lg:py-10 pb-20 px-[5%] lg:px-0">
         <!-- SUB NAVBAR -->
-        <app-post-navbar></app-post-navbar>
+        <app-post-navbar [savedDataCount]="POSTS_DATA.length"></app-post-navbar>
 
         <div class="" *ngIf="DONE_LOADING == true">
             @if(POSTS_DATA.length > 0 && IS_LOGIN == true){
-    
+                <div class="my-6 mb-8">
+                    <h1 class="text-xl lg:text-3xl font-bold text-black/80">Lowongan yang kamu simpan</h1>
+                    <p class="mt-1 text-black/80 mb-3">Tunggu apa lagi, ayo lamar semua lowongan yang sudah kamu simpan 👀.</p>
+                </div>
+                <div id="cards" class="mt-4 grid lg:grid-cols-3 gap-6">
+                    @for (post of POSTS_DATA; track post.id) {
+                        <div (click)="openPostDetail(post.id)" class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border hover:border-main bg-white p-4 rounded-xl flex flex-col justify-between">
+                            <div class="">
+                                <!-- <button class="text-xs bg-orange-500 text-white px-2 py-1 rounded mb-2">{{post.type}}</button> -->
+                                <!-- TITLE -->
+                                <div class="flex justify-between items-center mb-3">
+                                    <p class="font-medium text-black flex items-center gap-2"><span class="text-red-500 text-sm" *ngIf="timeAgoNumber(post.post_date) <= 2">Hot🔥</span>{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
+                                    <svg *ngIf="post.category == 'Internal'" (click)="savePost($event, false, post.id)" class="hover:scale-[1.1] fill-orange-500" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                                        <path d="M 37 48 C 36.824219 48 36.652344 47.953125 36.496094 47.863281 L 25 41.15625 L 13.503906 47.863281 C 13.195313 48.042969 12.8125 48.046875 12.503906 47.867188 C 12.191406 47.6875 12 47.359375 12 47 L 12 3 C 12 2.449219 12.449219 2 13 2 L 37 2 C 37.554688 2 38 2.449219 38 3 L 38 47 C 38 47.359375 37.808594 47.6875 37.496094 47.867188 C 37.34375 47.957031 37.171875 48 37 48 Z"></path>
+                                    </svg>
+                                    <p *ngIf="post.category == 'Partner'" class="text-xs text-orange-500 font-medium">Dipromosikan</p>
+                                </div>
+                                <!-- SKILLS -->
+                                <div class="flex gap-2 flex-wrap" *ngIf="post.skills && post.skills.length > 0">
+                                    <ng-container *ngFor="let skill of getActiveSkills(post.skills)">
+                                        <button class="text-xs bg-main text-white px-2 py-1 rounded">
+                                        {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
+                                        </button>
+                                    </ng-container>
+                                    <button *ngIf="getRemainingSkills(post.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
+                                        +{{ getRemainingSkills(post.skills).length }}
+                                    </button>
+                                </div>
+                                <!-- ADDITIONAL INFO -->
+                                <div class="flex items-center gap-3 mt-4">
+                                    <img *ngIf="post.category == 'Partner'" [ngSrc]="post.company_logo" class="rounded" width="40" height="40" alt="">
+                                    <div class="">
+                                        <p class="text-sm flex items-center gap-2 font-medium text-black/70"><i class="uil uil-building"></i>{{post.company.length > 38 ? post.company.substring(0,38) + ".." : post.company}}</p>
+                                        <p class="text-sm flex items-center gap-2 mt-1"><i class="uil uil-location-point"></i>{{post.location}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <hr class="my-2">
+                                <div class="flex items-center justify-between gap-3 mt-4">
+                                    <ng-container *ngIf="IS_LOGIN && hasMatchingSkills(USER_DATAS.skills, post.skills) as hasSkills; else emptyDiv">
+                                        <span *ngIf="hasSkills" class="text-[10px] lg:text-xs font-medium px-2 py-0.5 bg-orange-500 text-white">Kamu banget</span>
+                                    </ng-container>
+                                    <ng-template #emptyDiv>
+                                        <div></div>
+                                    </ng-template>
+                                    <div *ngIf="post.category == 'Internal'" class="flex items-center gap-2">
+                                        <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgoNumber(post.post_date) <= 2 ? "terbaru di " : "muncul di "}}</span></p>
+                                        <!-- <div [innerHTML]="getPlatformImage(post.platform)"></div> -->
+                                        <img class="rounded-lg" width="20" height="20" priority [ngSrc]="getPlatformImageUrl(post.platform)" alt="{{post.platform}}">
+                                        <p *ngIf="timeAgoNumber(post.post_date) > 2" class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgo(post.post_date)}}</span></p>
+                                    </div>
+                                    <div *ngIf="post.category == 'Partner'" class="flex items-center gap-2">
+                                        <p class="text-xs font-medium">Lamar sebelum <span class="text-red-500">{{ultilService.formatIndonesianDateFull(post.end_date)}}</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
             }@else if (IS_LOGIN == false) {
                 <div class="flex flex-col items-center justify-center min-h-[50vh] text-center">
                     <p class="font-medium text-lg">Hmm, kami tidak tau mau simpan lowongan kamu dimana</p>
@@ -23,3 +82,63 @@
         </div>
     </div>
 </main>
+
+<div (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/50 flex items-end lg:items-center justify-end z-30" id="popup-home">
+    
+    <div id="popup-detail-job" class="hidden popup lg:w-1/2 bg-background rounded-t-2xl lg:rounded-none overflow-hidden">
+        <div *ngIf="DONE_LOADING_DETAIL == true" class="h-[70vh] lg:h-screen overflow-y-scroll lg:px-10 p-5 pb-20 py-8 relative">
+            <button (click)="closePopupDetail()" type="button" class="lg:hidden my-4 mb-6 flex items-center gap-2 close-x text-main font-medium text-base">
+                <i class="uil uil-arrow-left"></i> Kembali ke Beranda
+            </button>
+
+            <!-- MAIN INFO -->
+            <div class="w-full">
+                <div class="flex items-center mb-2 gap-4">
+                    <span *ngIf="timeAgoNumber(POST_DATAS_DETAIL.post_date) <= 5" class="text-sm font-medium rounded px-4 bg-red-500 text-white py-0.5">Hot</span>
+                    <!-- <span *ngIf="timeAgoNumber(POST_DATAS_DETAIL.post_date) <= 5" class="text-sm font-medium rounded px-4 bg-orange-500 text-white py-0.5">Kamu Banget</span> -->
+                </div>
+
+                <p id="popup-title" class="text-3xl font-bold text-main mb-4 flex items-center gap-2">{{POST_DATAS_DETAIL.title}}</p>
+                <p class="flex gap-2 items-center text-black/70"><i class="uil uil-building text-xl"></i><span class="font-medium" id="popup-company">{{POST_DATAS_DETAIL.company}}</span></p>
+                <p class="flex gap-2 items-center text-black/70 mt-1"><i class="uil uil-map-marker-alt text-xl"></i> <span class="font-medium" id="popup-location">{{POST_DATAS_DETAIL.location}}</span></p>
+                <div class="flex gap-4 lg:items-center flex-wrap mt-6">
+                    <a id="popup-link" [href]="POST_DATAS_DETAIL.link" target="_blank" rel="noopener" class="w-max px-8 block py-2.5 self-start rounded-full text-sm font-medium bg-orange-500 text-white shadow-md hover:scale-[1.01]"><i class="uil uil-external-link-alt"></i> Buka di <span id="popup-platform">{{POST_DATAS_DETAIL.platform == "Lainnya..." ? "Halaman Recruiter" : POST_DATAS_DETAIL.platform}}</span></a>
+                    <button (click)="copyToClipboard(POST_DATAS_DETAIL.id)" class="w-10 h-10 flex items-center justify-center rounded-full t bg-main text-white text-xl font-medium gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="18" height="18" class="fill-white hover:scale-[1.1]" viewBox="0 0 50 50">
+                            <path d="M 40 0 C 34.535156 0 30.078125 4.398438 30 9.84375 C 30 9.894531 30 9.949219 30 10 C 30 13.6875 31.996094 16.890625 34.96875 18.625 C 36.445313 19.488281 38.167969 20 40 20 C 45.515625 20 50 15.515625 50 10 C 50 4.484375 45.515625 0 40 0 Z M 28.0625 10.84375 L 17.84375 15.96875 C 20.222656 18.03125 21.785156 21 21.96875 24.34375 L 32.3125 19.15625 C 29.898438 17.128906 28.300781 14.175781 28.0625 10.84375 Z M 10 15 C 4.484375 15 0 19.484375 0 25 C 0 30.515625 4.484375 35 10 35 C 12.050781 35 13.941406 34.375 15.53125 33.3125 C 18.214844 31.519531 20 28.472656 20 25 C 20 21.410156 18.089844 18.265625 15.25 16.5 C 13.71875 15.546875 11.929688 15 10 15 Z M 21.96875 25.65625 C 21.785156 28.996094 20.25 31.996094 17.875 34.0625 L 28.0625 39.15625 C 28.300781 35.824219 29.871094 32.875 32.28125 30.84375 Z M 40 30 C 37.9375 30 36.03125 30.644531 34.4375 31.71875 C 31.769531 33.515625 30 36.542969 30 40 C 30 40.015625 30 40.015625 30 40.03125 C 29.957031 40.035156 29.917969 40.058594 29.875 40.0625 L 30 40.125 C 30.066406 45.582031 34.527344 50 40 50 C 45.515625 50 50 45.515625 50 40 C 50 34.484375 45.515625 30 40 30 Z"></path>
+                        </svg>
+                    </button>
+                    <div class="bg-main w-10 h-10 flex items-center justify-center rounded-full">
+                        <svg (click)="savePost($event, false, POST_DATAS_DETAIL.id)" class="fill-white hover:scale-[1.1] fill-orange-500" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                            <path d="M 37 48 C 36.824219 48 36.652344 47.953125 36.496094 47.863281 L 25 41.15625 L 13.503906 47.863281 C 13.195313 48.042969 12.8125 48.046875 12.503906 47.867188 C 12.191406 47.6875 12 47.359375 12 47 L 12 3 C 12 2.449219 12.449219 2 13 2 L 37 2 C 37.554688 2 38 2.449219 38 3 L 38 47 C 38 47.359375 37.808594 47.6875 37.496094 47.867188 C 37.34375 47.957031 37.171875 48 37 48 Z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div id="skills-need" class="justify-self-start">
+                <hr class="my-4">
+                <p class="font-medium text-black/80">Keahlian yang dibutuhkan</p>
+                <div id="skills" class="flex gap-3 mt-4 flex-wrap flex-row">
+                    @for (skill of POST_DATAS_DETAIL.skills; track skill.id) {
+                        <button class="text-sm bg-main text-white px-4 py-2 rounded-md">
+                            {{ skill.skill }}
+                        </button>
+                    }
+                </div>
+            </div>
+            
+            <hr class="my-6 border-gray-300">
+
+            <div class="">
+                <div id="popup-overview" class="mt-4 text-black/70 no-tailwind" [innerHTML]="POST_DATAS_DETAIL.overview"></div>
+            </div>
+
+        </div>
+        <div *ngIf="DONE_LOADING_DETAIL == false" class="h-[70vh] lg:h-screen flex items-center justify-center w-full">
+            <span class="loader"></span>
+            <p class="text-sm">Menyusun loker..</p>
+        </div>
+    </div>
+</div>
