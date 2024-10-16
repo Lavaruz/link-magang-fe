@@ -13,6 +13,7 @@ import { AdminAdditionalsComponent } from './pages/ADMIN/admin-additionals/admin
 import { AdminPostCreateComponent } from './pages/ADMIN/admin-posts/create/create.component';
 import { AdminPostEditComponent } from './pages/ADMIN/admin-posts/edit/edit.component';
 import { DetailComponent } from './pages/JOBSEEKER/posts/detail/detail.component';
+import { ProfileCompletionComponent } from './pages/JOBSEEKER/profile/completion/completion.component';
 
 export const routes: Routes = [
     { path: "", redirectTo:"posts/explore", pathMatch: "full" },
@@ -29,7 +30,8 @@ export const routes: Routes = [
     { 
         path: "profile",
         children: [
-            {path:"me", component: ProfileComponent}
+            {path:"me", component: ProfileComponent},
+            {path:"completion", component: ProfileCompletionComponent}
         ]
     },
     { path: "talent", component: TalentHuntComponent },

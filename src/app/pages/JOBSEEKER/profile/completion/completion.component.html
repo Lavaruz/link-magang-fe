@@ -1,0 +1,64 @@
+<app-navbar></app-navbar>
+
+<main class="">
+    <div class="grid grid-cols-6 gap-4 lg:w-[1150px] mx-auto py-6 lg:py-10 pb-20 px-[5%] lg:px-0">
+        <div class="col-span-2 bg-main rounded-xl p-5">
+            <p class="text-white text-lg font-medium">Tambahkan keahlian untuk mendapat rekomendasi lowongan keren</p>
+            <div class="mt-4">
+                <div class="min-h-[100px] bg-white mb-3 rounded-lg p-2.5 text-sm">
+                    <p>Belum ada skill ditambahkan</p>
+                </div>
+                <input type="search" class="w-full rounded-t-lg border-none text-sm font-medium py-2.5 focus:ring-main" placeholder="Cari keahlian kamu">
+                <hr>
+                <div class=" bg-white h-[200px] overflow-y-scroll rounded-b-lg">
+                    <div *ngFor="let skill of SKILL_DATAS" class="hover:bg-gray-300/50 py-1.5 px-2.5 flex items-center gap-2 text-sm">
+                        <input type="checkbox" name="" id="{{'skill-'+skill.id}}" class="rounded outline-none focus:ring-0">
+                        <label for="{{'skill-'+skill.id}}" class="cursor-pointer select-none">{{skill.skill}} (4)</label>
+                    </div>
+                </div>
+                <button class="bg-orange-500 rounded-lg font-medium text-sm text-white px-4 py-2.5 mt-6"><i class="uil uil-save"></i> Simpan Keahlian</button>
+            </div>
+        </div>
+        <div class="col-span-4">
+            <h1 class="font-medium text-xl"><b class="text-main text-2xl">100</b> Lowongan cocok buat skill kamu</h1>
+            <p class="mb-6 mt-2 text-sm font-medium text-black/60">Lowongan dibawah hanya preview, namun jangan khawatir semuanya akan muncul di "Lowongan -> Kamu Banget", setelah kamu menyimpan keahlian</p>
+            <div class="grid grid-cols-2 gap-6">
+                <div *ngFor="let post of [1,2,3,4]" class="animate-pulse">
+                    <div class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border bg-white p-4 rounded-xl flex flex-col justify-between">
+                        <div class="">
+                            <!-- TITLE SKELETON -->
+                            <div class="flex justify-between items-center mb-2">
+                                <div class="h-6 bg-gray-300 rounded w-3/4"></div>
+                                <div class="h-6 w-6 bg-gray-300 rounded"></div>
+                            </div>
+                            <!-- SKILLS SKELETON -->
+                            <div class="flex gap-2 flex-wrap">
+                                <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                <div class="h-4 bg-gray-300 rounded w-1/6"></div>
+                                <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                            </div>
+                            <!-- ADDITIONAL INFO SKELETON -->
+                            <div class="mt-4">
+                                <div class="h-4 bg-gray-300 rounded w-2/3 mb-1"></div>
+                                <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <hr class="my-2">
+                            <!-- FOOTER SKELETON -->
+                            <div class="flex items-center justify-between gap-3 mt-4">
+                                <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                <div class="flex items-center gap-2">
+                                    <div class="h-6 w-6 bg-gray-300 rounded-full"></div>
+                                    <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
