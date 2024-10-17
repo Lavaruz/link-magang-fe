@@ -2,7 +2,7 @@
     <div class="lg:w-[1150px] w-full mx-auto flex items-center justify-between px-[5%] lg:px-0">
         <div class="flex gap-14 items-center">
             <a aria-label="home" [routerLink]="IS_LOGIN ? '/posts/foryou' : '/posts/explore'" class="cursor-pointer font-bold text-2xl text-main flex items-center gap-2 tracking-wide flex items-center">
-                <img priority alt="Logo Internshit" ngSrc="assets/img/Favicon.webp" width="70" height="53" alt="">
+                <img priority alt="Logo Internshit" src="assets/img/Favicon.webp" width="70" height="53" alt="">
             </a>
             <div class="hidden lg:flex items-center gap-10">
                 <a [routerLink]="IS_LOGIN ? '/posts/foryou' : '/posts/explore'" 
@@ -43,7 +43,7 @@
     <div class="">
         <a *ngIf="DONE_LOADING_NAVBAR" id="navbar-profile-mobile" routerLink="/profile/me" class="my-4 w-full border flex text-center items-center gap-4 bg-main shadow-md py-4 noise rounded-lg px-4">
             <div class="overflow-hidden border-2 rounded-full w-9 h-9 bg-white flex items-center justify-center">
-                <img ngSrc="{{USER_NAVBAR.profile_picture}}" width="35" height="35" onerror="ngSrc='assets/img/no-profile.jpg'" alt="Profil Pic">
+                <img src="{{USER_NAVBAR.profile_picture}}" width="35" height="35" onerror="src='assets/img/no-profile.jpg'" alt="Profil Pic">
             </div>
             <div class="">
                 <p class="navbar-fullname font-medium text-white">{{USER_NAVBAR.firstname}} {{USER_NAVBAR.lastname}}</p>
@@ -81,7 +81,7 @@
 <div id="popup-layer-navbar" (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/60 z-30 flex items-end lg:items-center justify-center">
     <div id="popup-login" class="hidden w-full lg:w-1/3 bg-background noise rounded-t-xl lg:rounded-2xl border-2 border-main py-8 px-[5%] lg:px-12 relative">
         <div class="text-center flex flex-col items-center justify-center gap-4">
-            <img ngSrc="assets/img/Logo.webp" width="70" height="70" priority alt="Logo Internshit">
+            <img src="assets/img/Logo.webp" width="70" height="70" priority alt="Logo Internshit">
             <p class="text-3xl font-medium text-main">Selamat datang di <br>Internshit</p>
         </div>
         <hr class="my-4 mt-6">

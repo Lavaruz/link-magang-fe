@@ -62,18 +62,21 @@ export class PostsForYouComponent implements OnInit {
       this.IS_LOGIN = this.userService.checkAuth()
       
       if(this.IS_LOGIN == true){
-        this.postService.GetAllMatchPosts(this.QUERY).then(postsData => {
-          this.POSTS_DATA = postsData.datas
-          
-          this.POST_PAGE = postsData.page
-          this.POST_COUNT = postsData.total_entries
-
-          this.userService.GetAllSavedPost().then(savedPost => {
-            this.POST_DATAS_SAVED = savedPost.map((saved:any) => saved.id)
+        this.userService.getUserData().then(userData => {
+          if(userData.skills.length == 0) this.router.navigate(["/profile/completion"])
+          this.postService.GetAllMatchPosts(this.QUERY).then(postsData => {
+            this.POSTS_DATA = postsData.datas
+            
+            this.POST_PAGE = postsData.page
+            this.POST_COUNT = postsData.total_entries
+  
+            this.userService.GetAllSavedPost().then(savedPost => {
+              this.POST_DATAS_SAVED = savedPost.map((saved:any) => saved.id)
+            })
+  
+            this.SHOW_MORE_BUTTON = this.POST_PAGE * this.POST_LIMIT < this.POST_COUNT   
+            this.DONE_LOADING = true
           })
-
-          this.SHOW_MORE_BUTTON = this.POST_PAGE * this.POST_LIMIT < this.POST_COUNT   
-          this.DONE_LOADING = true
         })
       }else if(this.IS_LOGIN == false){
         this.DONE_LOADING = true

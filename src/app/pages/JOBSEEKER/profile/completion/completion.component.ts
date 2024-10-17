@@ -34,6 +34,7 @@ export class ProfileCompletionComponent implements OnInit {
   searchText: string = '';
 
   ngOnInit() {
+    if(!this.userService.checkAuth()) this.router.navigate(["/"])
     this.aRoute.queryParams.subscribe(params => {
       this.QUERY = {
         skills: params["skills"] || "",
@@ -92,6 +93,17 @@ export class ProfileCompletionComponent implements OnInit {
       queryParamsHandling: 'merge'
     })
   }
+
+  handleSaveSkill(){
+    this.userService.updateUserSkills(this.ACTIVE_SKILLS.join(";")).then(() => {
+      this.router.navigate(["/profile/me"])
+    }).catch(err => {
+      alert("ERROR")
+    })
+  }
+
+
+
 
 
 

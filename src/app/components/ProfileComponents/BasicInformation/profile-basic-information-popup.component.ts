@@ -2,14 +2,14 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { UserInterface } from '../../../interface/user.interface';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { RequestService } from '../../../services/request.service';
 import $ from "jquery"
 
 @Component({
   selector: 'app-profile-basic-information-popup',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, NgOptimizedImage],
+  imports: [ReactiveFormsModule, CommonModule],
   template: `
     <div class="hidden popup popup-basic border-2 border-main w-full lg:w-[720px] rounded-2xl lg:rounded-2xl overflow-hidden">
       <form id="form-basic-information" [formGroup]="formBasic" (submit)="submitBasic()">
@@ -28,7 +28,7 @@ import $ from "jquery"
                       <p class="font-bold text-xl lg:text-lg text-main mb-3">Foto Profil</p>
                       <div class="flex items-center gap-5">
                           <div class="min-w-[88px] max-w-[88px] min-h-[88px] max-h-[88px] rounded-full overflow-hidden border-2 border-main bg-main">
-                              <img width="88" height="88" id="popup-profile-pic" ngSrc="{{userData.profile_picture}}" onerror="ngSrc='assets/img/no-profile.jpg'" alt="profile-pic" class="w-full h-full object-cover">
+                              <img width="88" height="88" id="popup-profile-pic" src="{{userData.profile_picture}}" onerror="src='assets/img/no-profile.jpg'" alt="profile-pic" class="w-full h-full object-cover">
                           </div>
                           <div class="">
                               <div class="">
@@ -135,7 +135,7 @@ import $ from "jquery"
                       @for(picture of PICTURES_DATA; track picture){
                         <div (click)="selectPicture(picture)" class="text-center">
                             <button #avatar [ngClass]="{'bg-main': selectedPicture === picture}" type="button" class="button-select-avatar aspect-square border-2 shadow-md border-main rounded-full overflow-hidden">
-                                <img width="88" height="88" ngSrc="{{requestService.getURL() + picture}}" alt="profile-pic" class="w-full h-full object-cover">
+                                <img width="88" height="88" src="{{requestService.getURL() + picture}}" alt="profile-pic" class="w-full h-full object-cover">
                             </button>
                             <p class="text-main font-bold">{{picture.split("/img/ProfilePic/").pop().replace(".webp", "")}}</p>
                         </div>

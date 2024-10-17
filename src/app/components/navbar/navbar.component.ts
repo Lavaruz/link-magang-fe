@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, inject, NgZone, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { CommonModule, NgIf, Location, NgOptimizedImage } from '@angular/common';
+import { CommonModule, NgIf, Location } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserInterface } from '../../interface/user.interface';
 import $ from "jquery"
@@ -12,7 +12,7 @@ declare var google: any;
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgIf, RouterLink,RouterLinkActive, CommonModule, NgOptimizedImage],
+  imports: [NgIf, RouterLink,RouterLinkActive, CommonModule],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent implements OnInit, AfterViewInit {
@@ -88,7 +88,10 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   handleGoogleSignIn(response: any) {
     this.userService.googleLoginHandler(response).then(userAuthenticate => {
       this.userService.setCookie(userAuthenticate, "userAuthenticate")
-      this.router.navigate(["/profile/me"])
+      this.userService.getUserData().then(userData => {
+        if(userData.skills.length == 0) this.router.navigate(["/profile/completion"])
+          else this.router.navigate(["/profile/me"])
+      })
       $("body").css("overflow", "auto");
     })
   }
