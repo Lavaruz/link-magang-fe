@@ -1,63 +1,128 @@
 <app-navbar></app-navbar>
 
 <main class="">
-    <div class="grid grid-cols-6 gap-4 lg:w-[1150px] mx-auto py-6 lg:py-10 pb-20 px-[5%] lg:px-0">
-        <div class="col-span-2 bg-main rounded-xl p-5">
+    <div class="grid grid-cols-6 gap-8 lg:w-[1150px] mx-auto py-6 lg:py-10 pb-20 px-[5%] lg:px-0">
+        <div class="col-span-2 bg-main rounded-xl p-5 self-start sticky top-[6rem]">
             <p class="text-white text-lg font-medium">Tambahkan keahlian untuk mendapat rekomendasi lowongan keren</p>
             <div class="mt-4">
-                <div class="min-h-[100px] bg-white mb-3 rounded-lg p-2.5 text-sm">
-                    <p>Belum ada skill ditambahkan</p>
+                <div class="h-[100px] overflow-y-scroll bg-white mb-3 rounded-lg p-2.5 text-sm flex flex-wrap">
+                    <ng-container *ngIf="ACTIVE_SKILLS.length > 0; else emptyDiv">
+                        @for( skill of ACTIVE_SKILLS; track skill.id ){
+                            <div class="group overflow-hidden self-start block m-1 text-black/80 px-4 py-1 rounded-lg bg-main text-white relative w-max">
+                                {{getSkillName(skill)}}
+                                <button (click)="removeSkill(skill)" class="hidden group-hover:block absolute top-0 bottom-0 right-0 left-0 bg-black/60 text-sm font-medium flex items-center justify-center"><i class="uil uil-trash-alt"></i></button>
+                            </div>
+                        }
+                    </ng-container>
+                    <ng-template #emptyDiv>
+                        <p>Belum ada skill ditambahkan</p>
+                    </ng-template>
                 </div>
-                <input type="search" class="w-full rounded-t-lg border-none text-sm font-medium py-2.5 focus:ring-main" placeholder="Cari keahlian kamu">
+                <input [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" type="search" class="w-full rounded-t-lg border-none text-sm font-medium py-2.5 focus:ring-main" placeholder="Cari keahlian kamu">
                 <hr>
-                <div class=" bg-white h-[200px] overflow-y-scroll rounded-b-lg">
-                    <div *ngFor="let skill of SKILL_DATAS" class="hover:bg-gray-300/50 py-1.5 px-2.5 flex items-center gap-2 text-sm">
-                        <input type="checkbox" name="" id="{{'skill-'+skill.id}}" class="rounded outline-none focus:ring-0">
+                <div id="skills-container" (change)="changeSkill()" #inputSkills class="bg-white h-[200px] overflow-y-scroll rounded-b-lg">
+                    <div *ngFor="let skill of filteredSkills()" class="hover:bg-gray-300/50 py-1.5 px-2.5 flex items-center gap-2 text-sm">
+                        <input (change)="setSkillsToActive(skill, $event)" type="checkbox" name="{{skill.skill}}" id="{{'skill-'+skill.id}}" class="rounded outline-none focus:ring-0">
                         <label for="{{'skill-'+skill.id}}" class="cursor-pointer select-none">{{skill.skill}} (4)</label>
                     </div>
                 </div>
                 <button class="bg-orange-500 rounded-lg font-medium text-sm text-white px-4 py-2.5 mt-6"><i class="uil uil-save"></i> Simpan Keahlian</button>
             </div>
         </div>
+
+
+
         <div class="col-span-4">
-            <h1 class="font-medium text-xl"><b class="text-main text-2xl">100</b> Lowongan cocok buat skill kamu</h1>
+            <h1 class="font-medium text-xl"><b class="text-main text-2xl">{{POST_COUNT}}</b> Lowongan cocok buat skill kamu</h1>
             <p class="mb-6 mt-2 text-sm font-medium text-black/60">Lowongan dibawah hanya preview, namun jangan khawatir semuanya akan muncul di "Lowongan -> Kamu Banget", setelah kamu menyimpan keahlian</p>
             <div class="grid grid-cols-2 gap-6">
-                <div *ngFor="let post of [1,2,3,4]" class="animate-pulse">
-                    <div class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border bg-white p-4 rounded-xl flex flex-col justify-between">
-                        <div class="">
-                            <!-- TITLE SKELETON -->
-                            <div class="flex justify-between items-center mb-2">
-                                <div class="h-6 bg-gray-300 rounded w-3/4"></div>
-                                <div class="h-6 w-6 bg-gray-300 rounded"></div>
+                @if(POST_DATAS.length > 0){
+                    @for (post of POST_DATAS; track post.id) {
+                        <div class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border hover:border-main bg-white p-4 rounded-xl flex flex-col justify-between">
+                            <div class="">
+                                <!-- <button class="text-xs bg-orange-500 text-white px-2 py-1 rounded mb-2">{{post.type}}</button> -->
+                                <!-- TITLE -->
+                                <div class="flex justify-between items-center mb-3">
+                                    <p class="font-medium text-black flex items-center gap-2"><span class="text-red-500 text-sm" *ngIf="timeAgoNumber(post.post_date) <= 2">Hot🔥</span>{{post.title.length > 33 ? post.title.substring(0,33)+"..." : post.title}}</p>
+                                    <svg class="hover:fill-orange-500 hover:scale-[1.1]" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                                        <path d="M 12.8125 2 C 12.335938 2.089844 11.992188 2.511719 12 3 L 12 47 C 11.996094 47.359375 12.1875 47.691406 12.496094 47.871094 C 12.804688 48.054688 13.1875 48.054688 13.5 47.875 L 25 41.15625 L 36.5 47.875 C 36.8125 48.054688 37.195313 48.054688 37.503906 47.871094 C 37.8125 47.691406 38.003906 47.359375 38 47 L 38 3 C 38 2.449219 37.550781 2 37 2 L 13 2 C 12.96875 2 12.9375 2 12.90625 2 C 12.875 2 12.84375 2 12.8125 2 Z M 14 4 L 36 4 L 36 45.25 L 25.5 39.125 C 25.191406 38.945313 24.808594 38.945313 24.5 39.125 L 14 45.25 Z"></path>
+                                    </svg>
+                                    <!-- <p *ngIf="post.category == 'Partner'" class="text-xs text-orange-500 font-medium">Dipromosikan</p> -->
+                                </div>
+                                <!-- SKILLS -->
+                                <div class="flex gap-2 flex-wrap" *ngIf="post.skills && post.skills.length > 0">
+                                    <ng-container *ngFor="let skill of getActiveSkills(post.skills)">
+                                        <button class="text-xs bg-main text-white px-2 py-1 rounded">
+                                        {{ skill.skill.length >= 18 ? skill.skill.substring(0, 18) + '..' : skill.skill }}
+                                        </button>
+                                    </ng-container>
+                                    <button *ngIf="getRemainingSkills(post.skills).length > 0" class="text-xs bg-main text-white px-2 py-1 rounded">
+                                        +{{ getRemainingSkills(post.skills).length }}
+                                    </button>
+                                </div>
+                                <!-- ADDITIONAL INFO -->
+                                <div class="flex items-center gap-3 mt-4">
+                                    <img *ngIf="post.category == 'Partner'" [ngSrc]="post.company_logo" class="rounded" width="40" height="40" alt="">
+                                    <div class="">
+                                        <p class="text-sm flex items-center gap-2 font-medium text-black/70"><i class="uil uil-building"></i>{{post.company.length > 38 ? post.company.substring(0,38) + ".." : post.company}}</p>
+                                        <p class="text-sm flex items-center gap-2 mt-1"><i class="uil uil-location-point"></i>{{post.location}}</p>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- SKILLS SKELETON -->
-                            <div class="flex gap-2 flex-wrap">
-                                <div class="h-4 bg-gray-300 rounded w-1/4"></div>
-                                <div class="h-4 bg-gray-300 rounded w-1/4"></div>
-                                <div class="h-4 bg-gray-300 rounded w-1/6"></div>
-                                <div class="h-4 bg-gray-300 rounded w-1/4"></div>
-                                <div class="h-4 bg-gray-300 rounded w-1/3"></div>
-                            </div>
-                            <!-- ADDITIONAL INFO SKELETON -->
-                            <div class="mt-4">
-                                <div class="h-4 bg-gray-300 rounded w-2/3 mb-1"></div>
-                                <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                            <div class="">
+                                <hr class="my-2">
+                                <div class="flex items-center justify-between gap-3 mt-4">
+                                    <span class="text-[10px] lg:text-xs font-medium px-2 py-0.5 bg-orange-500 text-white">Kamu banget</span>
+                                    <div *ngIf="post.category == 'Internal'" class="flex items-center gap-2">
+                                        <p class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgoNumber(post.post_date) <= 2 ? "terbaru di " : "muncul di "}}</span></p>
+                                        <!-- <div [innerHTML]="getPlatformImage(post.platform)"></div> -->
+                                        <img class="rounded-lg" width="20" height="20" priority [ngSrc]="getPlatformImageUrl(post.platform)" alt="{{post.platform}}">
+                                        <p *ngIf="timeAgoNumber(post.post_date) > 2" class="text-sm flex items-center gap-2"><span class="text-[11px] font-medium">{{timeAgo(post.post_date)}}</span></p>
+                                    </div>
+                                    <div *ngIf="post.category == 'Partner'" class="flex items-center gap-2">
+                                        <p class="text-xs font-medium">Lamar sebelum <span class="text-red-500">{{utilService.formatIndonesianDateFull(post.end_date)}}</span></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="">
-                            <hr class="my-2">
-                            <!-- FOOTER SKELETON -->
-                            <div class="flex items-center justify-between gap-3 mt-4">
-                                <div class="h-4 bg-gray-300 rounded w-1/4"></div>
-                                <div class="flex items-center gap-2">
-                                    <div class="h-6 w-6 bg-gray-300 rounded-full"></div>
+                    }
+                }@else {
+                    <div *ngFor="let post of [1,2,3,4]" class="animate-pulse">
+                        <div class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border bg-white p-4 rounded-xl flex flex-col justify-between">
+                            <div class="">
+                                <!-- TITLE SKELETON -->
+                                <div class="flex justify-between items-center mb-2">
+                                    <div class="h-6 bg-gray-300 rounded w-3/4"></div>
+                                    <div class="h-6 w-6 bg-gray-300 rounded"></div>
+                                </div>
+                                <!-- SKILLS SKELETON -->
+                                <div class="flex gap-2 flex-wrap">
+                                    <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                    <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                    <div class="h-4 bg-gray-300 rounded w-1/6"></div>
+                                    <div class="h-4 bg-gray-300 rounded w-1/4"></div>
                                     <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                                </div>
+                                <!-- ADDITIONAL INFO SKELETON -->
+                                <div class="mt-4">
+                                    <div class="h-4 bg-gray-300 rounded w-2/3 mb-1"></div>
+                                    <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                                </div>
+                            </div>
+                            <div class="">
+                                <hr class="my-2">
+                                <!-- FOOTER SKELETON -->
+                                <div class="flex items-center justify-between gap-3 mt-4">
+                                    <div class="h-4 bg-gray-300 rounded w-1/4"></div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="h-6 w-6 bg-gray-300 rounded-full"></div>
+                                        <div class="h-4 bg-gray-300 rounded w-1/3"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>

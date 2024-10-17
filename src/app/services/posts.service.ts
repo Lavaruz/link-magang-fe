@@ -17,6 +17,15 @@ export class PostsService {
     }
   }
 
+  async GetAllPostsReleatedSkill(QUERY: any) {
+    try {
+      const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts/skills?skills=${QUERY.skills}`);
+      return postData
+    } catch (error) {
+      console.error('Error on Get Post Releated Skill:', error);
+    }
+  }
+
   async GetAllPostsInternal(QUERY: any) {
     try {
       const postData = await this.requestServices.getEncryptedRequest(`/api/v1/posts/internal?limit=${QUERY.limit}&page=${QUERY.page}&search=${QUERY.search}&type=${QUERY.type}&locations=${QUERY.locations}&skills=${QUERY.skills}`);
