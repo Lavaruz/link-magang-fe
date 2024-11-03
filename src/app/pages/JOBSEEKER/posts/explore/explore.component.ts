@@ -56,7 +56,7 @@ export class ExploreComponent implements OnInit {
   QUERY:any
 
   ngOnInit(): void {
-    this.titleService.setTitle("Internshit - Jelajahi Lowongan Magang");
+    this.titleService.setTitle("Gatera - Jelajahi Lowongan Magang");
     this.IS_LOGIN = this.userService.checkAuth()
 
     this.aRoute.queryParams.subscribe(params => {

@@ -1,4 +1,4 @@
-import { Component, inject, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
+import { Component, inject, NgZone, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { AdminNavbarComponent } from '../../admin-navbar/admin-navbar.component';
 import { AdminSidebarComponent } from '../../admin-sidebar/admin-sidebar.component';
 import { UserService } from '../../../../services/user.service';
@@ -22,6 +22,7 @@ export class AdminPostCreateComponent implements OnInit {
   userService = inject(UserService)
   postService = inject(PostsService)
   http = inject(HttpClient)
+  ngZone = inject(NgZone)
 
   selectedOption: string = 'Internal';
   selectedFile: File | null = null;
@@ -40,47 +41,24 @@ export class AdminPostCreateComponent implements OnInit {
 
   editorConfig: AngularEditorConfig = {
     editable: true,
-      spellcheck: true,
-      height: 'auto',
-      minHeight: '0',
-      maxHeight: 'auto',
-      width: 'auto',
-      minWidth: '0',
-      translate: 'yes',
-      enableToolbar: true,
-      showToolbar: true,
-      placeholder: 'Enter text here...',
-      defaultParagraphSeparator: '',
-      defaultFontName: '',
-      defaultFontSize: '',
-      fonts: [
-        {class: 'arial', name: 'Arial'},
-        {class: 'times-new-roman', name: 'Times New Roman'},
-        {class: 'calibri', name: 'Calibri'},
-        {class: 'comic-sans-ms', name: 'Comic Sans MS'}
-      ],
-      customClasses: [
-      {
-        name: 'quote',
-        class: 'quote',
-      },
-      {
-        name: 'redText',
-        class: 'redText'
-      },
-      {
-        name: 'titleText',
-        class: 'titleText',
-        tag: 'h1',
-      },
-    ],
-    uploadUrl: 'v1/image',
-    uploadWithCredentials: false,
+    placeholder: 'Enter text here...',
     sanitize: true,
     toolbarPosition: 'top',
     toolbarHiddenButtons: [
-      ['bold', 'italic'],
-      ['fontSize']
+      ['undo','redo','strikeThrough', 'underline', 'subscript', 'superscript', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent', 'heading', 'fontName', 'fontSize', 'textColor', 'backgroundColor', 'customClasses', 'link', 'unlink', 'insertImage', 'insertVideo', 'toggleEditorMode'],
+      [
+        'fontSize',
+        'textColor',
+        'backgroundColor',
+        'customClasses',
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
     ]
   };
 
@@ -93,6 +71,18 @@ export class AdminPostCreateComponent implements OnInit {
   onSelectChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     this.selectedOption = selectElement.value;
+  }
+
+  toggleDropdown() {
+    this.ngZone.run(() => {
+      const dropdownElement = document.getElementById('dropdownSearch');
+      dropdownElement?.classList.toggle('hidden');
+    });
+  }
+
+  removeSkill(skillId:any){
+    $(`#skill-${skillId}`).prop("checked", false)
+    this.activeSkills = this.activeSkills.filter((id:any) => id !== skillId);
   }
 
   ngOnInit(): void {
@@ -112,6 +102,7 @@ export class AdminPostCreateComponent implements OnInit {
 
     this.userService.GetAllSkills().then(skillsData => {
       this.SKILLS = skillsData
+      
       this.userService.GetAllLocations().then(locationData => {
         this.OUR_LOCATIONS = locationData
         locationData.forEach((location:any) => {

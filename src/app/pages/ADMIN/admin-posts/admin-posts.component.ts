@@ -121,7 +121,7 @@ export class AdminPostsComponent implements OnInit{
           orderable: false,
         },
       ],
-      pageLength: 10,
+      pageLength: 25,
       order: [[ 0, "asc" ]],
       initComplete: () => {
         this.handleCheckboxSelection();

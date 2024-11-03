@@ -126,9 +126,9 @@ export class RequestService {
     });
   }
 
-  putEncryptedRequest(url: string = "", post_data: any, option:any={}) {
+  putEncryptedRequest(url: string = "", post_data: any, options:any={httpOptions: {}}) {
     const toURL = `${this.rootURL}${url}`;
-    const httpOptions = this.getHeaders(option)
+    const httpOptions = this.getHeaders({options: options.httpOptions})
     post_data = this.encryptData(post_data)
 
     return new Promise((resolve, reject) => {

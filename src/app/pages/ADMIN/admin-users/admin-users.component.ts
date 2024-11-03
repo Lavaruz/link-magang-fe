@@ -50,7 +50,7 @@ export class AdminUsersComponent {
         var start = data.start;
         var search = data.search.value
         $.ajax({
-          url: `${this.requestService.getURL()}/api/v1/users?limit=${limit}&offset=${start}&keyword=${search}`,
+          url: `${this.requestService.getURL()}/api/v1/users?limit=${limit}&offset=${start}&keyword=${search}&order=DESC`,
           method: 'GET',
           success: (response) => {
               response = this.requestService.decryptData(response)

@@ -56,7 +56,7 @@ export class TalentHuntComponent implements OnInit {
   FORM_SEARCH:FormGroup = new FormGroup("")
 
   ngOnInit(): void {
-    this.titleService.setTitle("Internshit - Lihat Talent² Berkualitas");
+    this.titleService.setTitle("Gatera - Lihat Talent² Berkualitas");
     this.aRoute.queryParams.subscribe(params => {
       this.DONE_LOADING = false
       this.PARAMS = params

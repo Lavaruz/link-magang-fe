@@ -46,7 +46,7 @@ export class DetailComponent implements OnInit {
     }
     this.postService.GetPostById(this.ID).then(postData => {
       this.POST_DATA = postData
-      this.meta.updateTag({ property: 'og:title', content: `Lowongan ${postData.title} di Internshit` })
+      this.meta.updateTag({ property: 'og:title', content: `Lowongan ${postData.title} di Gatera` })
       this.postService.GetAllPosts(this.QUERY).then(postData => {
         this.PROMOTED_DATA = postData.datas
         if(this.IS_LOGIN){

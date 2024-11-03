@@ -4,6 +4,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { UserService } from '../../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
+import $ from "jquery"
 
 @Component({
   selector: 'app-skills-skills-popup',
@@ -25,7 +26,7 @@ import { NavigationEnd, Router } from '@angular/router';
                   <div class="divide-y divide-header px-5">
                       <div class="mb-4">
                           <label class="block mb-1 text-black/80 tracking-[1.4px] font-normal text-sm">KEAHLIAN*</label>
-                          <button type="button" (click)="toggleDropdown()" id="dropdownSearchButton" data-dropdown-placement="bottom" class="text-white bg-main hover:bg-main/80 focus:ring-1 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center w-full">Cari keahlian <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                          <button type="button" (click)="toggleDropdown()" id="dropdownSearchButton" data-dropdown-placement="bottom" class="flex justify-between items-center text-white bg-main hover:bg-main/80 focus:ring-1 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center w-full">Cari keahlian <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                               </svg>
                           </button>
@@ -62,12 +63,18 @@ import { NavigationEnd, Router } from '@angular/router';
                               </ul>
                           </div>
                       </div>
-                      <div id="active-skills" class="w-full p-5 rounded-lg bg-white noise overflow-y-scroll h-[200px]">
-                          <ng-container *ngFor="let skillId of activeSkills">
-                            <button type="button" class="m-1 text-black/80 px-4 py-1 rounded-lg bg-main text-white">
-                              {{ getSkillName(skillId) }} <!-- Tampilkan nama skill berdasarkan id -->
-                            </button>
+                      <div id="active-skills" class=" overflow-y-scroll bg-white mb-3 rounded-lg p-2.5 px-4 text-sm flex flex-wrap">
+                          <ng-container *ngIf="activeSkills.length > 0; else emptyDiv">
+                            @for(skillId of activeSkills; track skillId){
+                              <div class="group overflow-hidden self-start block m-1 text-black/80 px-4 py-1.5 rounded-lg bg-main text-white relative w-max">
+                                  {{getSkillName(skillId)}}
+                                  <button type="button" (click)="removeSkill(skillId)" class="hidden group-hover:block absolute top-0 bottom-0 right-0 left-0 bg-black/60 text-sm font-medium flex items-center justify-center"><i class="uil uil-trash-alt"></i></button>
+                              </div>
+                            }
                           </ng-container>
+                          <ng-template #emptyDiv>
+                            <p>Belum ada keahlian ditambahkan</p>
+                          </ng-template>
                       </div>
                   </div>
               </div>
@@ -119,6 +126,11 @@ export class ProfileSkillsPopupComponent implements OnInit, AfterViewInit {
     });
   }
 
+  removeSkill(skillId:any){
+    $(`#skill-${skillId}`).prop("checked", false)
+    this.activeSkills = this.activeSkills.filter((id:any) => id !== skillId);
+  }
+
   ngAfterViewInit(): void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -142,17 +154,6 @@ export class ProfileSkillsPopupComponent implements OnInit, AfterViewInit {
           alert("ERROR");
           console.log(e);
       });
-    // if(skillData.summary){
-    //   this.userData.summary = skillData.summary
-    //   // this.userService.updateUserData(summaryData)
-    //   // .then(() => {
-    //   //   this.closePopup("summary")
-    //   // })
-    //   // .catch((e) => {
-    //   //   alert(e.error.message)
-    //   //   console.log(e)
-    //   // })
-    // }
   }
 
   setSkillsToActive(skill: any, event: any) {

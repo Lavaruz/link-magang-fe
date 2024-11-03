@@ -1,4 +1,4 @@
-import { Component, inject, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
+import { Component, inject, NgZone, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { AdminNavbarComponent } from '../../admin-navbar/admin-navbar.component';
 import { AdminSidebarComponent } from '../../admin-sidebar/admin-sidebar.component';
 import { UserService } from '../../../../services/user.service';
@@ -21,12 +21,21 @@ export class AdminPostEditComponent {
   userService = inject(UserService)
   postService = inject(PostsService)
   http = inject(HttpClient)
+  ngZone = inject(NgZone)
 
-  LOCATIONS:any
+  selectedOption: string = 'Internal';
+  selectedFile: File | null = null;
+  OUR_LOCATIONS:any
+
+  ID:any = ""
+  LOCATIONS:any = []
   PROVINSI:any = []
   KABUPATEN:any = []
   KECAMATAN:any = []
   SKILLS:any
+  POST_DATA:any
+
+
   DONE_LOADING = false
   FORM_CREATE_POST!:FormGroup
   activeSkills: string[] = [];
@@ -37,68 +46,47 @@ export class AdminPostEditComponent {
 
   editorConfig: AngularEditorConfig = {
     editable: true,
-      spellcheck: true,
-      height: 'auto',
-      minHeight: '0',
-      maxHeight: 'auto',
-      width: 'auto',
-      minWidth: '0',
-      translate: 'yes',
-      enableToolbar: true,
-      showToolbar: true,
-      placeholder: 'Enter text here...',
-      defaultParagraphSeparator: '',
-      defaultFontName: '',
-      defaultFontSize: '',
-      fonts: [
-        {class: 'arial', name: 'Arial'},
-        {class: 'times-new-roman', name: 'Times New Roman'},
-        {class: 'calibri', name: 'Calibri'},
-        {class: 'comic-sans-ms', name: 'Comic Sans MS'}
-      ],
-      customClasses: [
-      {
-        name: 'quote',
-        class: 'quote',
-      },
-      {
-        name: 'redText',
-        class: 'redText'
-      },
-      {
-        name: 'titleText',
-        class: 'titleText',
-        tag: 'h1',
-      },
-    ],
-    uploadUrl: 'v1/image',
-    uploadWithCredentials: false,
+    placeholder: 'Enter text here...',
     sanitize: true,
     toolbarPosition: 'top',
     toolbarHiddenButtons: [
-      ['bold', 'italic'],
-      ['fontSize']
+      ['undo','redo','strikeThrough', 'underline', 'subscript', 'superscript', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent', 'heading', 'fontName', 'fontSize', 'textColor', 'backgroundColor', 'customClasses', 'link', 'unlink', 'insertImage', 'insertVideo', 'toggleEditorMode'],
+      [
+        'fontSize',
+        'textColor',
+        'backgroundColor',
+        'customClasses',
+        'link',
+        'unlink',
+        'insertImage',
+        'insertVideo',
+        'insertHorizontalRule',
+        'removeFormat',
+        'toggleEditorMode'
+      ]
     ]
   };
 
   ngOnInit(): void {
-    const ID = window.location.href.split("/admin/posts/edit/").pop()
-    this.postService.GetPostById(ID).then(postData => {
+    this.ID = window.location.href.split("/admin/posts/edit/").pop()
+    this.postService.GetPostById(this.ID).then(postData => {
+      this.POST_DATA = postData
       postData.skills.forEach((skill:any) => {
         this.activeSkills.push(skill.id)
       })
       
       this.userService.GetAllSkills().then(skillsData => {
-        this.SKILLS = skillsData
-        this.http.get("assets/location/provinsi.json").subscribe((data:any) => {
+        this.userService.GetAllLocations().then(locationData => {
 
-          data.forEach((provinsi:any) => {
-            this.PROVINSI.push({
-              value: provinsi.id,
-              label: provinsi.nama,
+          this.OUR_LOCATIONS = locationData
+          locationData.forEach((location:any) => {
+            this.LOCATIONS.push({
+              value: location.location,
+              label: location.location
             })
           });
-
+          
+          this.SKILLS = skillsData
           this.FORM_CREATE_POST = new FormGroup({
             title: new FormControl(postData.title),
             company: new FormControl(postData.company),
@@ -106,41 +94,27 @@ export class AdminPostEditComponent {
             type: new FormControl(postData.type),
             post_date: new FormControl(this.formatDate(postData.post_date)),
             link: new FormControl(postData.link),
-            provinsi: new FormControl(),
-            kabupaten: new FormControl(),
-            kecamatan: new FormControl(),
+            location: new FormControl(postData.location),
             overview: new FormControl(postData.overview),
             skills: new FormControl(),
           })
-
+  
           this.DONE_LOADING = true
         })
       })
     })
   }
 
-  updateProvisi(evt:any){
-    this.http.get(`assets/location/kabupaten/${evt.value}.json`).subscribe((data:any) => {
-      this.KABUPATEN = []
-      data.forEach((kabupaten:any) => {
-        this.KABUPATEN.push({
-          value: kabupaten.id,
-          label: kabupaten.nama,
-        })
-      });
-    })
+  toggleDropdown() {
+    this.ngZone.run(() => {
+      const dropdownElement = document.getElementById('dropdownSearch');
+      dropdownElement?.classList.toggle('hidden');
+    });
   }
 
-  updateKabupaten(evt:any){
-    this.http.get(`assets/location/kecamatan/${evt.value}.json`).subscribe((data:any) => {
-      this.KECAMATAN = []
-      data.forEach((kecamatan:any) => {
-        this.KECAMATAN.push({
-          value: kecamatan.id,
-          label: kecamatan.nama,
-        })
-      });
-    })
+  removeSkill(skillId:any){
+    $(`#skill-${skillId}`).prop("checked", false)
+    this.activeSkills = this.activeSkills.filter((id:any) => id !== skillId);
   }
 
   ngAfterViewInit(){
@@ -152,23 +126,53 @@ export class AdminPostEditComponent {
       return
     }
 
+    const formData = new FormData();
+
     this.LOADING_POST_DATA = true
+    const formDataGroup = this.FORM_CREATE_POST.value
+    formDataGroup.skills = this.activeSkills.join(";")
+    formDataGroup.post_date = moment(this.FORM_CREATE_POST.value["post_date"]).format('MM/DD/YYYY');
 
-    const formData = this.FORM_CREATE_POST.value
-    const provinsiData = this.capitalize((this.PROVINSI.find((prof:any) => prof.value == this.FORM_CREATE_POST.value["provinsi"])).label);
-    const kabupatenData = this.FORM_CREATE_POST.value["kabupaten"] ? this.capitalize((this.KABUPATEN.find((prof:any) => prof.value == this.FORM_CREATE_POST.value["kabupaten"])).label) : null;
-    const kecamatanData = this.FORM_CREATE_POST.value["kecamatan"] ? this.capitalize((this.KECAMATAN.find((prof:any) => prof.value == this.FORM_CREATE_POST.value["kecamatan"])).label) : null;
+    Object.keys(formDataGroup).forEach(key => {
+      formData.append(key, formDataGroup[key]);
+    });
 
-    formData.location = `${kecamatanData ? kecamatanData + ", " : ""}${kabupatenData ? kabupatenData + ", " : ""}${provinsiData}`;
-    formData.skills = this.activeSkills.join(";")
-    formData.post_date = moment(this.FORM_CREATE_POST.value["post_date"]).format('MM/DD/YYYY');
-    this.postService.CreateNewPost(formData).then(postedData => {
-      this.LOADING_POST_DATA = false
-      location.reload()
-    })
-    
-    
-    
+    if (this.selectedOption == "Partner" && this.selectedFile) {
+      formData.append('company_logo', this.selectedFile, this.selectedFile.name);
+    }
+
+    let isHaveLocation = this.OUR_LOCATIONS.some((location:any) => location.location.toLowerCase() == formDataGroup.location.toLowerCase() )
+    if(isHaveLocation == false){
+      this.userService.AddNewLocation({location: formDataGroup.location}).then(() => {
+        this.postService.UpdatePostById(formData, this.ID).then(postedData => {
+          try {
+            if(postedData && postedData?.status !== 400){
+              this.LOADING_POST_DATA = false
+              location.reload()
+            }else{
+              alert(postedData.error.message)
+            }
+          } catch (error:any) {
+            console.error(error);
+            alert("ERROR")
+          }
+        })
+      })
+    }else{
+      this.postService.UpdatePostById(formData, this.ID).then(postedData => {
+        try {
+          if(postedData && postedData?.status !== 400){
+            this.LOADING_POST_DATA = false
+            location.reload()
+          }else{
+            alert(postedData.error.message)
+          }
+        } catch (error:any) {
+          console.log(error);
+          alert("ERROR")          
+        }
+      })
+    }
   }
 
   setSkillsToActive(skill: any, event: any) {

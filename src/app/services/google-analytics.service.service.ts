@@ -11,7 +11,7 @@ export class GoogleAnalyticsServiceService {
   constructor() {
     const head = <HTMLDivElement>document.head;
     const script = document.createElement('script');
-    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-DJ4YFB14B3';
+    script.src = 'https://www.googletagmanager.com/gtag/js?id=G-3C8RH6FF8V';
     script.async = true;
     script.defer = true;
     head.append(script);

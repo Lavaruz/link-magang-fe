@@ -65,7 +65,7 @@ export class ProfileComponent implements OnInit {
   constructor( private location: Location){}
 
   ngOnInit() {
-    this.titleService.setTitle("Internshit - Profil Kamu");
+    this.titleService.setTitle("Gatera - Profil Kamu");
     if(!this.userService.checkAuth()){
       this.router.navigate(["/"])
     }

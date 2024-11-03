@@ -39,8 +39,8 @@ export class NavbarComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     // Hanya tampilkan tombol Google jika user belum login
     if (!this.IS_LOGIN) {
-      const gAccounts: accounts = google.accounts;
       setTimeout(() => {
+        const gAccounts: accounts = google.accounts;
         gAccounts.id.initialize({
           client_id: environment.google_client_id,
           callback: ({ credential }) => {
@@ -49,18 +49,21 @@ export class NavbarComponent implements OnInit, AfterViewInit {
             });
           },
         });
+  
+        const googleButton = document.getElementById('button-google') as HTMLElement;
+        const googleButtonMobile = document.getElementById('button-google-mobile') as HTMLElement;
     
         // Render tombol Google di element dengan id "button-google"
-        gAccounts.id.renderButton(document.getElementById('button-google') as HTMLElement, {
-          size: 'large',
-          // width: 320,
-        });
-        gAccounts.id.renderButton(document.getElementById('button-google-mobile') as HTMLElement, {
-          type: "standard",
-          size: "large"
-        });
-  
-        // Tampilkan prompt Google
+        if (googleButton && googleButtonMobile) {
+          gAccounts.id.renderButton(googleButton, {
+            size: 'large',
+            type: "icon",
+          });
+          gAccounts.id.renderButton(googleButtonMobile, {
+            type: "icon",
+            size: "large"
+          });
+        }
         gAccounts.id.prompt();
       }, 1000); // Delay untuk memastikan tombol sudah tersedia
     }
@@ -128,9 +131,6 @@ export class NavbarComponent implements OnInit, AfterViewInit {
 
   hideAllPopup(evt:any, e:any){
     const $this = $(evt)
-
-    console.log($this);
-    
 
     if(e.target.id == "popup-layer-navbar"){
       $this.children().each(function(){

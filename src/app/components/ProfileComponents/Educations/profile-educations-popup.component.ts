@@ -37,7 +37,7 @@ import { CommonModule } from '@angular/common';
                           <label class="block">
                               <span class="text-white-60 tracking-[1.4px] font-normal text-sm">INSTITUSI*</span>
                               <!-- Using form state modifiers, the classes can be identical for every input -->
-                              <input id="popup-firstname" type="text" placeholder="Universitas Internshit" formControlName="edu_institution" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/40 text-black/80
+                              <input id="popup-firstname" type="text" placeholder="Gatera Academy" formControlName="edu_institution" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/40 text-black/80
                               focus:outline-none focus:border-white-60 focus:ring-1 focus:ring-white-60
                               focus:invalid:border-red-500 focus:invalid:ring-red-500
                               "/>
@@ -115,7 +115,7 @@ import { CommonModule } from '@angular/common';
                           <label class="block">
                               <span class="text-white-60 tracking-[1.4px] font-normal text-sm">INSTITUSI*</span>
                               <!-- Using form state modifiers, the classes can be identical for every input -->
-                              <input type="text" placeholder="Universitas Internshit" formControlName="edu_institution" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/40 text-black/80
+                              <input type="text" placeholder="Gatera Academy" formControlName="edu_institution" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/40 text-black/80
                               focus:outline-none focus:border-white-60 focus:ring-1 focus:ring-white-60
                               focus:invalid:border-red-500 focus:invalid:ring-red-500
                               "/>

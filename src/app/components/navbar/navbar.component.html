@@ -1,17 +1,17 @@
-<nav class="bg-white sticky top-0 z-20 py-2 lg:py-1">
+<nav class="bg-white sticky top-0 z-20 py-5 lg:py-1 border-b">
     <div class="lg:w-[1150px] w-full mx-auto flex items-center justify-between px-[5%] lg:px-0">
         <div class="flex gap-14 items-center">
             <a aria-label="home" [routerLink]="IS_LOGIN ? '/posts/foryou' : '/posts/explore'" class="cursor-pointer font-bold text-2xl text-main flex items-center gap-2 tracking-wide flex items-center">
-                <img priority alt="Logo Internshit" src="assets/img/Favicon.webp" width="70" height="53" alt="">
+                <img priority alt="Logo Gatera" src="assets/img/gatera-green.png" width="100" alt="">
             </a>
             <div class="hidden lg:flex items-center gap-10">
                 <a [routerLink]="IS_LOGIN ? '/posts/foryou' : '/posts/explore'" 
                    routerLinkActive="selected"
                    [routerLinkActiveOptions]="{ exact: false }"
-                   class="cursor-pointer text-sm font-medium text-thrid hover:text-main">
+                   class="cursor-pointer font-medium text-thrid hover:text-main">
                     Lowongan
                 </a>
-                <a routerLink="/talent" routerLinkActive="selected" class="text-sm font-medium text-thrid hover:text-main">Talent Hunt</a>
+                <a routerLink="/talent" routerLinkActive="selected" class="font-medium text-thrid hover:text-main">Talent Hunt</a>
             </div>
         </div>
     
@@ -28,7 +28,9 @@
                     </a>
                 </div>
             }@else {
-                <button (click)="openLoginPanel()" id="button-login" class="my-6 lg:my-4 duration-200 py-1 px-6 text-main text-lg rounded-md font-medium hover:text-main/60">Login</button>
+                <div class="flex items-center gap-4">
+                    <button (click)="openLoginPanel()" id="button-login" class="my-6 lg:my-4 duration-200 py-1 px-6 text-main text-base rounded-md font-medium hover:text-main/60">Login</button>
+                </div>
             }
         </div>
 
@@ -68,10 +70,10 @@
             </button>
             <!-- <button *ngIf="IS_LOGIN == false" (click)="loginMobile" class="mt-6 w-full py-3 flex items-center gap-2 text-main font-medium rounded-lg justify-center font-second text-sm">
                 <i class="uil uil-signout text-xl text-main"></i>
-                Masuk ke internshit
+                Masuk ke Internshit
             </button> -->
             <div *ngIf="IS_LOGIN == false" class="flex flex-col items-center justify-center mt-6">
-                <p class="text-sm font-medium mb-4 text-black/80">>>> Masuk ke Internshit <<<</p>
+                <p class="text-sm font-medium mb-4 text-black/80">>>> Masuk ke Gatera <<<</p>
                 <div class="w-max" #loginMobile id="button-google-mobile"></div>
             </div>
         </div>
@@ -79,20 +81,21 @@
 </div>
 
 <div id="popup-layer-navbar" (click)="hideAllPopup(layerPopup, $event)" #layerPopup class="hidden fixed top-0 bottom-0 right-0 left-0 bg-black/60 z-30 flex items-end lg:items-center justify-center">
-    <div id="popup-login" class="hidden w-full lg:w-1/3 bg-background noise rounded-t-xl lg:rounded-2xl border-2 border-main py-8 px-[5%] lg:px-12 relative">
-        <div class="text-center flex flex-col items-center justify-center gap-4">
-            <img src="assets/img/Logo.webp" width="70" height="70" priority alt="Logo Internshit">
-            <p class="text-3xl font-medium text-main">Selamat datang di <br>Internshit</p>
+    <div id="popup-login" class="hidden w-full lg:w-1/3 bg-white noise rounded-t-xl lg:rounded-xl overflow-hidden border-2 border-main relative">
+        <div class="py-4 bg-main text-center flex flex-col items-center justify-center">
+            <!-- <img src="assets/img/Logo.webp" class="rounded-full border border-white/60" width="60" height="60" priority alt="Logo Gatera"> -->
+            <img priority alt="Logo Gatera" src="assets/img/gatera.png" width="100" alt="">
+            <p class="font-medium text-sm text-white/70">Gerbang Dunia Magang</p>
+            <!-- <p class="text-lg font-medium text-main">Pusat internship dari seluruh platform</p> -->
         </div>
-        <hr class="my-4 mt-6">
-        <div id="no-authorized" class="">
-            <p class="text-sm text-black/70 text-center">Akses lebih banyak fitur keren, dan personalisasi lowongan dengan melengkapi profil kamu</p>
+        <div id="no-authorized" class="py-8 px-8 lg:px-0 pb-20 lg:pb-8">
+            <p class="text-black/70 text-center">Akses <span class="text-main font-medium">lebih banyak fitur keren</span>, dan <span class="font-medium text-main">personalisasi lowongan</span> dengan melengkapi profil kamu</p>
             
-            <div class="mt-1 w-full flex justify-center">
-                <button id="button-google" class="mx-auto mt-4"></button>
+            <div class="mt-6 w-full flex justify-center">
+                <button id="button-google" class="mx-auto"></button>
             </div>
 
-            <p class="text-xs mt-4 text-center mt-8">Dengan melanjutkan, anda menyetujui <a target="_blank" rel="noopener" routerLink="/terms-of-service" class="text-main">Terms of Service</a> dan <a target="_blank" rel="noopener" class="text-main" routerLink="/privacy-policy">Privacy Policy</a> kami</p>
+            <p class="text-xs mt-4 text-center mt-3">Dengan melanjutkan, anda menyetujui <a target="_blank" rel="noopener" routerLink="/terms-of-service" class="text-black underline">Terms of Service</a> dan <a target="_blank" rel="noopener" class="text-black underline" routerLink="/privacy-policy">Privacy Policy</a> kami</p>
         </div>
 
         <button (click)="closeLoginPanel()" class="rounded-full w-10 h-10 flex items-center justify-center absolute top-0 right-0">

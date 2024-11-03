@@ -79,6 +79,15 @@ export class PostsService {
     }
   }
 
+  async UpdatePostById(newPostData:any, id:string) {
+    try {
+      const postData:any = await this.requestServices.putEncryptedRequest(`/api/v1/posts/${id}`, newPostData, { httpOptions: {} });
+      return postData
+    } catch (error) {
+      return error
+    }
+  }
+
   async DeletePosts(postIds:any) {
     try {
       const postData:any = await this.requestServices.deleteEncryptedRequest(`/api/v1/posts?ids=${postIds}`);

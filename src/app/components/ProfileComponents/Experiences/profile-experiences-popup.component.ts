@@ -33,7 +33,7 @@ import { CommonModule } from '@angular/common';
                           </label>
                           <label class="block">
                               <label class="block mb-1 text-black/80 tracking-[1.4px] font-normal text-sm">NAMA PERUSAHAAN/ORGANISASI*</label>
-                              <input formControlName="exp_orgname" required id="popup-firstname" type="text" placeholder="Internshit" name="exp_orgname" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/30 text-black/80
+                              <input formControlName="exp_orgname" required id="popup-firstname" type="text" placeholder="Gatera Indonesia" name="exp_orgname" class="block border-2 border-gray-300 w-full lg:w-[360px] px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-base placeholder-black/30 text-black/80
                               focus:outline-none focus:border-white-60 focus:ring-1 focus:ring-white-60
                               focus:invalid:border-red-500 focus:invalid:ring-red-500
                               "/>

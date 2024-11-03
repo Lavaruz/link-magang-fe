@@ -26,6 +26,8 @@ export class ProfileCompletionComponent implements OnInit {
   SKILL_DATAS:any = []
   ACTIVE_SKILLS:any = []
   QUERY:any = {}
+  selectedSkills: any[] = [];
+  IS_SUBMITED = false
 
   POST_DATAS:any = []
   POST_COUNT:number = 0
@@ -70,7 +72,8 @@ export class ProfileCompletionComponent implements OnInit {
   removeSkill(skillId:any){
     $(`#skill-${skillId}`).prop("checked", false)
     this.ACTIVE_SKILLS = this.ACTIVE_SKILLS.filter((id:any) => id !== skillId);
-    this.changeSkill()
+    this.selectedSkills = this.selectedSkills.filter((skill:any) => skill !== this.getSkillName(skillId));
+    this.updateSkillsQuery()    
   }
 
   getSkillName(skillId: any) {
@@ -78,25 +81,37 @@ export class ProfileCompletionComponent implements OnInit {
     return skill ? skill.skill : '';
   }
 
-  changeSkill(){
-    const CHECKED:any = []
-    $("#skills-container").find("input:checked").each(function(){
-      CHECKED.push($(this).prop("name"))
-    })
+  toggleSkill(skill: any) {
+    const index = this.selectedSkills.indexOf(skill.skill);
+    if (index === -1) {
+      this.selectedSkills.push(skill.skill); // Tambahkan jika skill belum ada di checklist
+    } else {
+      this.selectedSkills.splice(index, 1); // Hapus jika skill sudah ada di checklist
+    }
+    this.updateSkillsQuery();
+  }
 
-    this.QUERY.skills = CHECKED.join(";")
-
+  updateSkillsQuery() {
+    this.QUERY.skills = this.selectedSkills.join(";");
+    
     this.router.navigate([], {
       queryParams: {
-        skills: CHECKED.join(";"),
+        skills: this.selectedSkills.join(";")
       },
       queryParamsHandling: 'merge'
-    })
+    });
+  }
+
+  isSkillChecked(skill: any): boolean {
+    return this.selectedSkills.includes(skill.skill);
   }
 
   handleSaveSkill(){
+    this.IS_SUBMITED = true
     this.userService.updateUserSkills(this.ACTIVE_SKILLS.join(";")).then(() => {
-      this.router.navigate(["/profile/me"])
+      setTimeout(() => {
+        this.router.navigate(["/posts/foryou"])
+      }, 500)
     }).catch(err => {
       alert("ERROR")
     })

@@ -25,37 +25,37 @@ import { UserService } from '../../../services/user.service';
                   <div class="px-5">
                       <label class="flex items-center gap-3 mt-4 lg:mt-3">
                           <i class="uil uil-twitter text-2xl text-main"></i>
-                          <input formControlName="twitter" id="popup-social-twitter" type="url" name="twitter" placeholder="https://x.com/internshit_id" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                          <input formControlName="twitter" id="popup-social-twitter" type="url" name="twitter" placeholder="https://x.com/gatera_id" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                             focus:invalid:border-red-500 focus:invalid:ring-red-500
                           "/>
                       </label>
                       <label class="flex items-center gap-3 mt-4 lg:mt-3">
                           <i class="uil uil-instagram text-2xl text-main"></i>
-                          <input formControlName="instagram" id="popup-social-instagram" type="url" name="instagram" placeholder="https://www.instagram.com/internshit.id/" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                          <input formControlName="instagram" id="popup-social-instagram" type="url" name="instagram" placeholder="https://www.instagram.com/gatera.id/" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                             focus:invalid:border-red-500 focus:invalid:ring-red-500
                           "/>
                       </label>
                       <label class="flex items-center gap-3 mt-4 lg:mt-3">
                           <i class="uil uil-linkedin text-2xl text-main"></i>
-                          <input formControlName="linkedin" id="popup-social-linkedin" type="url" name="linkedin" placeholder="https://www.linkedin.com/in/internshit_id/" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                          <input formControlName="linkedin" id="popup-social-linkedin" type="url" name="linkedin" placeholder="https://www.linkedin.com/in/gatera_id/" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                             focus:invalid:border-red-500 focus:invalid:ring-red-500
                           "/>
                       </label>
                       <label class="flex items-center gap-3 mt-4 lg:mt-3">
                           <i class="uil uil-behance text-2xl text-main"></i>
-                          <input formControlName="behance" id="popup-social-behance" type="url" name="behance" placeholder="https://www.behance.net/Internshit.id" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                          <input formControlName="behance" id="popup-social-behance" type="url" name="behance" placeholder="https://www.behance.net/gatera.id" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                             focus:invalid:border-red-500 focus:invalid:ring-red-500
                           "/>
                       </label>
                       <label class="flex items-center gap-3 mt-4 lg:mt-3">
                           <i class="uil uil-github text-2xl text-main"></i>
-                          <input formControlName="github" id="popup-social-github" type="url" name="github" placeholder="https://github.com/Internshit" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                          <input formControlName="github" id="popup-social-github" type="url" name="github" placeholder="https://github.com/gatera" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                             focus:invalid:border-red-500 focus:invalid:ring-red-500
                           "/>
                       </label>
                       <label class="flex items-center gap-3 mt-4 lg:mt-3">
                           <i class="uil uil-youtube text-2xl text-main"></i>
-                          <input formControlName="youtube" id="popup-social-youtube" type="url" name="youtube" placeholder="https://www.youtube.com/@Internshit" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
+                          <input formControlName="youtube" id="popup-social-youtube" type="url" name="youtube" placeholder="https://www.youtube.com/@gatera" class="block border-2 border-gray-300 w-full lg:w-full px-4 lg:px-3 py-4 lg:py-[10px] bg-header rounded-lg text-sm placeholder-black/40 text-black/80 focus:border-main focus:ring-0 font-second
                             focus:invalid:border-red-500 focus:invalid:ring-red-500
                           "/>
                       </label>

@@ -1,8 +1,8 @@
 <app-navbar></app-navbar>
 
 <main class="">
-    <div class="grid grid-cols-6 gap-8 lg:w-[1150px] mx-auto py-6 lg:py-10 pb-20 px-[5%] lg:px-0">
-        <div class="col-span-2 bg-main rounded-xl p-5 self-start sticky top-[6rem]">
+    <div class="grid lg:grid-cols-6 gap-8 lg:w-[1150px] mx-auto py-6 lg:py-10 pb-20 px-[5%] lg:px-0">
+        <div class="lg:col-span-2 bg-main rounded-xl p-5 self-start lg:sticky top-[6rem]">
             <p class="text-white text-lg font-medium">Tambahkan keahlian untuk mendapat rekomendasi lowongan keren</p>
             <div class="mt-4">
                 <div class="h-[100px] overflow-y-scroll bg-white mb-3 rounded-lg p-2.5 text-sm flex flex-wrap">
@@ -18,24 +18,25 @@
                         <p>Belum ada keahlian ditambahkan</p>
                     </ng-template>
                 </div>
-                <input [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" type="search" class="w-full rounded-t-lg border-none text-sm font-medium py-2.5 focus:ring-main" placeholder="Cari keahlian kamu">
+                <input [(ngModel)]="searchText" [ngModelOptions]="{standalone: true}" type="search" class="w-full rounded-t-lg border-none text-sm font-medium lg:py-2.5 py-4 focus:ring-main" placeholder="Cari keahlian kamu">
                 <hr>
-                <div id="skills-container" (change)="changeSkill()" #inputSkills class="bg-white h-[200px] overflow-y-scroll rounded-b-lg">
-                    <div *ngFor="let skill of filteredSkills()" class="hover:bg-gray-300/50 py-1.5 px-2.5 flex items-center gap-2 text-sm">
-                        <input (change)="setSkillsToActive(skill, $event)" type="checkbox" name="{{skill.skill}}" id="{{'skill-'+skill.id}}" class="rounded outline-none focus:ring-0">
+                <div id="skills-container" class="bg-white h-[200px] overflow-y-scroll rounded-b-lg">
+                    <div *ngFor="let skill of filteredSkills()" class="hover:bg-gray-300/50 py-2.5 lg:py-1.5 px-2.5 flex items-center gap-2 text-sm">
+                        <input [checked]="isSkillChecked(skill)" (change)="setSkillsToActive(skill, $event); toggleSkill(skill)" type="checkbox" name="{{skill.skill}}" id="{{'skill-'+skill.id}}" class="rounded outline-none focus:ring-0">
                         <label for="{{'skill-'+skill.id}}" class="cursor-pointer select-none">{{skill.skill}}</label>
                     </div>
                 </div>
-                <button (click)="handleSaveSkill()" [disabled]="ACTIVE_SKILLS.length == 0" class="disabled:bg-gray-300 disabled:opacity-80 shadow-md bg-orange-500 rounded-lg font-medium text-sm text-white px-4 py-2.5 mt-6"><i class="uil uil-save"></i> Simpan keahlian</button>
+                <button *ngIf="IS_SUBMITED == false" (click)="handleSaveSkill()" [disabled]="ACTIVE_SKILLS.length == 0" class="disabled:bg-gray-300 disabled:opacity-80 shadow-md bg-orange-500 rounded-lg font-medium text-sm text-white px-4 py-2.5 mt-6"><i class="uil uil-save"></i> Simpan keahlian</button>
+                <button *ngIf="IS_SUBMITED" disabled class="disabled:bg-gray-300 disabled:opacity-80 shadow-md bg-orange-500 rounded-lg font-medium text-sm text-white px-4 py-2.5 mt-6">Loading..</button>
             </div>
         </div>
 
 
 
-        <div class="col-span-4">
+        <div class="lg:col-span-4">
             <h1 class="font-medium text-xl"><b class="text-main text-2xl">{{ACTIVE_SKILLS.length > 0 ? POST_COUNT : 0}}</b> Lowongan cocok buat keahlian kamu</h1>
             <p class="mb-6 mt-2 text-sm font-medium text-black/60">Lowongan dibawah hanya preview, tapi jangan khawatir semuanya akan muncul di "Lowongan -> Kamu Banget", setelah kamu menyimpan keahlian</p>
-            <div class="grid grid-cols-2 gap-6">
+            <div class="grid lg:grid-cols-2 gap-6">
                 @if(ACTIVE_SKILLS.length > 0 && POST_DATAS.length !== 0){
                     @for (post of POST_DATAS; track post.id) {
                         <div class="job-detail cursor-pointer hover:scale-[1.005] duration-200 shadow-lg border hover:border-main bg-white p-4 rounded-xl flex flex-col justify-between">

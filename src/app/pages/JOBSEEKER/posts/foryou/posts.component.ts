@@ -46,7 +46,7 @@ export class PostsForYouComponent implements OnInit {
   QUERY:any
 
   ngOnInit(): void {
-    this.titleService.setTitle("Internshit - Lowongan Khusus Buat Kamu");
+    this.titleService.setTitle("Gatera - Lowongan Khusus Buat Kamu");
     this.aRoute.queryParams.subscribe(params => {
       this.DONE_LOADING = false
       this.FORM_SEARCH = new FormGroup({

@@ -32,7 +32,7 @@ export class BookmarkComponent implements OnInit {
   IS_LOGIN = false
 
   ngOnInit(): void {
-    this.titleService.setTitle("Internshit - Lowongan Tersimpan");
+    this.titleService.setTitle("Gatera - Lowongan Tersimpan");
     this.POSTS_DATA = []
     this.IS_LOGIN = this.userService.checkAuth()
     if(this.IS_LOGIN){

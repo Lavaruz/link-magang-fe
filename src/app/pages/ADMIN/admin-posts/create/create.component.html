@@ -41,11 +41,11 @@
                             <div class="grid gap-4 lg:grid-cols-2">
                                 <div class="">
                                     <label for="" class="block text-sm font-medium text-black/70 mb-2">COMPANY NAME*</label>
-                                    <input formControlName="company" type="text" name="company" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
+                                    <input formControlName="company" type="text" name="company" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Gatera Indonesia" name="" id="">
                                 </div>
                                 <div class="" *ngIf="selectedOption === 'Internal'">
                                     <label for="" class="block text-sm font-medium text-black/70 mb-2">PLATFORM*</label>
-                                    <select formControlName="platform" name="platform" type="text" class="w-full lg:w-1/2 rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
+                                    <select formControlName="platform" name="platform" type="text" class="w-full lg:w-1/2 rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Gatera Indonesia" name="" id="">
                                         <option value="Jobstreet">Jobstreet</option>
                                         <option value="Kalibrr">Kalibrr</option>
                                         <option value="Glints">Glints</option>
@@ -62,7 +62,7 @@
                             <div class="grid lg:grid-cols-2 gap-4">
                                 <div class="">
                                     <label for="" class="block text-sm font-medium text-black/70 mb-2">JOB TYPE*</label>
-                                    <select formControlName="type" type="text" name="type" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Internshit Corporation" name="" id="">
+                                    <select formControlName="type" type="text" name="type" class="w-full rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. Gatera Indonesia" name="" id="">
                                         <option value="Internship">Internship</option>
                                         <option value="Full-Time">Full-Time</option>
                                         <option value="Part-Time">Part-Time</option>
@@ -82,7 +82,7 @@
                             <!-- LINK POSTINGAN -->
                             <div class="">
                                 <label for="" class="block text-sm font-medium text-black/70 mb-2">POST LINK*</label>
-                                <input formControlName="link" type="text" name="link" class="w-full lg:w-2/3 rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. https://internshit.com/posts/create" name="" id="">
+                                <input formControlName="link" type="text" name="link" class="w-full lg:w-2/3 rounded-lg border-2 border-gray-300 placeholder-black/30" placeholder="Ex. https://gatera.id/posts/create" name="" id="">
                             </div>
                             
                             <!-- LOCATION -->
@@ -96,15 +96,14 @@
                             <!-- SKILLS -->
                             <div class="">
                                 <div class="mb-4">
-                                    <label for="" class="block text-sm font-medium text-black/70 mb-2">SKILLS</label>
-                                    <button type="button" id="dropdownSearchButton" data-dropdown-toggle="dropdownSearch" data-dropdown-placement="bottom" class="shadow border-2 border-gray-300 text-white bg-main hover:bg-main/80 focus:ring-1 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center w-full">
-                                      Cari Keahlian
-                                      <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                    <label class="block mb-2 text-black/80 tracking-[1.4px] font-normal text-sm">KEAHLIAN*</label>
+                                    <button type="button" (click)="toggleDropdown()" id="dropdownSearchButton" data-dropdown-placement="bottom" class="flex justify-between items-center text-white bg-main hover:bg-main/80 focus:ring-1 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center w-full">Cari keahlian <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
-                                      </svg>
+                                        </svg>
                                     </button>
-
-                                    <div id="dropdownSearch" class="w-[50vw] border-2 border-main z-10 hidden bg-white rounded-lg shadow w-full lg:w-1/3 dark:bg-gray-700">
+                                    
+                                    <!-- Dropdown menu -->
+                                    <div id="dropdownSearch" class="w-full border-2 border-main z-10 hidden bg-white rounded-lg shadow mt-2 lg:w-1/2 dark:bg-gray-700 absolute">
                                         <!-- SEARCH INPUT FOR SKILLS -->
                                         <div class="p-3">
                                             <div class="flex items-center relative">
@@ -134,16 +133,21 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    
                                 </div>
                                   
-                                  <!-- Active skills display -->
-                                <div id="active-skills" class="w-full p-5 rounded-lg bg-background noise">
-                                    <ng-container *ngFor="let skillId of activeSkills">
-                                      <button type="button" class="m-1 text-black/80 px-4 py-1 rounded-lg bg-main text-white">
-                                        {{ getSkillName(skillId) }} <!-- Tampilkan nama skill berdasarkan id -->
-                                      </button>
+                                <!-- Active skills display -->
+                                <div id="active-skills" class="overflow-y-scroll bg-gray-200 mb-3 rounded-lg py-3 px-4 text-sm flex flex-wrap">
+                                    <ng-container *ngIf="activeSkills.length > 0; else emptyDiv">
+                                      @for(skillId of activeSkills; track skillId){
+                                        <div class="group overflow-hidden self-start block m-1 text-black/80 px-4 py-1.5 rounded-lg bg-main text-white relative w-max">
+                                            {{getSkillName(skillId)}}
+                                            <button type="button" (click)="removeSkill(skillId)" class="hidden group-hover:block absolute top-0 bottom-0 right-0 left-0 bg-black/60 text-sm font-medium flex items-center justify-center"><i class="uil uil-trash-alt"></i></button>
+                                        </div>
+                                      }
                                     </ng-container>
+                                    <ng-template #emptyDiv>
+                                      <p>Belum ada keahlian ditambahkan</p>
+                                    </ng-template>
                                 </div>
                                   
                             </div>

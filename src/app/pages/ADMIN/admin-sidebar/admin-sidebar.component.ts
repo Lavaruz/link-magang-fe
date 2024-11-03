@@ -16,7 +16,7 @@ export class AdminSidebarComponent implements OnInit {
   titleService = inject(Title)
 
   ngOnInit(): void {
-    this.titleService.setTitle("Internshit - Admin");
+    this.titleService.setTitle("Gatera - Admin Panel");
     if(this.userService.checkAuth("adminAuthenticate") == false){
       this.router.navigate(["/admin/login"])
     }

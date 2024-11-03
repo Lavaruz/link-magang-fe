@@ -69,6 +69,31 @@ background: #555;
 overflow: hidden;
 }
 
+
+.angular-editor-toolbar{
+/* border-color: #9CA3AF !important; */
+background-color: white !important;
+border-color: #9CA3AF;
+}
+.no-tailwind *{
+outline: none;
+}
+.no-tailwind .angular-editor-textarea * {
+background-color: transparent !important;
+font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !important;
+}
+.no-tailwind .angular-editor-textarea p, .no-tailwind .angular-editor-textarea span, .no-tailwind .angular-editor-textarea div{
+color: black !important;
+}
+.no-tailwind .angular-editor-button.active {
+background-color: #47A992 !important;
+color: white;
+border-radius: .25rem !important;
+}
+.no-tailwind .angular-editor-button{
+border-color: transparent !important;
+margin: 0 .1rem !important;
+}
 .no-tailwind h1 {
 font-size: 2.25rem; /* 36px */
 line-height: 2.5rem; /* 40px */
